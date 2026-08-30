@@ -363,8 +363,8 @@ if [ "$INSTALL_BORDERS" = true ]; then
     cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-3.0.css" "$TARGET_HOME/.config/gtk-3.0/gtk.css"
     cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-4.0.css" "$TARGET_HOME/.config/gtk-4.0/gtk.css"
     
-    echo -e "    -> Purgando caché de Thunar y recargando gestor de ventanas (xfwm4)..."
-    su - "$TARGET_USER" -c 'thunar -q 2>/dev/null || true; pkill -f thunar 2>/dev/null || true' || true
+    echo -e "    -> Purgando caché de Thunar y xfdesktop..."
+    su - "$TARGET_USER" -c 'thunar -q 2>/dev/null || true; pkill -f thunar 2>/dev/null || true; pkill -9 -f xfdesktop 2>/dev/null || true' || true
 
     if [ -n "$DBUS_ADDR" ]; then
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s Kali-Dark 2>/dev/null || true
