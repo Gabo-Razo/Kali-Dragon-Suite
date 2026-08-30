@@ -433,7 +433,7 @@ for c_key, c_info in ALL_COLORS.items():
     with open(os.path.join(t_dir, "gtk.css"), "w") as f:
         f.write(content)
 
-# 2. REBUILD DESKTOP THEMES WITH AUTOCOMPLETE / SEARCH SUGGESTIONS & SELECTIONS
+# 2. REBUILD DESKTOP THEMES WITH ABSOLUTE HIGH-CONTRAST SELECTION AND SEARCH SUGGESTIONS
 with open("/usr/share/themes/Kali-Dark/gtk-3.0/gtk.css", "r") as f:
     base_gtk3 = f.read()
 
@@ -442,7 +442,7 @@ with open("/usr/share/themes/Kali-Dark/gtk-4.0/gtk.css", "r") as f:
 
 desktop_addon_template = """
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS, HIGH-CONTRAST AUTOCOMPLETE & SELECTION
+   🐉 KALI DRAGON SUITE - HIGH-CONTRAST SELECTION & SEARCH AUTOCOMPLETE
    ========================================================================== */
 
 @define-color theme_selected_bg_color {primary};
@@ -451,37 +451,41 @@ desktop_addon_template = """
 @define-color selected_bg_color {primary};
 @define-color selected_fg_color {fg};
 
-/* 1. GLOBAL TEXT & ITEM SELECTION (Browser inputs, documents, list views) */
-selection,
-*:selected,
-entry:selected,
+/* 1. TEXTBOX SELECTION & INLINE AUTOCOMPLETE COMPLETIONS (Search Bar, URL Bar, Inputs) */
+entry,
+entry:focus,
+searchbar entry,
+.search-bar entry {{
+    color: #ffffff;
+}}
+
 entry selection,
+entry:focus selection,
+entry:selected,
+entry:focus:selected,
 textview text selection,
-.view:selected,
-treeview.view:selected,
-row:selected,
-flowboxchild:selected,
-list row:selected,
-#XfdesktopIconView:selected {{
+textview text:selected,
+.view text selection,
+.view text:selected,
+selection,
+*:selected {{
     background-color: {primary} !important;
     color: {fg} !important;
 }}
 
-selection *,
-*:selected *,
-entry:selected *,
 entry selection *,
+entry:focus selection *,
+entry:selected *,
 textview text selection *,
-.view:selected *,
-treeview.view:selected *,
-row:selected *,
-flowboxchild:selected *,
-list row:selected *,
-#XfdesktopIconView:selected * {{
+textview text:selected *,
+.view text selection *,
+.view text:selected *,
+selection *,
+*:selected * {{
     color: {fg} !important;
 }}
 
-/* 2. AUTOCOMPLETE / SEARCH BOX SUGGESTIONS & INLINE COMPLETION POPOVERS */
+/* 2. AUTOCOMPLETE / SEARCH SUGGESTION DROPDOWNS (Below Search Bar) */
 popover,
 popover.background,
 .popover,
@@ -491,13 +495,25 @@ entry completion,
 treeview.completion,
 #whiskermenu-window treeview,
 appfinder treeview {{
-    background-color: #1e2029;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    background-color: #1e2029 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #eeeeec !important;
 }}
 
+popover label,
+.entry-completion label,
+treeview.completion cell,
+treeview.completion label {{
+    color: #eeeeec !important;
+}}
+
+/* Active Search Suggestion Item */
 treeview.completion:selected,
+treeview.completion:hover,
 .entry-completion:selected,
+.entry-completion:hover,
+popover list row:selected,
+popover list row:hover,
 popover menuitem:hover,
 popover menuitem:focus,
 #whiskermenu-window treeview:selected,
@@ -507,7 +523,11 @@ appfinder treeview:selected {{
 }}
 
 treeview.completion:selected *,
+treeview.completion:hover *,
 .entry-completion:selected *,
+.entry-completion:hover *,
+popover list row:selected *,
+popover list row:hover *,
 popover menuitem:hover *,
 popover menuitem:focus *,
 #whiskermenu-window treeview:selected *,
@@ -683,6 +703,7 @@ for c_key, c_info in ALL_COLORS.items():
     os.makedirs(gtk4_dir, exist_ok=True)
     
     r, g, b = c_info["rgb"]
+    fg = c_info["fg"]
     
     themed_gtk3 = (
         base_gtk3
@@ -702,6 +723,11 @@ for c_key, c_info in ALL_COLORS.items():
         .replace("rgba(0, 90, 243, 0.75)", f"rgba({r}, {g}, {b}, 0.75)")
     )
     
+    # If foreground is dark (#121317), replace the hardcoded "color: #ffffff;" on selection lines with dark fg
+    if fg == "#121317":
+        themed_gtk3 = themed_gtk3.replace("entry selection, modelbutton.flat:selected,\n  .menuitem.button.flat:selected, spinbutton:not(.vertical) selection, treeview.view:selected:focus, treeview.view:selected, row:selected, calendar:selected {\n    color: #ffffff;", f"entry selection, modelbutton.flat:selected,\n  .menuitem.button.flat:selected, spinbutton:not(.vertical) selection, treeview.view:selected:focus, treeview.view:selected, row:selected, calendar:selected {{\n    color: {fg};")
+        themed_gtk4 = themed_gtk4.replace("entry selection, modelbutton.flat:selected,\n  .menuitem.button.flat:selected, spinbutton:not(.vertical) selection, treeview.view:selected:focus, treeview.view:selected, row:selected, calendar:selected {\n    color: #ffffff;", f"entry selection, modelbutton.flat:selected,\n  .menuitem.button.flat:selected, spinbutton:not(.vertical) selection, treeview.view:selected:focus, treeview.view:selected, row:selected, calendar:selected {{\n    color: {fg};")
+
     addon = desktop_addon_template.format(
         cap_color=cap,
         hex=c_info["hex"],
@@ -724,4 +750,4 @@ for c_key, c_info in ALL_COLORS.items():
     with open(os.path.join(gtk4_dir, "gtk-dark.css"), "w") as f:
         f.write(full_4)
 
-print("SUCCESS: 100% harmonized all 15 login, screensaver, autocomplete and desktop themes!")
+print("SUCCESS: 1000% eliminated all white-on-white text selection and suggestion conflicts!")

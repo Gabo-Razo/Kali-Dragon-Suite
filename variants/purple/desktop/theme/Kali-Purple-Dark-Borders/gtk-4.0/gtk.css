@@ -5259,7 +5259,7 @@ flowboxchild:selected image {
 
 
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS, HIGH-CONTRAST AUTOCOMPLETE & SELECTION
+   🐉 KALI DRAGON SUITE - HIGH-CONTRAST SELECTION & SEARCH AUTOCOMPLETE
    ========================================================================== */
 
 @define-color theme_selected_bg_color #d500f9;
@@ -5268,37 +5268,41 @@ flowboxchild:selected image {
 @define-color selected_bg_color #d500f9;
 @define-color selected_fg_color #ffffff;
 
-/* 1. GLOBAL TEXT & ITEM SELECTION (Browser inputs, documents, list views) */
-selection,
-*:selected,
-entry:selected,
+/* 1. TEXTBOX SELECTION & INLINE AUTOCOMPLETE COMPLETIONS (Search Bar, URL Bar, Inputs) */
+entry,
+entry:focus,
+searchbar entry,
+.search-bar entry {
+    color: #ffffff;
+}
+
 entry selection,
+entry:focus selection,
+entry:selected,
+entry:focus:selected,
 textview text selection,
-.view:selected,
-treeview.view:selected,
-row:selected,
-flowboxchild:selected,
-list row:selected,
-#XfdesktopIconView:selected {
+textview text:selected,
+.view text selection,
+.view text:selected,
+selection,
+*:selected {
     background-color: #d500f9 !important;
     color: #ffffff !important;
 }
 
-selection *,
-*:selected *,
-entry:selected *,
 entry selection *,
+entry:focus selection *,
+entry:selected *,
 textview text selection *,
-.view:selected *,
-treeview.view:selected *,
-row:selected *,
-flowboxchild:selected *,
-list row:selected *,
-#XfdesktopIconView:selected * {
+textview text:selected *,
+.view text selection *,
+.view text:selected *,
+selection *,
+*:selected * {
     color: #ffffff !important;
 }
 
-/* 2. AUTOCOMPLETE / SEARCH BOX SUGGESTIONS & INLINE COMPLETION POPOVERS */
+/* 2. AUTOCOMPLETE / SEARCH SUGGESTION DROPDOWNS (Below Search Bar) */
 popover,
 popover.background,
 .popover,
@@ -5308,13 +5312,25 @@ entry completion,
 treeview.completion,
 #whiskermenu-window treeview,
 appfinder treeview {
-    background-color: #1e2029;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    background-color: #1e2029 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #eeeeec !important;
 }
 
+popover label,
+.entry-completion label,
+treeview.completion cell,
+treeview.completion label {
+    color: #eeeeec !important;
+}
+
+/* Active Search Suggestion Item */
 treeview.completion:selected,
+treeview.completion:hover,
 .entry-completion:selected,
+.entry-completion:hover,
+popover list row:selected,
+popover list row:hover,
 popover menuitem:hover,
 popover menuitem:focus,
 #whiskermenu-window treeview:selected,
@@ -5324,7 +5340,11 @@ appfinder treeview:selected {
 }
 
 treeview.completion:selected *,
+treeview.completion:hover *,
 .entry-completion:selected *,
+.entry-completion:hover *,
+popover list row:selected *,
+popover list row:hover *,
 popover menuitem:hover *,
 popover menuitem:focus *,
 #whiskermenu-window treeview:selected *,
