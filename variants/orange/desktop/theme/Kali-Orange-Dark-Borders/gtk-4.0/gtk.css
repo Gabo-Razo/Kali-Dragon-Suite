@@ -5259,31 +5259,81 @@ flowboxchild:selected image {
 
 
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS, BUTTONS & LOGOUT DIALOG
+   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS, HIGH-CONTRAST BUTTONS & SELECTION
    ========================================================================== */
 
-/* HIGH-CONTRAST PRIMARY BUTTONS (SUGGESTED / CONFIRM / OK) */
-button.suggested-action,
-button.primary,
-button.destructive-action {
-    background-color: #ff6d00;
-    background-image: none;
-    border: 1px solid #ff6d00;
+@define-color theme_selected_bg_color #ff6d00;
+@define-color theme_selected_fg_color #ffffff;
+@define-color selection_color #ff6d00;
+@define-color selected_bg_color #ff6d00;
+@define-color selected_fg_color #ffffff;
+
+/* GLOBAL TEXT & ITEM SELECTION (Browser inputs, documents, list views) */
+selection,
+*:selected,
+entry:selected,
+entry selection,
+textview text selection,
+.view:selected,
+treeview.view:selected,
+row:selected,
+flowboxchild:selected,
+list row:selected,
+#XfdesktopIconView:selected {
+    background-color: #ff6d00 !important;
     color: #ffffff !important;
-    font-weight: bold;
-    box-shadow: 0 0 10px rgba(255, 109, 0, 0.55);
 }
 
+selection *,
+*:selected *,
+entry:selected *,
+entry selection *,
+textview text selection *,
+.view:selected *,
+treeview.view:selected *,
+row:selected *,
+flowboxchild:selected *,
+list row:selected *,
+#XfdesktopIconView:selected * {
+    color: #ffffff !important;
+}
+
+/* PRIMARY & SUGGESTED ACTION BUTTONS (OK / Confirm / Submit) */
+button.suggested-action,
+button.primary,
+button:default,
+button.destructive-action {
+    background-color: #ff6d00 !important;
+    background-image: none !important;
+    border: 1px solid #ff6d00 !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    box-shadow: 0 0 10px rgba(255, 109, 0, 0.50) !important;
+}
+
+button.suggested-action label,
+button.primary label,
+button:default label,
 button.suggested-action *,
-button.primary * {
+button.primary *,
+button:default * {
     color: #ffffff !important;
 }
 
 button.suggested-action:hover,
-button.primary:hover {
-    background-color: #ff9e80;
+button.primary:hover,
+button:default:hover {
+    background-color: #ff6d00 !important;
     color: #ffffff !important;
-    box-shadow: 0 0 16px rgba(255, 109, 0, 0.55);
+    box-shadow: 0 0 18px rgba(255, 109, 0, 0.50) !important;
+}
+
+button.suggested-action:hover label,
+button.primary:hover label,
+button:default:hover label,
+button.suggested-action:hover *,
+button.primary:hover * {
+    color: #ffffff !important;
 }
 
 /* LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
@@ -5296,7 +5346,7 @@ osd {
     background-color: #1e2029;
     border: 2px solid #ff6d00;
     border-radius: 10px;
-    box-shadow: 0 0 16px rgba(255, 109, 0, 0.55);
+    box-shadow: 0 0 16px rgba(255, 109, 0, 0.50);
     color: #ffffff;
     padding: 10px 14px;
 }
@@ -5306,7 +5356,7 @@ osd {
 .osd label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 6px rgba(255, 109, 0, 0.55);
+    text-shadow: 0 0 6px rgba(255, 109, 0, 0.50);
 }
 
 #XfceNotifyWindow progressbar,
@@ -5353,6 +5403,7 @@ menu menuitem:hover,
     border-radius: 4px;
 }
 
+menu menuitem:hover label,
 menu menuitem:hover * {
     color: #ffffff !important;
 }
@@ -5365,7 +5416,7 @@ window.xfce4-session-logout {
     background-color: #1a1c23;
     border: 2px solid #ff6d00;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(255, 109, 0, 0.55), 0 0 4px #ff5722;
+    box-shadow: 0 0 30px rgba(255, 109, 0, 0.50), 0 0 4px #ff5722;
     padding: 16px;
 }
 
@@ -5373,7 +5424,7 @@ window#logout-dialog label,
 .xfce4-session-logout label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 6px rgba(255, 109, 0, 0.55);
+    text-shadow: 0 0 6px rgba(255, 109, 0, 0.50);
 }
 
 window#logout-dialog button,
@@ -5391,10 +5442,12 @@ window#logout-dialog button:hover,
 .xfce4-session-logout button:hover {
     background-color: #ff6d00;
     border: 2px solid #ff6d00;
-    box-shadow: 0 0 18px rgba(255, 109, 0, 0.55);
+    box-shadow: 0 0 18px rgba(255, 109, 0, 0.50);
     color: #ffffff !important;
 }
 
+window#logout-dialog button:hover label,
+.xfce4-session-logout button:hover label,
 window#logout-dialog button:hover *,
 .xfce4-session-logout button:hover * {
     color: #ffffff !important;

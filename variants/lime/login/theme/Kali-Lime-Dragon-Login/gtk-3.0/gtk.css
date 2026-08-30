@@ -2,6 +2,12 @@
    🐉 KALI DRAGON ULTRA-EPIC GLASSMORPHISM LOGIN & LOCK SUITE - Lime
    ========================================================================== */
 
+@define-color theme_selected_bg_color #76ff03;
+@define-color theme_selected_fg_color #121317;
+@define-color selection_color #76ff03;
+@define-color selected_bg_color #76ff03;
+@define-color selected_fg_color #121317;
+
 /* 1. LIGHTDM LOGIN GREETER WINDOW (Glowing Glassmorphic Card) */
 #login_window,
 #panel_window,
@@ -30,6 +36,8 @@ label#user_label {
     color: #76ff03;
     font-weight: bold;
     text-shadow: 0 0 10px rgba(118, 255, 3, 0.50);
+    background: transparent;
+    background-color: transparent;
 }
 
 #entry,
@@ -51,7 +59,7 @@ entry#entry:focus,
     box-shadow: 0 0 18px rgba(118, 255, 3, 0.50);
 }
 
-/* 2. UNIVERSAL EPIC SUBMIT / LOGIN BUTTON (Neon Gradient + Outer Glow + High Contrast Text) */
+/* 2. UNIVERSAL EPIC SUBMIT / LOGIN BUTTON */
 #login_button,
 button#login_button,
 button.suggested-action,
@@ -72,14 +80,20 @@ button.default,
     box-shadow: 0 0 16px rgba(118, 255, 3, 0.50);
 }
 
+#login_button label,
+button#login_button label,
+button.suggested-action label,
+.suggested-action label,
+button:default label,
+button.default label,
+#login_window button.suggested-action label,
+#login_window button:default label,
 #login_button *,
 button#login_button *,
 button.suggested-action *,
 .suggested-action *,
 button:default *,
-button.default *,
-#login_window button.suggested-action *,
-#login_window button:default * {
+button.default * {
     color: #121317 !important;
 }
 
@@ -98,6 +112,17 @@ button.default:hover,
     color: #121317 !important;
 }
 
+#login_button:hover label,
+button#login_button:hover label,
+button.suggested-action:hover label,
+.suggested-action:hover label,
+button:default:hover label,
+button.default:hover label,
+#login_button:hover *,
+button#login_button:hover * {
+    color: #121317 !important;
+}
+
 /* 3. LIGHTDM TOP PANEL & INDICATORS */
 #panel_window menubar,
 #panel_window menuitem {
@@ -111,6 +136,7 @@ button.default:hover,
     border-radius: 4px;
 }
 
+#panel_window menuitem:hover label,
 #panel_window menuitem:hover * {
     color: #121317 !important;
 }
@@ -143,6 +169,26 @@ dialog.screensaver-dialog > box {
     background-color: #0c0004;
 }
 
+/* Ensure all screensaver labels have transparent backgrounds (NO SOLID WHITE BARS) */
+#auth-prompt-label,
+label#auth-prompt-label,
+#auth-status-label,
+label#auth-status-label,
+#auth-message-label,
+label#auth-message-label,
+#auth-capslock-label,
+label#auth-capslock-label,
+#auth-realname-label,
+#auth-hostname-label,
+#auth-date-time-label,
+infobar,
+.infobar {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
 #auth-prompt-label,
 label#auth-prompt-label {
     color: #ffffff;
@@ -152,8 +198,10 @@ label#auth-prompt-label {
 }
 
 #auth-status-label,
-label#auth-status-label {
-    color: #76ff03;
+label#auth-status-label,
+#auth-message-label,
+label#auth-message-label {
+    color: #76ff03 !important;
     font-weight: bold;
     font-size: 11pt;
     text-shadow: 0 0 12px rgba(118, 255, 3, 0.50);
@@ -174,62 +222,102 @@ label#auth-capslock-label {
 }
 
 #auth-prompt-entry,
-entry#auth-prompt-entry {
-    background-color: rgba(0, 0, 0, 0.65);
-    border: 1.5px solid rgba(255, 255, 255, 0.20);
+entry#auth-prompt-entry,
+.screensaver-dialog entry {
+    background-color: rgba(0, 0, 0, 0.65) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.20) !important;
     border-radius: 6px;
-    color: #ffffff;
-    caret-color: #76ff03;
+    color: #ffffff !important;
+    caret-color: #76ff03 !important;
     padding: 7px 12px;
 }
 
 #auth-prompt-entry:focus,
-entry#auth-prompt-entry:focus {
-    border: 2px solid #76ff03;
-    box-shadow: 0 0 18px rgba(118, 255, 3, 0.50);
+entry#auth-prompt-entry:focus,
+.screensaver-dialog entry:focus {
+    border: 2px solid #76ff03 !important;
+    box-shadow: 0 0 18px rgba(118, 255, 3, 0.50) !important;
 }
 
+/* SCREENSAVER UNLOCK / CONFIRM BUTTON (Force High Contrast Text on Label) */
 #auth-unlock-button,
 #auth-action-area button.suggested-action,
-#auth-action-area button.primary {
-    background-image: linear-gradient(135deg, #76ff03 0%, #76ff03 50%, #33691e 100%);
-    border: 1.5px solid #76ff03;
-    border-radius: 6px;
+#auth-action-area button.primary,
+.screensaver-dialog button.suggested-action,
+.screensaver-dialog button:default,
+.screensaver-dialog button:last-child {
+    background-image: linear-gradient(135deg, #76ff03 0%, #76ff03 50%, #33691e 100%) !important;
+    border: 1.5px solid #76ff03 !important;
+    border-radius: 6px !important;
     color: #121317 !important;
-    font-weight: bold;
-    padding: 7px 20px;
-    box-shadow: 0 0 16px rgba(118, 255, 3, 0.50);
+    font-weight: bold !important;
+    padding: 7px 20px !important;
+    box-shadow: 0 0 16px rgba(118, 255, 3, 0.50) !important;
 }
 
+#auth-unlock-button label,
+#auth-action-area button.suggested-action label,
+#auth-action-area button.primary label,
+.screensaver-dialog button.suggested-action label,
+.screensaver-dialog button:default label,
+.screensaver-dialog button:last-child label,
 #auth-unlock-button *,
-#auth-action-area button.suggested-action * {
+#auth-action-area button.suggested-action *,
+.screensaver-dialog button.suggested-action * {
     color: #121317 !important;
+    font-weight: bold !important;
 }
 
 #auth-unlock-button:hover,
-#auth-action-area button.suggested-action:hover {
-    background-image: linear-gradient(135deg, #ffffff 0%, #76ff03 40%, #76ff03 100%);
-    box-shadow: 0 0 28px rgba(118, 255, 3, 0.50);
+#auth-action-area button.suggested-action:hover,
+.screensaver-dialog button.suggested-action:hover,
+.screensaver-dialog button:default:hover {
+    background-image: linear-gradient(135deg, #ffffff 0%, #76ff03 40%, #76ff03 100%) !important;
+    box-shadow: 0 0 28px rgba(118, 255, 3, 0.50) !important;
+    color: #121317 !important;
+}
+
+#auth-unlock-button:hover label,
+#auth-action-area button.suggested-action:hover label,
+.screensaver-dialog button.suggested-action:hover label,
+#auth-unlock-button:hover *,
+#auth-action-area button.suggested-action:hover * {
     color: #121317 !important;
 }
 
 #auth-cancel-button,
 #auth-logout-button,
-#auth-switch-button {
-    background-color: rgba(255, 255, 255, 0.08);
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    color: #ffffff;
-    padding: 6px 12px;
+#auth-switch-button,
+.screensaver-dialog button:not(.suggested-action):not(#auth-unlock-button) {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+    padding: 6px 14px !important;
+}
+
+#auth-cancel-button label,
+#auth-logout-button label,
+#auth-switch-button label,
+.screensaver-dialog button:not(.suggested-action):not(#auth-unlock-button) label {
+    color: #ffffff !important;
 }
 
 #auth-cancel-button:hover,
 #auth-logout-button:hover,
-#auth-switch-button:hover {
-    background-color: rgba(118, 255, 3, 0.35);
-    border: 2px solid #76ff03;
-    box-shadow: 0 0 16px rgba(118, 255, 3, 0.50);
-    color: #ffffff;
+#auth-switch-button:hover,
+.screensaver-dialog button:not(.suggested-action):not(#auth-unlock-button):hover {
+    background-color: rgba(118, 255, 3, 0.35) !important;
+    border: 2px solid #76ff03 !important;
+    box-shadow: 0 0 16px rgba(118, 255, 3, 0.50) !important;
+    color: #121317 !important;
+}
+
+#auth-cancel-button:hover label,
+#auth-logout-button:hover label,
+#auth-switch-button:hover label,
+.screensaver-dialog button:not(.suggested-action):not(#auth-unlock-button):hover label {
+    color: #121317 !important;
 }
 
 /* 5. XFCE4 SESSION LOGOUT DIALOG */
@@ -262,14 +350,21 @@ window#logout-dialog button,
     margin: 4px;
 }
 
+window#logout-dialog button label,
+.xfce4-session-logout button label {
+    color: #ffffff;
+}
+
 window#logout-dialog button:hover,
 .xfce4-session-logout button:hover {
-    background-color: rgba(118, 255, 3, 0.35);
-    border: 2px solid #76ff03;
-    box-shadow: 0 0 20px rgba(118, 255, 3, 0.50);
+    background-color: #76ff03 !important;
+    border: 2px solid #76ff03 !important;
+    box-shadow: 0 0 20px rgba(118, 255, 3, 0.50) !important;
     color: #121317 !important;
 }
 
+window#logout-dialog button:hover label,
+.xfce4-session-logout button:hover label,
 window#logout-dialog button:hover *,
 .xfce4-session-logout button:hover * {
     color: #121317 !important;
