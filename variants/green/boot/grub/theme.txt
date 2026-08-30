@@ -1,0 +1,44 @@
+# Kali Linux Toxic Green GRUB Theme
+title-text: ""
+desktop-image: "grub-16x9.png"
+desktop-color: "#060103"
+terminal-left: "0"
+terminal-top: "0"
+terminal-width: "100%"
+terminal-height: "100%"
+terminal-border: "0"
+
++ boot_menu {
+  left = 26%
+  top = 30%
+  width = 48%
+  height = 42%
+  item_color = "#dcdcdc"
+  selected_item_color = "#ffffff"
+  icon_width = 20
+  icon_height = 20
+  item_icon_space = 12
+  item_height = 38
+  item_padding = 4
+  item_spacing = 7
+  selected_item_pixmap_style = "select_*.png"
+}
+
++ label {
+  top = 84%
+  left = 25%
+  width = 50%
+  align = "center"
+  id = "__timeout__"
+  text = "◈ Iniciando automáticamente en %d segundos... ◈"
+  color = "#00e676"
+}
+
++ label {
+  top = 94%
+  left = 20%
+  width = 60%
+  align = "center"
+  text = "Usa las teclas ↑ y ↓ para seleccionar  •  Presiona ENTER para iniciar"
+  color = "#888888"
+}
