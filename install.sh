@@ -121,13 +121,13 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Default to all if no modular flag passed
+# Default to all stable core components if no modular flag passed
 if [ "$MODULAR_FLAG_PASSED" = false ]; then
     INSTALL_GRUB=true
     INSTALL_PLYMOUTH=true
     INSTALL_LOGIN=true
     INSTALL_BORDERS=true
-    INSTALL_ANIMATOR=true
+    INSTALL_ANIMATOR=false
     INSTALL_WALLPAPER=true
     INSTALL_ICONS=true
     INSTALL_TERMINAL=true
