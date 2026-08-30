@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
-🐉 KALI DRAGON SUITE - ULTRA-RESILIENT WINDOW ANIMATION DAEMON
-60 FPS Orbital Dragon Flight & Impact Plasma Shockwave on Window Open/Close.
-100% Real-time unbuffered X11 event stream & non-intrusive overlay.
+🐉 KALI DRAGON SUITE - BULLETPROOF ZERO-LOOP WINDOW ANIMATOR
+- Permanently mapped click-through overlay (Zero X11 map events).
+- Strict per-window ID debounce (Every window animates exactly ONCE on open, ONCE on close).
+- 100% Non-intrusive: Never touches window opacity or properties.
 """
 
 import sys, os, time, math, random, json, signal, subprocess, threading, re
@@ -49,6 +50,7 @@ def get_window_geometry(wid):
 
 def is_normal_app_window(wid):
     try:
+        # Ignore our own PID
         pid_out = subprocess.check_output(["xprop", "-id", str(wid), "_NET_WM_PID"], stderr=subprocess.DEVNULL, timeout=0.15).decode()
         m_pid = re.search(r"= (\d+)", pid_out)
         if m_pid and int(m_pid.group(1)) == MY_PID:
@@ -58,7 +60,7 @@ def is_normal_app_window(wid):
         out_lower = out.lower()
         if any(skip in out_lower for skip in ["_dock", "_desktop", "_notification", "_tooltip", "_menu", "_splash", "_hidden", "combobox"]):
             return False
-        if any(skip in out_lower for skip in ["xfce4-panel", "plank", "conky", "desktop", "wrapper", "dragon"]):
+        if any(skip in out_lower for skip in ["xfce4-panel", "plank", "conky", "desktop", "wrapper", "dragon", "python"]):
             return False
         return True
     except Exception:
@@ -69,8 +71,8 @@ class AnimationTarget:
         self.mode = mode
         self.x = x
         self.y = y
-        self.w = max(280, w)
-        self.h = max(200, h)
+        self.w = max(260, w)
+        self.h = max(180, h)
         self.progress = 0.0
         self.trail = []
         self.particles = []
@@ -78,7 +80,7 @@ class AnimationTarget:
         cx = x + w / 2.0
         cy = y + h / 2.0
         if mode == "CLOSE":
-            for _ in range(35):
+            for _ in range(25):
                 angle = random.uniform(0, 2 * math.pi)
                 dist = random.uniform(min(w, h) * 0.25, max(w, h) * 0.50)
                 self.particles.append({
@@ -86,8 +88,8 @@ class AnimationTarget:
                     "y": cy + math.sin(angle) * dist,
                     "target_x": cx,
                     "target_y": cy,
-                    "size": random.uniform(3.0, 6.5),
-                    "speed": random.uniform(0.12, 0.26),
+                    "size": random.uniform(3.0, 6.0),
+                    "speed": random.uniform(0.12, 0.25),
                     "alpha": random.uniform(0.7, 1.0)
                 })
 
@@ -113,8 +115,14 @@ class DragonOverlay(QWidget):
         self.reload_assets()
         self.active_animations = []
 
+        screen = QApplication.primaryScreen().geometry()
+        self.setGeometry(0, 0, screen.width(), screen.height())
+
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_animations)
+        
+        # Show ONCE and stay mapped to avoid X11 window mapping events
+        self.show()
 
     def reload_assets(self):
         self.color_cfg = get_color_config()
@@ -133,11 +141,6 @@ class DragonOverlay(QWidget):
         target = AnimationTarget(mode, x, y, w, h)
         self.active_animations.append(target)
 
-        screen = QApplication.primaryScreen().geometry()
-        self.setGeometry(0, 0, screen.width(), screen.height())
-
-        if not self.isVisible():
-            self.show()
         if not self.timer.isActive():
             self.timer.start(16)
         self.update()
@@ -145,12 +148,12 @@ class DragonOverlay(QWidget):
     def update_animations(self):
         if not self.active_animations:
             self.timer.stop()
-            self.hide()
+            self.update()
             return
 
         surviving = []
         for anim in self.active_animations:
-            anim.progress += 0.040 # ~450ms snappy animation
+            anim.progress += 0.045 # ~400ms crisp animation
             if anim.progress < 1.0:
                 surviving.append(anim)
 
@@ -177,14 +180,14 @@ class DragonOverlay(QWidget):
                 if t <= 0.70:
                     flight_t = t / 0.70
                     angle = (1.0 - flight_t) * 1.8 * math.pi - (math.pi / 4.0)
-                    rad_x = (anim.w / 2.0) + 60.0 * (1.0 - flight_t)
-                    rad_y = (anim.h / 2.0) + 45.0 * (1.0 - flight_t)
+                    rad_x = (anim.w / 2.0) + 55.0 * (1.0 - flight_t)
+                    rad_y = (anim.h / 2.0) + 40.0 * (1.0 - flight_t)
                     
                     px = cx + math.cos(angle) * rad_x
                     py = cy + math.sin(angle) * rad_y
 
                     anim.trail.append((px, py))
-                    if len(anim.trail) > 16:
+                    if len(anim.trail) > 14:
                         anim.trail.pop(0)
 
                     # Plasma trail ribbon
@@ -193,15 +196,15 @@ class DragonOverlay(QWidget):
                             p1 = anim.trail[i]
                             p2 = anim.trail[i + 1]
                             ratio = i / float(len(anim.trail))
-                            alpha = int(ratio * (1.0 - flight_t * 0.4) * 240)
-                            width = max(2.0, ratio * 6.5)
+                            alpha = int(ratio * (1.0 - flight_t * 0.4) * 230)
+                            width = max(2.0, ratio * 6.0)
                             pen = QPen(QColor(r, g, b, max(0, min(255, alpha))), width)
                             pen.setCapStyle(Qt.PenCapStyle.RoundCap)
                             painter.setPen(pen)
                             painter.drawLine(QPointF(p1[0], p1[1]), QPointF(p2[0], p2[1]))
 
                     # Flying Dragon Sprite
-                    dw = min(150.0, anim.w * 0.38)
+                    dw = min(140.0, anim.w * 0.35)
                     dh = dw
                     painter.save()
                     painter.translate(px, py)
@@ -213,10 +216,10 @@ class DragonOverlay(QWidget):
                 # 2. Central Burst & Expanding Frame (0.35 to 1.0)
                 if t >= 0.35:
                     burst_t = (t - 0.35) / 0.65
-                    burst_alpha = int(max(0, math.sin(burst_t * math.pi) * 220))
+                    burst_alpha = int(max(0, math.sin(burst_t * math.pi) * 210))
                     
                     # Expanding Frame Glow
-                    frame_scale = 0.88 + burst_t * 0.12
+                    frame_scale = 0.90 + burst_t * 0.10
                     fw = anim.w * frame_scale
                     fh = anim.h * frame_scale
                     fx = cx - fw / 2.0
@@ -228,10 +231,10 @@ class DragonOverlay(QWidget):
                     painter.drawRoundedRect(QRectF(fx, fy, fw, fh), 8.0, 8.0)
 
                     # Core Shockwave
-                    rad = min(anim.w, anim.h) * 0.45 * (0.3 + burst_t * 0.7)
+                    rad = min(anim.w, anim.h) * 0.40 * (0.3 + burst_t * 0.7)
                     radial = QRadialGradient(QPointF(cx, cy), rad)
                     radial.setColorAt(0.0, QColor(255, 255, 255, int(burst_alpha * 0.85)))
-                    radial.setColorAt(0.5, QColor(r, g, b, int(burst_alpha * 0.55)))
+                    radial.setColorAt(0.5, QColor(r, g, b, int(burst_alpha * 0.50)))
                     radial.setColorAt(1.0, QColor(0, 0, 0, 0))
                     painter.setBrush(QBrush(radial))
                     painter.setPen(Qt.PenStyle.NoPen)
@@ -240,7 +243,7 @@ class DragonOverlay(QWidget):
             elif anim.mode == "CLOSE":
                 # Inward Vortex Collapse
                 collapse_t = t
-                alpha = int(max(0, (1.0 - collapse_t) * 230))
+                alpha = int(max(0, (1.0 - collapse_t) * 220))
                 
                 painter.setPen(Qt.PenStyle.NoPen)
                 for p in anim.particles:
@@ -250,7 +253,7 @@ class DragonOverlay(QWidget):
                     painter.setBrush(QColor(r, g, b, max(0, min(255, p_alpha))))
                     painter.drawEllipse(QPointF(p["x"], p["y"]), p["size"], p["size"])
 
-                rad = min(anim.w, anim.h) * 0.40 * (1.0 - collapse_t * 0.75)
+                rad = min(anim.w, anim.h) * 0.35 * (1.0 - collapse_t * 0.75)
                 radial = QRadialGradient(QPointF(cx, cy), rad)
                 radial.setColorAt(0.0, QColor(255, 255, 255, int(alpha * 0.75)))
                 radial.setColorAt(0.6, QColor(r, g, b, int(alpha * 0.45)))
@@ -263,6 +266,7 @@ class EventDrivenWindowManager:
         self.bridge = bridge
         self.known_windows = {}
 
+        # Populate initial existing windows so they don't trigger startup animations
         for wid in get_client_list():
             if is_normal_app_window(wid):
                 geo = get_window_geometry(wid)
@@ -292,11 +296,14 @@ class EventDrivenWindowManager:
         current_set = set(current_clients)
         known_set = set(self.known_windows.keys())
 
-        # 1. New Windows Opened
+        # 1. New Windows Opened (Trigger OPEN once)
         new_windows = current_set - known_set
         for wid in new_windows:
             if not is_normal_app_window(wid):
                 continue
+            
+            # Immediately add to known_windows so it CANNOT retrigger
+            self.known_windows[wid] = (0, 0, 0, 0)
             
             def handle_new_win(w_id):
                 geo = None
@@ -308,14 +315,16 @@ class EventDrivenWindowManager:
                 if geo:
                     self.known_windows[w_id] = geo
                     self.bridge.trigger_animation.emit("OPEN", geo[0], geo[1], geo[2], geo[3])
+                else:
+                    self.known_windows.pop(w_id, None)
                     
             threading.Thread(target=handle_new_win, args=(wid,), daemon=True).start()
 
-        # 2. Closed Windows
+        # 2. Closed Windows (Trigger CLOSE once)
         closed_windows = known_set - current_set
         for wid in closed_windows:
             last_geo = self.known_windows.pop(wid, None)
-            if last_geo:
+            if last_geo and last_geo[2] > 80:
                 self.bridge.trigger_animation.emit("CLOSE", last_geo[0], last_geo[1], last_geo[2], last_geo[3])
 
         # 3. Update active window geometries
