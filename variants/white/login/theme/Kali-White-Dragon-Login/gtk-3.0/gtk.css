@@ -1,63 +1,114 @@
-@import url("/usr/share/themes/Kali-Dark/gtk-3.0/gtk.css");
-
-
 /* ==========================================================================
    🐉 KALI DRAGON GLASSMORPHISM LOGIN & LOCK SUITE - White EDITION
    ========================================================================== */
 
-/* 1. LIGHTDM LOGIN GREETER */
+@define-color theme_selected_bg_color #ffffff;
+@define-color theme_selected_fg_color #121317;
+@define-color selection_color #ffffff;
+@define-color selected_bg_color #ffffff;
+@define-color selected_fg_color #121317;
+
+/* 1. LIGHTDM LOGIN GREETER WINDOW */
 #login_window,
-#panel_window {
-    background-color: rgba(14, 3, 8, 0.93);
+#panel_window,
+window#login_window,
+window#panel_window {
+    background-color: rgba(18, 20, 26, 0.94);
     border: 2px solid #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.50), 0 0 4px #f5f5f5;
+    border-radius: 14px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.60), 0 0 4px #f5f5f5;
 }
 
-#user_image {
+#user_image,
+image#user_image {
     border: 2px solid #ffffff;
     border-radius: 50%;
-    box-shadow: 0 0 16px rgba(255, 255, 255, 0.50);
-    background-color: #0c0004;
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.60);
+    background-color: #12141a;
 }
 
 #prompt_label,
-#message_label {
+#message_label,
+#user_label,
+label#prompt_label,
+label#message_label,
+label#user_label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.50);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.60);
 }
 
-#entry {
+#entry,
+entry#entry,
+#login_window entry {
     background-color: rgba(0, 0, 0, 0.65);
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.20);
     border-radius: 6px;
     color: #ffffff;
     caret-color: #ffffff;
-    padding: 6px 12px;
+    padding: 7px 12px;
 }
 
-#entry:focus {
+#entry:focus,
+entry#entry:focus,
+#login_window entry:focus {
     border: 2px solid #ffffff;
-    box-shadow: 0 0 14px rgba(255, 255, 255, 0.50);
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.60);
 }
 
-#login_button {
-    background-image: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, #424242 100%);
+/* 2. UNIVERSAL LIGHTDM CONFIRM / SUBMIT BUTTON (Zero Blue Override) */
+#login_button,
+button#login_button,
+button.suggested-action,
+.suggested-action,
+button:default,
+button.default,
+#panel_window button.suggested-action,
+#login_window button.suggested-action,
+#login_window button.image-button,
+#login_window button:default,
+#login_window button:last-child {
+    background-color: #ffffff;
+    background-image: none;
     border: 1.5px solid #ffffff;
     border-radius: 6px;
+    color: #121317;
+    font-weight: bold;
+    padding: 7px 18px;
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.60);
+}
+
+#login_button:hover,
+button#login_button:hover,
+button.suggested-action:hover,
+.suggested-action:hover,
+button:default:hover,
+button.default:hover,
+#login_window button.suggested-action:hover,
+#login_window button:default:hover,
+#login_window button.image-button:hover,
+#login_window button:last-child:hover {
+    background-color: #ffffff;
+    background-image: none;
+    border: 1.5px solid #ffffff;
+    box-shadow: 0 0 22px rgba(255, 255, 255, 0.60);
+    color: #121317;
+}
+
+/* 3. LIGHTDM TOP PANEL & INDICATORS */
+#panel_window menubar,
+#panel_window menuitem {
     color: #ffffff;
     font-weight: bold;
-    padding: 6px 16px;
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.50);
 }
 
-#login_button:hover {
-    background-image: linear-gradient(135deg, #ffffff 0%, #ffffff 40%, #e0e0e0 100%);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.50);
+#panel_window menuitem:hover {
+    background-color: #ffffff;
+    color: #121317;
+    border-radius: 4px;
 }
 
-/* 2. XFCE4 SCREENSAVER LOCK DIALOG (Lock / Suspend Wake-up) */
+/* 4. XFCE4 SCREENSAVER LOCK DIALOG (Lock / Suspend Wake-up) */
 window.screensaver-dialog,
 dialog.screensaver-dialog,
 .screensaver-dialog {
@@ -71,18 +122,18 @@ dialog.screensaver-dialog,
 .lock-dialog,
 .screensaver-dialog > box,
 dialog.screensaver-dialog > box {
-    background-color: rgba(12, 3, 7, 0.94);
+    background-color: rgba(18, 20, 26, 0.95);
     border: 2px solid #ffffff;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.50), 0 0 4px #f5f5f5;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.60), 0 0 4px #f5f5f5;
     padding: 20px;
 }
 
 #auth-face-image {
     border: 2px solid #ffffff;
     border-radius: 50%;
-    box-shadow: 0 0 18px rgba(255, 255, 255, 0.50);
-    background-color: #0c0004;
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.60);
+    background-color: #12141a;
 }
 
 #auth-prompt-label,
@@ -90,7 +141,7 @@ label#auth-prompt-label {
     color: #ffffff;
     font-weight: bold;
     font-size: 11pt;
-    text-shadow: 0 0 6px rgba(255, 255, 255, 0.50);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.60);
 }
 
 #auth-status-label,
@@ -98,7 +149,7 @@ label#auth-status-label {
     color: #ffffff;
     font-weight: bold;
     font-size: 11pt;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.50);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.60);
 }
 
 #auth-capslock-label,
@@ -112,40 +163,44 @@ label#auth-capslock-label {
 #auth-date-time-label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.50);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.60);
 }
 
 #auth-prompt-entry,
 entry#auth-prompt-entry {
     background-color: rgba(0, 0, 0, 0.65);
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.20);
     border-radius: 6px;
     color: #ffffff;
     caret-color: #ffffff;
-    padding: 6px 12px;
+    padding: 7px 12px;
 }
 
 #auth-prompt-entry:focus,
 entry#auth-prompt-entry:focus {
     border: 2px solid #ffffff;
-    box-shadow: 0 0 14px rgba(255, 255, 255, 0.50);
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.60);
 }
 
 #auth-unlock-button,
 #auth-action-area button.suggested-action {
-    background-image: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, #424242 100%);
+    background-color: #ffffff;
+    background-image: none;
     border: 1.5px solid #ffffff;
     border-radius: 6px;
-    color: #ffffff;
+    color: #121317;
     font-weight: bold;
-    padding: 6px 18px;
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.50);
+    padding: 7px 18px;
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.60);
 }
 
 #auth-unlock-button:hover,
 #auth-action-area button.suggested-action:hover {
-    background-image: linear-gradient(135deg, #ffffff 0%, #ffffff 40%, #e0e0e0 100%);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.50);
+    background-color: #ffffff;
+    background-image: none;
+    border: 1.5px solid #ffffff;
+    box-shadow: 0 0 22px rgba(255, 255, 255, 0.60);
+    color: #121317;
 }
 
 #auth-cancel-button,
@@ -161,21 +216,21 @@ entry#auth-prompt-entry:focus {
 #auth-cancel-button:hover,
 #auth-logout-button:hover,
 #auth-switch-button:hover {
-    background-color: rgba(245, 245, 245, 0.3);
+    background-color: rgba(255, 255, 255, 0.30);
     border: 2px solid #ffffff;
-    box-shadow: 0 0 14px rgba(255, 255, 255, 0.50);
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.60);
     color: #ffffff;
 }
 
-/* 3. XFCE4 SESSION LOGOUT DIALOG */
+/* 5. XFCE4 SESSION LOGOUT DIALOG */
 window#logout-dialog,
 dialog#logout-dialog,
 .xfce4-session-logout,
 window.xfce4-session-logout {
-    background-color: rgba(12, 3, 7, 0.95);
+    background-color: #1a1c23;
     border: 2px solid #ffffff;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.50), 0 0 4px #f5f5f5;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.60), 0 0 4px #f5f5f5;
     padding: 16px;
 }
 
@@ -183,24 +238,24 @@ window#logout-dialog label,
 .xfce4-session-logout label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 6px rgba(255, 255, 255, 0.50);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.60);
 }
 
 window#logout-dialog button,
 .xfce4-session-logout button {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
     border-radius: 8px;
     color: #ffffff;
-    font-weight: 500;
+    font-weight: bold;
     padding: 8px 14px;
     margin: 4px;
 }
 
 window#logout-dialog button:hover,
 .xfce4-session-logout button:hover {
-    background-color: rgba(245, 245, 245, 0.25);
+    background-color: rgba(255, 255, 255, 0.35);
     border: 2px solid #ffffff;
-    box-shadow: 0 0 16px rgba(255, 255, 255, 0.50);
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.60);
     color: #ffffff;
 }
