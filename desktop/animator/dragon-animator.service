@@ -1,0 +1,13 @@
+[Unit]
+Description=Kali Dragon Suite - 60 FPS Window Animation Daemon
+After=graphical-session.target
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/python3 %h/.local/bin/dragon-window-animator.py
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=default.target
