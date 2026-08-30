@@ -170,10 +170,17 @@ fi
 
 # 3. Plymouth & Transitions
 if [ "$INSTALL_PLYMOUTH" = true ]; then
-    echo -e "${CYAN}[+] Instalando Pantalla de Carga Plymouth y fondos de traspaso...${NC}"
+    echo -e "${CYAN}[+] Instalando Pantalla de Carga Plymouth y fondos de traspaso (100% fondo limpio)...${NC}"
     cp -f "$VARIANT_PATH/boot/plymouth/"* /usr/share/plymouth/themes/kali/
     mkdir -p /usr/share/desktop-base/kali-theme/{grub,login,wallpaper/contents/images}
+    mkdir -p /usr/share/grub/themes/kali
+    mkdir -p /usr/share/images/desktop-base
+    
+    # Update all transition hooks to avoid old red/blue bleed
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/desktop-base/kali-theme/grub/grub-16x9.png
+    cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/desktop-base/kali-theme/grub/grub-4x3.png 2>/dev/null || true
+    cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/grub/themes/kali/grub-16x9.png 2>/dev/null || true
+    cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/grub/themes/kali/grub-4x3.png 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/images/desktop-base/desktop-grub.png 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/transition/login-background.png" /usr/share/desktop-base/kali-theme/login/
     cp -f "$VARIANT_PATH/boot/transition/login-blurred.png" /usr/share/desktop-base/kali-theme/login/
@@ -191,9 +198,9 @@ if [ "$INSTALL_LOGIN" = true ]; then
     chmod -R 755 "/usr/share/themes/Kali-${CAP_COLOR}-Dragon-Login"
 fi
 
-# 5. Desktop (XFWM4, GTK CSS, Animator)
+# 5. Desktop (XFWM4, GTK CSS, Animator, Wallpaper)
 if [ "$INSTALL_DESKTOP" = true ]; then
-    echo -e "${CYAN}[+] Configurando Bordes de Ventana (XFWM4) y Animador del Dragón...${NC}"
+    echo -e "${CYAN}[+] Configurando Bordes de Ventana (XFWM4), Animador y Fondo de Escritorio...${NC}"
     mkdir -p "$TARGET_HOME/.themes/Kali-${CAP_COLOR}-Dark-Borders/xfwm4"
     mkdir -p "$TARGET_HOME/.local/share/themes/Kali-${CAP_COLOR}-Dark-Borders/xfwm4"
     mkdir -p "/usr/share/themes/Kali-${CAP_COLOR}-Dark-Borders/xfwm4"
@@ -216,15 +223,32 @@ if [ "$INSTALL_DESKTOP" = true ]; then
     cp -f "$SCRIPT_DIR/desktop/animator/dragon-animator.desktop" "$TARGET_HOME/.config/autostart/"
     chmod +x "$TARGET_HOME/.local/bin/dragon-window-animator.py"
 
-    if [ -n "$DISPLAY" ] && [ -n "$TARGET_USER" ]; then
-        su - "$TARGET_USER" -c "xfconf-query -c xfwm4 -p /general/theme -s Kali-${CAP_COLOR}-Dark-Borders" 2>/dev/null || true
-    fi
-
     chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.themes" "$TARGET_HOME/.local" "$TARGET_HOME/.config"
 
+    # Immediately apply to active graphical desktop session
+    USER_PID=$(pgrep -u "$TARGET_USER" xfce4-session | head -n 1 || true)
+    if [ -n "$USER_PID" ]; then
+        DBUS_ADDR=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || true)
+        USER_DISP=$(grep -z DISPLAY /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || true)
+        
+        # Apply XFWM4 theme and wallpaper in real-time
+        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfwm4 -p /general/theme -s "Kali-${CAP_COLOR}-Dark-Borders" 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s "Kali-${CAP_COLOR}-Dark" 2>/dev/null || true
+        
+        # Update desktop wallpapers
+        WALLPAPER_FILE="$VARIANT_PATH/assets/wallpaper_${SELECTED_COLOR}.png"
+        for prop in $(sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -l 2>/dev/null | grep "last-image" || true); do
+            sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER_FILE" 2>/dev/null || true
+        done
+        
+        # Reload xfwm4 to refresh borders immediately
+        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfwm4 --replace >/dev/null 2>&1 &
+    fi
+
+    # Restart animator daemon
     pkill -f dragon-window-animator.py 2>/dev/null || true
-    if [ -n "$SUDO_USER" ]; then
-        su - "$TARGET_USER" -c "nohup $TARGET_HOME/.local/bin/dragon-window-animator.py --no-fork >/dev/null 2>&1 &" 2>/dev/null || true
+    if [ -n "$TARGET_USER" ]; then
+        su - "$TARGET_USER" -c "DISPLAY=${DISPLAY:-:0.0} XAUTHORITY=${XAUTHORITY:-$TARGET_HOME/.Xauthority} nohup $TARGET_HOME/.local/bin/dragon-window-animator.py --no-fork >/dev/null 2>&1 &" 2>/dev/null || true
     fi
 fi
 
