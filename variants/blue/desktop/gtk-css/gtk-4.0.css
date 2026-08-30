@@ -1,5 +1,18 @@
-window.ssd decoration, window.csd decoration {
-    border: 2px solid #2979ff;
-    border-radius: 6px 6px 0px 0px;
-    box-shadow: 0 0 10px rgba(0, 176, 255, 0.4);
+
+/* Continuous 2px Solid Border for Client-Side Decorated Windows */
+window.ssd decoration,
+window.csd decoration,
+window.csd,
+decoration {
+    border: 2px solid #2979ff !important;
+    border-radius: 6px 6px 0px 0px !important;
+    box-shadow: 0 0 10px #00b0ff40, 0 0 2px #2979ff !important;
+}
+
+/* Headerbar border matching */
+headerbar,
+.titlebar {
+    border-top: 2px solid #2979ff !important;
+    border-left: 2px solid #2979ff !important;
+    border-right: 2px solid #2979ff !important;
 }

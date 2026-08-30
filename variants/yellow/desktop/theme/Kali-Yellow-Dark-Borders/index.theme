@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Kali-Yellow-Dark-Borders
+Comment=Kali Yellow Dark with 2px Continuous Solid Borders
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Kali-Yellow-Dark-Borders
+MetacityTheme=Kali-Yellow-Dark-Borders
+IconTheme=Flat-Remix-Yellow-Dark
+XfwmTheme=Kali-Yellow-Dark-Borders

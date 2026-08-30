@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Kali-Green-Dark-Borders
+Comment=Kali Green Dark with 2px Continuous Solid Borders
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Kali-Green-Dark-Borders
+MetacityTheme=Kali-Green-Dark-Borders
+IconTheme=Flat-Remix-Green-Dark
+XfwmTheme=Kali-Green-Dark-Borders

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Kali-Orange-Dark-Borders
+Comment=Kali Orange Dark with 2px Continuous Solid Borders
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Kali-Orange-Dark-Borders
+MetacityTheme=Kali-Orange-Dark-Borders
+IconTheme=Flat-Remix-Orange-Dark
+XfwmTheme=Kali-Orange-Dark-Borders

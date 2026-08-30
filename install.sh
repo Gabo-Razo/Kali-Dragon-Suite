@@ -140,6 +140,7 @@ if [ ! -d "$VARIANT_PATH" ]; then
 fi
 
 CAP_COLOR="$(tr '[:lower:]' '[:upper:]' <<< ${SELECTED_COLOR:0:1})${SELECTED_COLOR:1}"
+THEME_NAME="Kali-${CAP_COLOR}-Dark-Borders"
 
 echo -e "\n${GREEN}${BOLD}=== Instalando Kali Dragon Suite - Edición ${CAP_COLOR} ===${NC}"
 
@@ -176,7 +177,6 @@ if [ "$INSTALL_PLYMOUTH" = true ]; then
     mkdir -p /usr/share/grub/themes/kali
     mkdir -p /usr/share/images/desktop-base
     
-    # Update all transition hooks to avoid old red/blue bleed
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/desktop-base/kali-theme/grub/grub-16x9.png
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/desktop-base/kali-theme/grub/grub-4x3.png 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/grub/themes/kali/grub-16x9.png 2>/dev/null || true
@@ -198,50 +198,51 @@ if [ "$INSTALL_LOGIN" = true ]; then
     chmod -R 755 "/usr/share/themes/Kali-${CAP_COLOR}-Dragon-Login"
 fi
 
-# 5. Desktop (XFWM4, GTK CSS, Animator, Wallpaper)
+# 5. Desktop (XFWM4, GTK3/4 Themes, CSS, Animator, Wallpaper)
 if [ "$INSTALL_DESKTOP" = true ]; then
-    echo -e "${CYAN}[+] Configurando Bordes de Ventana (XFWM4), Animador y Fondo de Escritorio...${NC}"
-    mkdir -p "$TARGET_HOME/.themes/Kali-${CAP_COLOR}-Dark-Borders/xfwm4"
-    mkdir -p "$TARGET_HOME/.local/share/themes/Kali-${CAP_COLOR}-Dark-Borders/xfwm4"
-    mkdir -p "/usr/share/themes/Kali-${CAP_COLOR}-Dark-Borders/xfwm4"
-    mkdir -p "$TARGET_HOME/.local/share/dragon-anim"
-    mkdir -p "$TARGET_HOME/.local/bin"
-    mkdir -p "$TARGET_HOME/.config/autostart"
-    mkdir -p "$TARGET_HOME/.config/gtk-3.0"
-    mkdir -p "$TARGET_HOME/.config/gtk-4.0"
-
-    cp -rf "$VARIANT_PATH/desktop/xfwm4-theme/Kali-${CAP_COLOR}-Dark-Borders/xfwm4/"* "$TARGET_HOME/.themes/Kali-${CAP_COLOR}-Dark-Borders/xfwm4/"
-    cp -rf "$VARIANT_PATH/desktop/xfwm4-theme/Kali-${CAP_COLOR}-Dark-Borders/xfwm4/"* "$TARGET_HOME/.local/share/themes/Kali-${CAP_COLOR}-Dark-Borders/xfwm4/"
-    cp -rf "$VARIANT_PATH/desktop/xfwm4-theme/Kali-${CAP_COLOR}-Dark-Borders/xfwm4/"* "/usr/share/themes/Kali-${CAP_COLOR}-Dark-Borders/xfwm4/"
-
+    echo -e "${CYAN}[+] Configurando Bordes de Ventana (XFWM4 & GTK), Animador y Fondo de Escritorio...${NC}"
+    
+    # 5.1 Copy full GTK + XFWM4 Theme
+    mkdir -p "$TARGET_HOME/.themes/$THEME_NAME"
+    mkdir -p "$TARGET_HOME/.local/share/themes/$THEME_NAME"
+    mkdir -p "/usr/share/themes/$THEME_NAME"
+    
+    cp -rf "$VARIANT_PATH/desktop/theme/$THEME_NAME/"* "$TARGET_HOME/.themes/$THEME_NAME/"
+    cp -rf "$VARIANT_PATH/desktop/theme/$THEME_NAME/"* "$TARGET_HOME/.local/share/themes/$THEME_NAME/"
+    cp -rf "$VARIANT_PATH/desktop/theme/$THEME_NAME/"* "/usr/share/themes/$THEME_NAME/"
+    
+    # 5.2 User Config CSS
+    mkdir -p "$TARGET_HOME/.config/gtk-3.0" "$TARGET_HOME/.config/gtk-4.0"
     cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-3.0.css" "$TARGET_HOME/.config/gtk-3.0/gtk.css"
     cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-4.0.css" "$TARGET_HOME/.config/gtk-4.0/gtk.css"
 
+    # 5.3 Animator Daemon
+    mkdir -p "$TARGET_HOME/.local/share/dragon-anim" "$TARGET_HOME/.local/bin" "$TARGET_HOME/.config/autostart"
     cp -f "$SCRIPT_DIR/desktop/animator/dragon-window-animator.py" "$TARGET_HOME/.local/bin/"
     cp -f "$VARIANT_PATH/desktop/animator/dragon_sprite.png" "$TARGET_HOME/.local/share/dragon-anim/"
-    cp -f "$VARIANT_PATH/desktop/animator/color_config.json" "$TARGET_HOME/.local/share/dragon-anim/" 2>/dev/null || true
+    cp -f "$VARIANT_PATH/desktop/animator/color_config.json" "$TARGET_HOME/.local/share/dragon-anim/"
     cp -f "$SCRIPT_DIR/desktop/animator/dragon-animator.desktop" "$TARGET_HOME/.config/autostart/"
     chmod +x "$TARGET_HOME/.local/bin/dragon-window-animator.py"
 
     chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.themes" "$TARGET_HOME/.local" "$TARGET_HOME/.config"
 
-    # Immediately apply to active graphical desktop session
+    # 5.4 Live Desktop Session Sync
     USER_PID=$(pgrep -u "$TARGET_USER" xfce4-session | head -n 1 || true)
     if [ -n "$USER_PID" ]; then
         DBUS_ADDR=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || true)
         USER_DISP=$(grep -z DISPLAY /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || true)
         
-        # Apply XFWM4 theme and wallpaper in real-time
-        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfwm4 -p /general/theme -s "Kali-${CAP_COLOR}-Dark-Borders" 2>/dev/null || true
-        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s "Kali-${CAP_COLOR}-Dark" 2>/dev/null || true
+        # Set Window Theme + GTK Theme + Icon Theme
+        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfwm4 -p /general/theme -s "$THEME_NAME" 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s "$THEME_NAME" 2>/dev/null || true
         
-        # Update desktop wallpapers
+        # Apply Matching Wallpaper
         WALLPAPER_FILE="$VARIANT_PATH/assets/wallpaper_${SELECTED_COLOR}.png"
         for prop in $(sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -l 2>/dev/null | grep "last-image" || true); do
             sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER_FILE" 2>/dev/null || true
         done
         
-        # Reload xfwm4 to refresh borders immediately
+        # Live reload window manager
         sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfwm4 --replace >/dev/null 2>&1 &
     fi
 
