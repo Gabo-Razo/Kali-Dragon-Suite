@@ -265,7 +265,7 @@ if [ "$INSTALL_LOGIN" = true ]; then
     cp -f "$VARIANT_PATH/lockscreen/gnome-background.xml" /usr/share/desktop-base/kali-theme/lockscreen/
     cp -f "$VARIANT_PATH/lockscreen/dragon-avatar.png" /usr/share/desktop-base/kali-theme/lockscreen/
     
-    # Overwrite default blue backgrounds so lockscreen never bleeds blue
+    # Overwrite default backgrounds so lockscreen never bleeds generic desktop
     cp -f "$VARIANT_PATH/lockscreen/lockscreen.png" /usr/share/backgrounds/kali/kali-cubes2-16x9.jpg 2>/dev/null || true
     cp -f "$VARIANT_PATH/lockscreen/lockscreen.png" /usr/share/backgrounds/kali/kali-cubes-16x9.jpg 2>/dev/null || true
     cp -f "$VARIANT_PATH/lockscreen/gnome-background.xml" /usr/share/backgrounds/kali/kali-cubes2.xml 2>/dev/null || true
@@ -276,6 +276,12 @@ if [ "$INSTALL_LOGIN" = true ]; then
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" "$TARGET_HOME/.face.icon" 2>/dev/null || true
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" "/var/lib/AccountsService/icons/$TARGET_USER" 2>/dev/null || true
     chown "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.face" "$TARGET_HOME/.face.icon" 2>/dev/null || true
+    
+    # Configure screensaver lock image in xfconf
+    if [ -n "$DBUS_ADDR" ]; then
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-screensaver -p /screensavers/xfce-floaters/image-path -s "/usr/share/desktop-base/kali-theme/lockscreen/lockscreen.png" --create -t string 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-screensaver -p /lock/saver-theme -s "" --create -t string 2>/dev/null || true
+    fi
     
     chmod 644 /etc/lightdm/lightdm-gtk-greeter.conf 2>/dev/null || true
     chmod -R 755 "/usr/share/themes/$LOGIN_THEME_NAME"

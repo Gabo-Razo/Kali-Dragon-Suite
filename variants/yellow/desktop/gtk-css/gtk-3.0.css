@@ -55,12 +55,20 @@
     box-shadow: 0 0 20px rgba(255, 214, 0, 0.45);
 }
 
-/* 2. XFCE4 SCREENSAVER LOCK DIALOG */
-.screensaver-dialog,
-#screensaver-dialog,
+/* 2. XFCE4 SCREENSAVER LOCK DIALOG (Lock / Suspend Wake-up) */
 window.screensaver-dialog,
 dialog.screensaver-dialog,
-.lock-dialog {
+.screensaver-dialog {
+    background-color: #0c0205;
+    background-image: url("/usr/share/desktop-base/kali-theme/lockscreen/lockscreen.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.lock-dialog,
+.screensaver-dialog > box,
+dialog.screensaver-dialog > box {
     background-color: rgba(12, 3, 7, 0.94);
     border: 2px solid #ffd600;
     border-radius: 14px;
@@ -196,7 +204,7 @@ window#logout-dialog button:hover,
 }
 
 
-/* 4. SOLID 2PX CONTINUOUS WINDOW BORDERS (Excludes tooltips) */
+/* 4. SOLID 2PX CONTINUOUS WINDOW BORDERS */
 window.ssd > decoration,
 window.csd > decoration,
 window.csd.background > decoration {
@@ -212,7 +220,6 @@ headerbar,
     border-right: 2px solid #ffc107;
 }
 
-/* Safe standard tooltip styling to never inherit window border */
 tooltip,
 tooltip.background,
 .tooltip {

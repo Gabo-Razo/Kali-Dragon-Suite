@@ -55,12 +55,20 @@
     box-shadow: 0 0 20px rgba(213, 0, 249, 0.45);
 }
 
-/* 2. XFCE4 SCREENSAVER LOCK DIALOG */
-.screensaver-dialog,
-#screensaver-dialog,
+/* 2. XFCE4 SCREENSAVER LOCK DIALOG (Lock / Suspend Wake-up) */
 window.screensaver-dialog,
 dialog.screensaver-dialog,
-.lock-dialog {
+.screensaver-dialog {
+    background-color: #0c0205;
+    background-image: url("/usr/share/desktop-base/kali-theme/lockscreen/lockscreen.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.lock-dialog,
+.screensaver-dialog > box,
+dialog.screensaver-dialog > box {
     background-color: rgba(12, 3, 7, 0.94);
     border: 2px solid #d500f9;
     border-radius: 14px;
