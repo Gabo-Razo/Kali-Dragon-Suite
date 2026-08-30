@@ -1,0 +1,56 @@
+/* Clean GTK-3.0 Custom Styles for Kali */
+
+/* Remove unwanted vertical lines and separator handles on XFCE panel */
+.xfce4-panel separator,
+.xfce4-panel .separator,
+.xfce4-panel #separator {
+  border: none;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  min-width: 0;
+}
+
+#whiskermenu-button {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  padding: 0 4px;
+  margin: 0;
+}
+
+.xfce4-panel .pager,
+.xfce4-panel #pager,
+.xfce4-panel .xfce4-pager-plugin,
+.xfce4-panel .pager button,
+.xfce4-panel .pager-button {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background: transparent;
+}
+
+.xfce4-panel button {
+  border: none;
+  box-shadow: none;
+}
+
+.xfce4-panel button:not(#whiskermenu-button):checked,
+.xfce4-panel button:not(#whiskermenu-button):active {
+  box-shadow: inset 0 -2px 0 #ec0101;
+}
+
+/* Red window borders for CSD/GTK apps */
+window.csd decoration,
+.csd decoration,
+window decoration {
+  border: 2px solid #ec0101;
+  box-shadow: 0 0 0 1px #ec0101, 0 8px 24px rgba(0, 0, 0, 0.65);
+}
+
+window.csd:backdrop decoration,
+.csd decoration:backdrop,
+window decoration:backdrop {
+  border: 2px solid #aa1919;
+  box-shadow: 0 0 0 1px #aa1919, 0 4px 12px rgba(0, 0, 0, 0.45);
+}
