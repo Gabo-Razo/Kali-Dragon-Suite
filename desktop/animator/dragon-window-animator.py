@@ -1,28 +1,45 @@
 #!/usr/bin/env python3
 """
-🐉 KALI DRAGON SUITE - MASTER 60 FPS WINDOW ANIMATOR (ZERO-LATENCY MATERIALIZATION)
-- Instant Sub-Millisecond Opacity Hide (Zero Pre-Render Pop).
+🐉 KALI DRAGON SUITE - MASTER 60 FPS WINDOW ANIMATOR (REBOOT-RESILIENT)
+- Zero-latency ctypes opacity hiding.
 - 1:1 Natural Aspect Ratio Dragon Sprite.
-- 100% Contained within window interior bounds.
-- Silk-smooth organic easing, tangent banking, resplandor shockwave & window crystallization.
+- Contained window trajectory.
+- Boot X11 connection retry loop (Guaranteed startup on reboot).
 """
 
 import sys, os, time, math, random, json, signal, subprocess, threading, re, ctypes
+
+# Ensure DISPLAY and XAUTHORITY are properly set for systemd/autostart
+if "DISPLAY" not in os.environ:
+    os.environ["DISPLAY"] = ":0"
+if "XAUTHORITY" not in os.environ:
+    user_xauth = os.path.expanduser("~/.Xauthority")
+    if os.path.exists(user_xauth):
+        os.environ["XAUTHORITY"] = user_xauth
+
+# Wait for X11 display server to become ready upon reboot
+X11_LIB = None
+X_DISP = None
+ATOM_OPACITY = None
+ATOM_CARDINAL = None
+
+for _ in range(25):
+    try:
+        X11_LIB = ctypes.CDLL("libX11.so.6")
+        X_DISP = X11_LIB.XOpenDisplay(None)
+        if X_DISP:
+            ATOM_OPACITY = X11_LIB.XInternAtom(X_DISP, b"_NET_WM_WINDOW_OPACITY", 0)
+            ATOM_CARDINAL = X11_LIB.XInternAtom(X_DISP, b"CARDINAL", 0)
+            break
+    except Exception:
+        pass
+    time.sleep(0.4)
+
 from PyQt6.QtCore import Qt, QTimer, QRectF, QPointF, QObject, pyqtSignal, pyqtSlot
 from PyQt6.QtGui import QPainter, QColor, QRadialGradient, QBrush, QPen, QPixmap
 from PyQt6.QtWidgets import QApplication, QWidget
 
 MY_PID = os.getpid()
-
-# Direct CTypes X11 bindings for 10-microsecond property updates
-try:
-    X11_LIB = ctypes.CDLL("libX11.so.6")
-    X_DISP = X11_LIB.XOpenDisplay(None)
-    ATOM_OPACITY = X11_LIB.XInternAtom(X_DISP, b"_NET_WM_WINDOW_OPACITY", 0)
-    ATOM_CARDINAL = X11_LIB.XInternAtom(X_DISP, b"CARDINAL", 0)
-except Exception:
-    X11_LIB = None
-    X_DISP = None
 
 def get_color_config():
     cfg_path = os.path.expanduser("~/.local/share/dragon-anim/color_config.json")
@@ -198,7 +215,6 @@ class DragonOverlay(QWidget):
         screen = QApplication.primaryScreen().geometry()
         self.setGeometry(0, 0, screen.width(), screen.height())
 
-        # Ensure window is 100% hidden at start with a fail-safe watchdog at 650ms
         set_window_opacity(wid, 0.0)
         QTimer.singleShot(650, lambda: clean_window_opacity(wid))
 
@@ -288,9 +304,8 @@ class DragonOverlay(QWidget):
         if not self.is_animating:
             return
 
-        self.anim_progress += 0.028 # Crisp 60 FPS pacing (~36 frames = ~580ms)
+        self.anim_progress += 0.028
 
-        # Reveal/crystallize window smoothly when shockwave explodes (0.45 to 0.80)
         if self.anim_mode == "OPEN" and self.active_wid:
             if self.anim_progress >= 0.45:
                 fade_alpha = min(1.0, (self.anim_progress - 0.45) / 0.35)
@@ -528,17 +543,14 @@ class EventDrivenWindowManager:
             if not is_normal_app_window(wid):
                 continue
 
-            # Instantly set 0.0 opacity via ctypes (10 microseconds) so the window NEVER renders on screen first
             set_window_opacity(wid, 0.0)
             self.known_windows[wid] = (0, 0, 0, 0)
             
-            # Fetch geometry immediately (5ms) without delay
             geo = get_window_geometry(wid)
             if geo:
                 self.known_windows[wid] = geo
                 self.bridge.open_signal.emit(wid, geo[0], geo[1], geo[2], geo[3])
             else:
-                # Fast retry in 20ms if window manager has not assigned frame
                 def fast_retry(w_id):
                     time.sleep(0.02)
                     g = get_window_geometry(w_id)

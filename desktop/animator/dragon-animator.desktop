@@ -1,8 +1,10 @@
 [Desktop Entry]
 Type=Application
-Exec=/bin/bash -c "DISPLAY=:0 python3 %h/.local/bin/dragon-window-animator.py"
+Name=Dragon Window Animator
+Comment=Kali Dragon Suite - 60 FPS Window Animation Daemon
+Exec=sh -c 'sleep 1; python3 "$HOME/.local/bin/dragon-window-animator.py"'
+Terminal=false
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
-Name=Dragon Window Animator
-Comment=Kali Dragon Window Animator Daemon
+X-XFCE-Autostart-Override=true
