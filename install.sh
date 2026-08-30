@@ -311,6 +311,8 @@ if [ "$INSTALL_LOGIN" = true ]; then
     
     # 3.1 LightDM Theme & Greeter
     echo -e "    -> Desplegando tema GTK para LightDM (/usr/share/themes/$LOGIN_THEME_NAME)..."
+    rm -rf "/usr/share/themes/$LOGIN_THEME_NAME"
+    mkdir -p "/usr/share/themes/$LOGIN_THEME_NAME"
     cp -rf "$VARIANT_PATH/login/theme/$LOGIN_THEME_NAME/"* "/usr/share/themes/$LOGIN_THEME_NAME/"
     echo -e "    -> Modificando configuración de LightDM (/etc/lightdm/lightdm-gtk-greeter.conf)..."
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" /usr/share/desktop-base/kali-theme/login/
@@ -349,6 +351,7 @@ fi
 # 4. Window Borders (XFWM4 & GTK3/4 CSD)
 if [ "$INSTALL_BORDERS" = true ]; then
     echo -e "${CYAN}${BOLD}[+] [4/8] Instalando Bordes de Ventana de 2px (XFWM4 & GTK Sólidos)...${NC}"
+    rm -rf "$TARGET_HOME/.themes/$THEME_NAME" "$TARGET_HOME/.local/share/themes/$THEME_NAME" "/usr/share/themes/$THEME_NAME"
     mkdir -p "$TARGET_HOME/.themes/$THEME_NAME"
     mkdir -p "$TARGET_HOME/.local/share/themes/$THEME_NAME"
     mkdir -p "/usr/share/themes/$THEME_NAME"
