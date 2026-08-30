@@ -8,7 +8,7 @@
 ![Kali Dragon Preview](assets/preview_red.png)
 
 **Una suite visual completa, 100% modular y cinematográfica para Kali Linux.**  
-Transforma toda la experiencia visual en 8 ediciones de color: desde el menú de arranque de **GRUB** con tarjeta *frosted glass* y más de 70 iconos de distros, la animación de carga de **Plymouth**, la pantalla de **Login (LightDM)**, hasta el escritorio **XFCE** con bordes de 2px, iconos de panel y animaciones del dragón volador al abrir y cerrar ventanas.
+Transforma toda la experiencia visual en 8 ediciones de color: desde el menú de arranque de **GRUB** con tarjeta *frosted glass* y más de 70 iconos de distros, la animación de carga de **Plymouth**, la **tríada de pantallas de login y bloqueo** (LightDM, pantalla de desbloqueo al suspender y cuadro de cerrar sesión), hasta el escritorio **XFCE** con bordes de 2px, iconos de panel y animaciones del dragón volador al abrir y cerrar ventanas.
 
 [![Platform: Kali Linux](https://img.shields.io/badge/Platform-Kali%20Linux%202026.x-red?style=for-the-badge&logo=kalilinux)](https://www.kali.org/)
 [![Desktop: XFCE4 / XFWM4](https://img.shields.io/badge/Desktop-XFCE4%20%2F%20XFWM4-blue?style=for-the-badge&logo=xfce)](https://www.xfce.org/)
@@ -53,14 +53,14 @@ sudo ./install.sh
 
 Puedes instalar **únicamente la parte que tú quieras** sin alterar el resto de tu sistema:
 
-| Componente | Comando de Ejemplo | ¿Qué hace? |
+| Componente | Comando de Ejemplo | ¿Qué instala exactamente? |
 | :--- | :--- | :--- |
-| **🌟 Todo el Sistema** | `sudo ./install.sh --color red --all` | Instala GRUB, Plymouth, Login, Bordes, Dragón, Iconos y Terminal. |
+| **🌟 Todo el Sistema** | `sudo ./install.sh --color red --all` | Instala GRUB, Plymouth, la tríada de Logins, Bordes, Dragón, Iconos y Terminal. |
 | **🎛️ Todo el Arranque** | `sudo ./install.sh --color purple --boot-only` | Instala el Menú GRUB Frosted Glass + la animación de carga de Plymouth. |
-| **🔘 Solo Menú GRUB** | `sudo ./install.sh --color green --grub-only` | Solo instala el tema de GRUB con sus 70+ iconos y selectores. |
-| **⚡ Solo Animación Carga**| `sudo ./install.sh --color blue --plymouth-only` | Solo instala el logo del dragón palpitante de Plymouth. |
-| **🛡️ Solo Pantalla de Login** | `sudo ./install.sh --color purple --login-only` | Instala la tarjeta de cristal de LightDM y el avatar del dragón. |
-| **🐉 Solo Dragón Volador** | `sudo ./install.sh --color red --animator-only` | Activa el demonio del dragón al abrir y cerrar ventanas (0% CPU). |
+| **🔘 Solo Menú GRUB** | `sudo ./install.sh --color green --grub-only` | Solo instala el tema de GRUB con sus 70+ iconos y selectores neón. |
+| **⚡ Solo Animación Carga**| `sudo ./install.sh --color blue --plymouth-only` | Solo instala el logo del dragón palpitante de Plymouth en el arranque. |
+| **🛡️ Tríada de Logins** | `sudo ./install.sh --color lime --login-only` | **1)** Pantalla de inicio LightDM con avatar y fondo 1080p.<br>**2)** Pantalla de bloqueo al suspender/reactivar con avatar, textos y fondo 1080p.<br>**3)** Cuadro de diálogo de cerrar sesión con botones de cristal. |
+| **🐉 Solo Dragón Volador** | `sudo ./install.sh --color red --animator-only` | Activa el demonio del dragón al abrir y cerrar ventanas (60 FPS / 0% CPU). |
 | **🪟 Solo Bordes de Ventana**| `sudo ./install.sh --color lime --borders-only` | Aplica marcos sólidos de 2px a todas las ventanas (XFWM4 y GTK). |
 | **🖼️ Solo Fondo de Pantalla**| `sudo ./install.sh --color yellow --wallpaper-only` | Aplica el fondo 1080p del dragón a tu escritorio. |
 | **🎨 Solo Iconos de Panel** | `sudo ./install.sh --color orange --icons-only` | Cambia el dragón del menú del panel y los iconos del sistema. |
@@ -72,14 +72,14 @@ Puedes instalar **únicamente la parte que tú quieras** sin alterar el resto de
 ## ⚡ Comandos Rápidos por Consola
 
 ```bash
-sudo ./install.sh --color red       # 🔴 Todo en Rojo
-sudo ./install.sh --color green     # 🟢 Todo en Verde
-sudo ./install.sh --color purple    # 🟣 Todo en Morado
-sudo ./install.sh --color blue      # 🔵 Todo en Azul
-sudo ./install.sh --color yellow    # 🟡 Todo en Amarillo
-sudo ./install.sh --color orange    # 🟠 Todo en Naranja
-sudo ./install.sh --color lime      # 🍈 Todo en Lima
-sudo ./install.sh --color pink      # 🌸 Todo en Rosa
+sudo ./install.sh --color red --all       # 🔴 Todo en Rojo
+sudo ./install.sh --color green --all     # 🟢 Todo en Verde
+sudo ./install.sh --color purple --all    # 🟣 Todo en Morado
+sudo ./install.sh --color blue --all      # 🔵 Todo en Azul
+sudo ./install.sh --color yellow --all    # 🟡 Todo en Amarillo
+sudo ./install.sh --color orange --all    # 🟠 Todo en Naranja
+sudo ./install.sh --color lime --all      # 🍈 Todo en Lima
+sudo ./install.sh --color pink --all      # 🌸 Todo en Rosa
 ```
 
 ---

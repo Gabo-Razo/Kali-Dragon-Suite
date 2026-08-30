@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==============================================================================
 #  🐉 KALI DRAGON SUITE - MULTI-COLOR MODULAR MASTER INSTALLER
-#  Safe, Rock-Solid, Freeze-Free & Zero Ghost Windows
+#  Full Granular Modular Component Support & 8 Color Editions
 # ==============================================================================
 
 set -e
@@ -166,9 +166,9 @@ if [ -z "$SELECTED_COLOR" ]; then
     esac
 
     echo -e "\n${BOLD}¿Qué componentes deseas instalar?${NC}"
-    echo -e "  [1] 🌟 Todo completo (GRUB + Plymouth + Login + Escritorio + Terminal)"
+    echo -e "  [1] 🌟 Todo completo (GRUB + Plymouth + Login + Bloqueo/Logout + Escritorio)"
     echo -e "  [2] 🎛️  Todo el Arranque (Menú GRUB + Animación Plymouth de carga)"
-    echo -e "  [3] 🛡️  Solo Pantalla de Login (LightDM)"
+    echo -e "  [3] 🛡️  Pantallas de Login, Bloqueo (Suspend) y Cerrar Sesión"
     echo -e "  [4] 🐉  Solo Animador del Dragón (Vuelo al abrir/cerrar ventanas)"
     echo -e "  [5] 🪟  Solo Bordes de Ventana de 2px (XFWM4 & GTK)"
     echo -e "  [6] 🖼️  Solo Fondo de Pantalla"
@@ -198,6 +198,7 @@ fi
 
 CAP_COLOR="$(tr '[:lower:]' '[:upper:]' <<< ${SELECTED_COLOR:0:1})${SELECTED_COLOR:1}"
 THEME_NAME="Kali-${CAP_COLOR}-Dark-Borders"
+LOGIN_THEME_NAME="Kali-${CAP_COLOR}-Dragon-Login"
 ICON_THEME="Flat-Remix-${CAP_COLOR}-Dark"
 
 if [ "$SELECTED_COLOR" == "lime" ]; then
@@ -233,7 +234,7 @@ fi
 if [ "$INSTALL_PLYMOUTH" = true ]; then
     echo -e "${CYAN}[+] Instalando Pantalla de Carga Plymouth y fondos de traspaso limpios...${NC}"
     cp -f "$VARIANT_PATH/boot/plymouth/"* /usr/share/plymouth/themes/kali/
-    mkdir -p /usr/share/desktop-base/kali-theme/{grub,login,wallpaper/contents/images}
+    mkdir -p /usr/share/desktop-base/kali-theme/{grub,login,lockscreen,wallpaper/contents/images}
     mkdir -p /usr/share/grub/themes/kali
     mkdir -p /usr/share/images/desktop-base
     
@@ -242,19 +243,47 @@ if [ "$INSTALL_PLYMOUTH" = true ]; then
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/grub/themes/kali/grub-16x9.png 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/grub/themes/kali/grub-4x3.png 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/images/desktop-base/desktop-grub.png 2>/dev/null || true
-    cp -f "$VARIANT_PATH/boot/transition/login-background.png" /usr/share/desktop-base/kali-theme/login/
-    cp -f "$VARIANT_PATH/boot/transition/login-blurred.png" /usr/share/desktop-base/kali-theme/login/
 fi
 
-# 3. Login Screen (LightDM)
+# 3. Login, Lock Screen (Screensaver/Suspend) & Logout Dialog (Unified Glassmorphism & Wallpaper)
 if [ "$INSTALL_LOGIN" = true ]; then
-    echo -e "${CYAN}[+] Instalando Pantalla de Login (LightDM ${CAP_COLOR} Theme & Avatar)...${NC}"
-    mkdir -p "/usr/share/themes/Kali-${CAP_COLOR}-Dragon-Login/gtk-3.0"
-    cp -rf "$VARIANT_PATH/login/theme/Kali-${CAP_COLOR}-Dragon-Login/"* "/usr/share/themes/Kali-${CAP_COLOR}-Dragon-Login/"
+    echo -e "${CYAN}[+] Instalando Pantallas de Login (LightDM), Bloqueo (Suspend) y Cuadro de Cerrar Sesión (${CAP_COLOR})...${NC}"
+    mkdir -p "/usr/share/themes/$LOGIN_THEME_NAME/gtk-3.0"
+    mkdir -p /usr/share/desktop-base/kali-theme/{login,lockscreen}
+    mkdir -p /usr/share/backgrounds/kali
+    mkdir -p /var/lib/AccountsService/icons
+    
+    # 3.1 LightDM Theme & Greeter
+    cp -rf "$VARIANT_PATH/login/theme/$LOGIN_THEME_NAME/"* "/usr/share/themes/$LOGIN_THEME_NAME/"
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" /usr/share/desktop-base/kali-theme/login/
     cp -f "$VARIANT_PATH/login/lightdm-gtk-greeter.conf" /etc/lightdm/lightdm-gtk-greeter.conf
-    chmod 644 /etc/lightdm/lightdm-gtk-greeter.conf
-    chmod -R 755 "/usr/share/themes/Kali-${CAP_COLOR}-Dragon-Login"
+    cp -f "$VARIANT_PATH/boot/transition/login-background.png" /usr/share/desktop-base/kali-theme/login/
+    cp -f "$VARIANT_PATH/boot/transition/login-blurred.png" /usr/share/desktop-base/kali-theme/login/
+    
+    # 3.2 Lockscreen (xfce4-screensaver / Suspend Wake-up) Wallpaper, XML & Avatar
+    cp -f "$VARIANT_PATH/lockscreen/lockscreen.png" /usr/share/desktop-base/kali-theme/lockscreen/
+    cp -f "$VARIANT_PATH/lockscreen/gnome-background.xml" /usr/share/desktop-base/kali-theme/lockscreen/
+    cp -f "$VARIANT_PATH/lockscreen/dragon-avatar.png" /usr/share/desktop-base/kali-theme/lockscreen/
+    
+    # Overwrite default blue backgrounds so lockscreen never bleeds blue
+    cp -f "$VARIANT_PATH/lockscreen/lockscreen.png" /usr/share/backgrounds/kali/kali-cubes2-16x9.jpg 2>/dev/null || true
+    cp -f "$VARIANT_PATH/lockscreen/lockscreen.png" /usr/share/backgrounds/kali/kali-cubes-16x9.jpg 2>/dev/null || true
+    cp -f "$VARIANT_PATH/lockscreen/gnome-background.xml" /usr/share/backgrounds/kali/kali-cubes2.xml 2>/dev/null || true
+    cp -f "$VARIANT_PATH/boot/transition/login-blurred.png" /usr/share/backgrounds/kali/login-blurred 2>/dev/null || true
+    
+    # User Profile Avatar in target color (for lockscreen and accounts service)
+    cp -f "$VARIANT_PATH/login/dragon-avatar.png" "$TARGET_HOME/.face" 2>/dev/null || true
+    cp -f "$VARIANT_PATH/login/dragon-avatar.png" "$TARGET_HOME/.face.icon" 2>/dev/null || true
+    cp -f "$VARIANT_PATH/login/dragon-avatar.png" "/var/lib/AccountsService/icons/$TARGET_USER" 2>/dev/null || true
+    chown "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.face" "$TARGET_HOME/.face.icon" 2>/dev/null || true
+    
+    # 3.3 Lockscreen & Logout GTK CSS in user & system themes
+    mkdir -p "$TARGET_HOME/.config/gtk-3.0" "$TARGET_HOME/.themes/$THEME_NAME/gtk-3.0"
+    cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-3.0.css" "$TARGET_HOME/.config/gtk-3.0/gtk.css"
+    cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-3.0.css" "$TARGET_HOME/.themes/$THEME_NAME/gtk-3.0/gtk.css" 2>/dev/null || true
+    
+    chmod 644 /etc/lightdm/lightdm-gtk-greeter.conf 2>/dev/null || true
+    chmod -R 755 "/usr/share/themes/$LOGIN_THEME_NAME"
 fi
 
 # 4. Window Borders (XFWM4 & GTK3/4 CSD)
