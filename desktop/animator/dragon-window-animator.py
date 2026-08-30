@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Dragon Window Spawn & Close Animator (Multi-Color Edition)
-Event-Driven X11 Window Tracker with Smooth Particle & Frame Morphing
+🐉 Dragon Window Spawn & Close Cinematic Animator (Multi-Color Edition)
+Event-Driven X11 Window Tracker with Plasma Ribbon & Border Morphing
 """
 
 import sys, os, time, math, random, threading, subprocess, re, signal
@@ -39,20 +39,44 @@ DRAGON_PATH = os.path.expanduser("~/.local/share/dragon-anim/dragon_sprite.png")
 if not os.path.exists(DRAGON_PATH):
     DRAGON_PATH = "/home/gr/Escritorio/Kali-Red-Dragon-Suite/assets/dragon_sprite.png"
 
+def clean_window_opacity(wid):
+    try:
+        subprocess.run(["xprop", "-id", str(wid), "-remove", "_NET_WM_WINDOW_OPACITY"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=0.15)
+        subprocess.run(["xprop", "-id", str(wid), "-f", "_NET_WM_WINDOW_OPACITY", "32c", "-set", "_NET_WM_WINDOW_OPACITY", "0xffffffff"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=0.15)
+    except Exception:
+        pass
+
 def clean_all_window_opacities():
     try:
-        out = subprocess.check_output(["xprop", "-root", "_NET_CLIENT_LIST"], stderr=subprocess.DEVNULL).decode()
+        out = subprocess.check_output(["xprop", "-root", "_NET_CLIENT_LIST"], stderr=subprocess.DEVNULL, timeout=0.3).decode()
         match = re.search(r"# (.*)", out)
         if match:
             wids = [int(x.strip(), 16) for x in match.group(1).split(",") if x.strip()]
             for wid in wids:
-                subprocess.run(["xprop", "-id", str(wid), "-remove", "_NET_WM_WINDOW_OPACITY"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                clean_window_opacity(wid)
+    except Exception:
+        pass
+
+def set_window_opacity(wid, alpha):
+    if not wid:
+        return
+    try:
+        if alpha >= 0.98:
+            clean_window_opacity(wid)
+            return
+        opacity_val = int(max(0.0, min(1.0, alpha)) * 0xFFFFFFFF)
+        subprocess.run(
+            ["xprop", "-id", str(wid), "-f", "_NET_WM_WINDOW_OPACITY", "32c", "-set", "_NET_WM_WINDOW_OPACITY", hex(opacity_val)],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=0.15
+        )
     except Exception:
         pass
 
 def get_client_list():
     try:
-        out = subprocess.check_output(["xprop", "-root", "_NET_CLIENT_LIST"], stderr=subprocess.DEVNULL).decode()
+        out = subprocess.check_output(["xprop", "-root", "_NET_CLIENT_LIST"], stderr=subprocess.DEVNULL, timeout=0.3).decode()
         match = re.search(r"# (.*)", out)
         if match:
             return [int(x.strip(), 16) for x in match.group(1).split(",") if x.strip()]
@@ -62,7 +86,7 @@ def get_client_list():
 
 def get_window_geometry(wid):
     try:
-        out = subprocess.check_output(["xdotool", "getwindowgeometry", "--shell", str(wid)], stderr=subprocess.DEVNULL).decode()
+        out = subprocess.check_output(["xdotool", "getwindowgeometry", "--shell", str(wid)], stderr=subprocess.DEVNULL, timeout=0.3).decode()
         x, y, w, h = 0, 0, 0, 0
         for line in out.splitlines():
             if line.startswith("X="): x = int(line.split("=")[1])
@@ -75,15 +99,15 @@ def get_window_geometry(wid):
 
 def is_app_window(wid):
     try:
-        wtype = subprocess.check_output(["xprop", "-id", str(wid), "_NET_WM_WINDOW_TYPE"], stderr=subprocess.DEVNULL).decode()
+        wtype = subprocess.check_output(["xprop", "-id", str(wid), "_NET_WM_WINDOW_TYPE"], stderr=subprocess.DEVNULL, timeout=0.2).decode()
         if "_NET_WM_WINDOW_TYPE_DESKTOP" in wtype or "_NET_WM_WINDOW_TYPE_DOCK" in wtype or "_NET_WM_WINDOW_TYPE_NOTIFICATION" in wtype:
             return False
         
-        wclass = subprocess.check_output(["xprop", "-id", str(wid), "WM_CLASS"], stderr=subprocess.DEVNULL).decode()
+        wclass = subprocess.check_output(["xprop", "-id", str(wid), "WM_CLASS"], stderr=subprocess.DEVNULL, timeout=0.2).decode()
         if "xfdesktop" in wclass or "xfce4-panel" in wclass or "wrapper-" in wclass or "desktop" in wclass.lower():
             return False
 
-        wstate = subprocess.check_output(["xprop", "-id", str(wid), "_NET_WM_STATE"], stderr=subprocess.DEVNULL).decode()
+        wstate = subprocess.check_output(["xprop", "-id", str(wid), "_NET_WM_STATE"], stderr=subprocess.DEVNULL, timeout=0.2).decode()
         if "_NET_WM_STATE_STICKY" in wstate or "_NET_WM_STATE_SKIP_TASKBAR" in wstate:
             return False
 
@@ -93,7 +117,7 @@ def is_app_window(wid):
 
 def get_screen_size():
     try:
-        out = subprocess.check_output(["xrandr", "--current"], stderr=subprocess.DEVNULL).decode()
+        out = subprocess.check_output(["xrandr", "--current"], stderr=subprocess.DEVNULL, timeout=0.3).decode()
         match = re.search(r"current (\d+) x (\d+)", out)
         if match:
             return int(match.group(1)), int(match.group(2))
@@ -105,16 +129,16 @@ def enforce_window_geometry(wid, target_w, target_h, pos_x, pos_y):
     if not is_app_window(wid):
         return
     try:
-        hints = subprocess.check_output(["xprop", "-id", str(wid), "WM_NORMAL_HINTS"], stderr=subprocess.DEVNULL).decode()
+        hints = subprocess.check_output(["xprop", "-id", str(wid), "WM_NORMAL_HINTS"], stderr=subprocess.DEVNULL, timeout=0.2).decode()
         if "maximum size" in hints or "max_width" in hints:
-            subprocess.run(["xprop", "-id", str(wid), "-remove", "WM_NORMAL_HINTS"], stderr=subprocess.DEVNULL)
+            subprocess.run(["xprop", "-id", str(wid), "-remove", "WM_NORMAL_HINTS"], stderr=subprocess.DEVNULL, timeout=0.2)
     except Exception:
         pass
     try:
-        subprocess.run(["xdotool", "windowstate", "--remove", "MAXIMIZED_VERT", str(wid)], stderr=subprocess.DEVNULL)
-        subprocess.run(["xdotool", "windowstate", "--remove", "MAXIMIZED_HORZ", str(wid)], stderr=subprocess.DEVNULL)
-        subprocess.run(["xdotool", "windowsize", str(wid), str(target_w), str(target_h)], stderr=subprocess.DEVNULL)
-        subprocess.run(["xdotool", "windowmove", str(wid), str(pos_x), str(pos_y)], stderr=subprocess.DEVNULL)
+        subprocess.run(["xdotool", "windowstate", "--remove", "MAXIMIZED_VERT", str(wid)], stderr=subprocess.DEVNULL, timeout=0.2)
+        subprocess.run(["xdotool", "windowstate", "--remove", "MAXIMIZED_HORZ", str(wid)], stderr=subprocess.DEVNULL, timeout=0.2)
+        subprocess.run(["xdotool", "windowsize", str(wid), str(target_w), str(target_h)], stderr=subprocess.DEVNULL, timeout=0.2)
+        subprocess.run(["xdotool", "windowmove", str(wid), str(pos_x), str(pos_y)], stderr=subprocess.DEVNULL, timeout=0.2)
     except Exception:
         pass
 
@@ -177,9 +201,9 @@ class DragonOverlay(QWidget):
         screen = QApplication.primaryScreen().geometry()
         self.setGeometry(0, 0, screen.width(), screen.height())
 
-        # Unconditionally restore opacity at start to avoid ghost window bugs
-        if wid:
-            subprocess.run(["xprop", "-id", str(wid), "-remove", "_NET_WM_WINDOW_OPACITY"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        # Start with window hidden and guarantee full restoration at 750ms watchdog
+        set_window_opacity(wid, 0.0)
+        QTimer.singleShot(750, lambda: clean_window_opacity(wid))
 
         self.show()
         self.timer.start(16)
@@ -264,14 +288,20 @@ class DragonOverlay(QWidget):
         if not self.is_animating:
             return
 
-        self.anim_progress += 0.040
+        self.anim_progress += 0.022
+
+        # Smooth window fade-in from 0.50 to 0.85
+        if self.anim_mode == "OPEN" and self.active_wid:
+            if self.anim_progress >= 0.50:
+                fade_alpha = min(1.0, (self.anim_progress - 0.50) / 0.35)
+                set_window_opacity(self.active_wid, fade_alpha)
 
         if self.anim_progress >= 1.0:
             self.anim_progress = 1.0
             self.is_animating = False
             self.timer.stop()
             if self.active_wid:
-                subprocess.run(["xprop", "-id", str(self.active_wid), "-remove", "_NET_WM_WINDOW_OPACITY"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                clean_window_opacity(self.active_wid)
             self.hide()
             self.update()
             return
@@ -304,7 +334,7 @@ class DragonOverlay(QWidget):
             px, py, angle_deg, scale = self.get_flight_state(flight_t)
 
             self.trail.append((px, py, t))
-            if len(self.trail) > 22:
+            if len(self.trail) > 24:
                 self.trail.pop(0)
 
             # Fiery plasma ribbon trail
@@ -394,6 +424,14 @@ class DragonOverlay(QWidget):
             painter.setPen(core_pen)
             painter.drawRoundedRect(QRectF(bx, by, bw, bh), 6.0, 6.0)
 
+            painter.setPen(Qt.PenStyle.NoPen)
+            for p in self.particles:
+                p["x"] += (p["target_x"] - p["x"]) * p["speed"] * 2.5
+                p["y"] += (p["target_y"] - p["y"]) * p["speed"] * 2.5
+                p_alpha = int(p["alpha"] * 255 * (1.0 - imp_t * 0.3))
+                painter.setBrush(QColor(GLOW_RGB[0], GLOW_RGB[1], GLOW_RGB[2], max(0, min(255, p_alpha))))
+                painter.drawEllipse(QPointF(p["x"], p["y"]), p["size"], p["size"])
+
         # 2. Summon shockwave (0.35 to 0.70)
         if 0.35 <= t <= 0.70:
             summon_t = (t - 0.35) / 0.35
@@ -407,8 +445,9 @@ class DragonOverlay(QWidget):
             painter.setPen(Qt.PenStyle.NoPen)
             painter.drawEllipse(QPointF(cx, cy), burst_radius, burst_radius)
 
-            dw = TARGET_WIDTH * 0.85 * summon_t
-            dh = TARGET_HEIGHT * 0.85 * summon_t
+            dragon_scale = min(1.0, summon_t * 1.8) * (min(self.tw, self.th) / 620.0)
+            dw = TARGET_WIDTH * 0.85 * dragon_scale
+            dh = TARGET_HEIGHT * 0.85 * dragon_scale
             painter.setOpacity(min(1.0, summon_t * 2.0))
             painter.drawPixmap(QRectF(cx - dw / 2.0, cy - dh / 2.0, dw, dh), self.dragon_pixmap, QRectF(self.dragon_pixmap.rect()))
             painter.setOpacity(1.0)
@@ -419,7 +458,7 @@ class DragonOverlay(QWidget):
             px, py, angle_deg, scale = self.get_flight_state(takeoff_t, is_reverse=True)
 
             self.trail.append((px, py, t))
-            if len(self.trail) > 22:
+            if len(self.trail) > 24:
                 self.trail.pop(0)
 
             if len(self.trail) > 2:
@@ -445,7 +484,8 @@ class DragonOverlay(QWidget):
 
             glow_rad = 75 * scale
             glow_radial = QRadialGradient(QPointF(0, 0), glow_rad)
-            glow_radial.setColorAt(0.0, QColor(GLOW_RGB[0], GLOW_RGB[1], GLOW_RGB[2], int((1.0 - takeoff_t) * 200)))
+            glow_radial.setColorAt(0.0, QColor(255, 255, 255, int((1.0 - takeoff_t) * 200)))
+            glow_radial.setColorAt(0.4, QColor(GLOW_RGB[0], GLOW_RGB[1], GLOW_RGB[2], int((1.0 - takeoff_t) * 180)))
             glow_radial.setColorAt(1.0, QColor(0, 0, 0, 0))
             painter.setBrush(QBrush(glow_radial))
             painter.setPen(Qt.PenStyle.NoPen)
@@ -515,11 +555,7 @@ class EventDrivenWindowManager:
 
             self.known_windows[wid] = (pos_x, pos_y, TARGET_WIDTH, TARGET_HEIGHT)
 
-            # Ensure 100% full opacity right away
-            subprocess.run(["xprop", "-id", str(wid), "-remove", "_NET_WM_WINDOW_OPACITY"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             enforce_window_geometry(wid, TARGET_WIDTH, TARGET_HEIGHT, pos_x, pos_y)
-
-            # Launch OPEN animation
             self.overlay.start_open_animation(wid, pos_x, pos_y, TARGET_WIDTH, TARGET_HEIGHT)
 
             def verify_later(w_id, px, py):
