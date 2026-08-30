@@ -50,7 +50,7 @@ while [[ $# -gt 0 ]]; do
             INSTALL_BORDERS=true
             INSTALL_ANIMATOR=true
             INSTALL_WALLPAPER=true
-            INSTALL_ICONS=true
+            INSTALL_ICONS=false
             INSTALL_TERMINAL=true
             MODULAR_FLAG_PASSED=true
             shift
@@ -105,7 +105,7 @@ while [[ $# -gt 0 ]]; do
             INSTALL_BORDERS=true
             INSTALL_ANIMATOR=true
             INSTALL_WALLPAPER=true
-            INSTALL_ICONS=true
+            INSTALL_ICONS=false
             INSTALL_TERMINAL=true
             MODULAR_FLAG_PASSED=true
             shift
@@ -128,7 +128,7 @@ if [ "$MODULAR_FLAG_PASSED" = false ]; then
     INSTALL_BORDERS=true
     INSTALL_ANIMATOR=true
     INSTALL_WALLPAPER=true
-    INSTALL_ICONS=true
+    INSTALL_ICONS=false
     INSTALL_TERMINAL=true
 fi
 
@@ -184,7 +184,7 @@ if [ -z "$SELECTED_COLOR" ]; then
         6) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=true; INSTALL_ICONS=false; INSTALL_TERMINAL=false ;;
         7) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=false; INSTALL_ICONS=true; INSTALL_TERMINAL=false ;;
         8) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=false; INSTALL_ICONS=false; INSTALL_TERMINAL=true ;;
-        *) INSTALL_GRUB=true; INSTALL_PLYMOUTH=true; INSTALL_LOGIN=true; INSTALL_BORDERS=true; INSTALL_ANIMATOR=true; INSTALL_WALLPAPER=true; INSTALL_ICONS=true; INSTALL_TERMINAL=true ;;
+        *) INSTALL_GRUB=true; INSTALL_PLYMOUTH=true; INSTALL_LOGIN=true; INSTALL_BORDERS=true; INSTALL_ANIMATOR=true; INSTALL_WALLPAPER=true; INSTALL_ICONS=false; INSTALL_TERMINAL=true ;;
     esac
 fi
 
@@ -334,7 +334,7 @@ if [ "$INSTALL_WALLPAPER" = true ]; then
     fi
 fi
 
-# 7. System & Panel Icons
+# 7. System & Panel Icons (Optional explicitly via --icons-only)
 if [ "$INSTALL_ICONS" = true ]; then
     echo -e "${CYAN}[+] Actualizando Iconos de Sistema y Menú del Panel (${ICON_THEME})...${NC}"
     if [ -n "$DBUS_ADDR" ]; then
