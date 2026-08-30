@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Kali-Indigo-Dark-Borders
+Comment=Kali Indigo Dark with 2px Continuous Solid Borders
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Kali-Indigo-Dark-Borders
+MetacityTheme=Kali-Indigo-Dark-Borders
+IconTheme=Flat-Remix-Blue-Dark
+XfwmTheme=Kali-Indigo-Dark-Borders

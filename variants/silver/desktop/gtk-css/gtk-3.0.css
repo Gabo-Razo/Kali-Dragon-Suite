@@ -1,0 +1,231 @@
+
+/* ==========================================================================
+   🐉 KALI DRAGON GLASSMORPHISM LOGIN & LOCK SUITE - Silver EDITION
+   ========================================================================== */
+
+/* 1. LIGHTDM LOGIN GREETER */
+#login_window,
+#panel_window {
+    background-color: rgba(14, 3, 8, 0.93);
+    border: 2px solid #eceff1;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(236, 239, 241, 0.45), 0 0 4px #cfd8dc;
+}
+
+#user_image {
+    border: 2px solid #eceff1;
+    border-radius: 50%;
+    box-shadow: 0 0 16px rgba(236, 239, 241, 0.45);
+    background-color: #0c0004;
+}
+
+#prompt_label,
+#message_label {
+    color: #eceff1;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(236, 239, 241, 0.45);
+}
+
+#entry {
+    background-color: rgba(0, 0, 0, 0.65);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: #ffffff;
+    caret-color: #eceff1;
+    padding: 6px 12px;
+}
+
+#entry:focus {
+    border: 2px solid #eceff1;
+    box-shadow: 0 0 14px rgba(236, 239, 241, 0.45);
+}
+
+#login_button {
+    background-image: linear-gradient(135deg, #eceff1 0%, #b0bec5 50%, #37474f 100%);
+    border: 1.5px solid #eceff1;
+    border-radius: 6px;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 6px 16px;
+    box-shadow: 0 0 12px rgba(236, 239, 241, 0.45);
+}
+
+#login_button:hover {
+    background-image: linear-gradient(135deg, #ffffff 0%, #eceff1 40%, #b0bec5 100%);
+    box-shadow: 0 0 20px rgba(236, 239, 241, 0.45);
+}
+
+/* 2. XFCE4 SCREENSAVER LOCK DIALOG (Lock / Suspend Wake-up) */
+window.screensaver-dialog,
+dialog.screensaver-dialog,
+.screensaver-dialog {
+    background-color: #0c0205;
+    background-image: url("/usr/share/desktop-base/kali-theme/lockscreen/lockscreen.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.lock-dialog,
+.screensaver-dialog > box,
+dialog.screensaver-dialog > box {
+    background-color: rgba(12, 3, 7, 0.94);
+    border: 2px solid #eceff1;
+    border-radius: 14px;
+    box-shadow: 0 0 30px rgba(236, 239, 241, 0.45), 0 0 4px #cfd8dc;
+    padding: 20px;
+}
+
+#auth-face-image {
+    border: 2px solid #eceff1;
+    border-radius: 50%;
+    box-shadow: 0 0 18px rgba(236, 239, 241, 0.45);
+    background-color: #0c0004;
+}
+
+#auth-prompt-label,
+label#auth-prompt-label {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 11pt;
+    text-shadow: 0 0 6px rgba(236, 239, 241, 0.45);
+}
+
+#auth-status-label,
+label#auth-status-label {
+    color: #eceff1;
+    font-weight: bold;
+    font-size: 11pt;
+    text-shadow: 0 0 10px rgba(236, 239, 241, 0.45);
+}
+
+#auth-capslock-label,
+label#auth-capslock-label {
+    color: #ffd600;
+    font-weight: bold;
+}
+
+#auth-realname-label,
+#auth-hostname-label,
+#auth-date-time-label {
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(236, 239, 241, 0.45);
+}
+
+#auth-prompt-entry,
+entry#auth-prompt-entry {
+    background-color: rgba(0, 0, 0, 0.65);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: #ffffff;
+    caret-color: #eceff1;
+    padding: 6px 12px;
+}
+
+#auth-prompt-entry:focus,
+entry#auth-prompt-entry:focus {
+    border: 2px solid #eceff1;
+    box-shadow: 0 0 14px rgba(236, 239, 241, 0.45);
+}
+
+#auth-unlock-button,
+#auth-action-area button.suggested-action {
+    background-image: linear-gradient(135deg, #eceff1 0%, #b0bec5 50%, #37474f 100%);
+    border: 1.5px solid #eceff1;
+    border-radius: 6px;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 6px 18px;
+    box-shadow: 0 0 12px rgba(236, 239, 241, 0.45);
+}
+
+#auth-unlock-button:hover,
+#auth-action-area button.suggested-action:hover {
+    background-image: linear-gradient(135deg, #ffffff 0%, #eceff1 40%, #b0bec5 100%);
+    box-shadow: 0 0 20px rgba(236, 239, 241, 0.45);
+}
+
+#auth-cancel-button,
+#auth-logout-button,
+#auth-switch-button {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: #ffffff;
+    padding: 6px 12px;
+}
+
+#auth-cancel-button:hover,
+#auth-logout-button:hover,
+#auth-switch-button:hover {
+    background-color: rgba(207, 216, 220, 0.3);
+    border: 2px solid #eceff1;
+    box-shadow: 0 0 14px rgba(236, 239, 241, 0.45);
+    color: #ffffff;
+}
+
+/* 3. XFCE4 SESSION LOGOUT DIALOG */
+window#logout-dialog,
+dialog#logout-dialog,
+.xfce4-session-logout,
+window.xfce4-session-logout {
+    background-color: rgba(12, 3, 7, 0.95);
+    border: 2px solid #eceff1;
+    border-radius: 14px;
+    box-shadow: 0 0 30px rgba(236, 239, 241, 0.45), 0 0 4px #cfd8dc;
+    padding: 16px;
+}
+
+window#logout-dialog label,
+.xfce4-session-logout label {
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 0 6px rgba(236, 239, 241, 0.45);
+}
+
+window#logout-dialog button,
+.xfce4-session-logout button {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 8px 14px;
+    margin: 4px;
+}
+
+window#logout-dialog button:hover,
+.xfce4-session-logout button:hover {
+    background-color: rgba(207, 216, 220, 0.25);
+    border: 2px solid #eceff1;
+    box-shadow: 0 0 16px rgba(236, 239, 241, 0.45);
+    color: #ffffff;
+}
+
+
+/* 4. SOLID 2PX CONTINUOUS WINDOW BORDERS */
+window.ssd > decoration,
+window.csd > decoration,
+window.csd.background > decoration {
+    border: 2px solid #cfd8dc;
+    border-radius: 6px 6px 0px 0px;
+    box-shadow: 0 0 10px rgba(236, 239, 241, 0.45), 0 0 2px #cfd8dc;
+}
+
+headerbar,
+.titlebar {
+    border-top: 2px solid #cfd8dc;
+    border-left: 2px solid #cfd8dc;
+    border-right: 2px solid #cfd8dc;
+}
+
+tooltip,
+tooltip.background,
+.tooltip {
+    background-color: rgba(20, 22, 28, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}

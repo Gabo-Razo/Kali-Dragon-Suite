@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Kali-Cyan-Dark-Borders
+Comment=Kali Cyan Dark with 2px Continuous Solid Borders
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Kali-Cyan-Dark-Borders
+MetacityTheme=Kali-Cyan-Dark-Borders
+IconTheme=Flat-Remix-Teal-Dark
+XfwmTheme=Kali-Cyan-Dark-Borders

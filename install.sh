@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==============================================================================
-#  🐉 KALI DRAGON SUITE - MULTI-COLOR MODULAR MASTER INSTALLER
-#  Full Granular Modular Component Support & 8 Color Editions
+#  🐉 KALI DRAGON SUITE - 15 COLOR EDITIONS MODULAR MASTER INSTALLER
+#  Full Granular Modular Component Support & 15 Color Editions
 # ==============================================================================
 
 set -e
@@ -12,6 +12,7 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
+WHITE='\033[1;37m'
 BOLD='\033[1m'
 NC='\033[0m'
 
@@ -110,7 +111,7 @@ while [[ $# -gt 0 ]]; do
             MODULAR_FLAG_PASSED=true
             shift
             ;;
-        red|blue|green|yellow|purple|orange|lime|pink)
+        red|blue|green|yellow|purple|orange|lime|pink|cyan|white|gold|indigo|mint|ruby|silver)
             SELECTED_COLOR="$1"
             shift
             ;;
@@ -136,22 +137,29 @@ fi
 if [ -z "$SELECTED_COLOR" ]; then
     echo -e "${CYAN}${BOLD}"
     echo "========================================================================"
-    echo "       🐉  K A L I   D R A G O N   S U I T E  -  M U L T I C O L O R    "
+    echo "       🐉  K A L I   D R A G O N   S U I T E  -  1 5   C O L O R S      "
     echo "    Transformación completa de GRUB, Plymouth, Login y Escritorio       "
     echo "========================================================================"
     echo -e "${NC}"
     echo -e "${BOLD}Elige la edición de color que deseas instalar:${NC}\n"
-    echo -e "  ${RED}[1] 🔴 Crimson Red    (Rojo Neón Carmesí - Favorito)${NC}"
-    echo -e "  ${BLUE}[2] 🔵 Plasma Blue    (Azul Eléctrico Cyberpunk)${NC}"
-    echo -e "  ${GREEN}[3] 🟢 Toxic Green    (Verde Hacker Neón)${NC}"
-    echo -e "  ${YELLOW}[4] 🟡 Cyber Yellow   (Amarillo Neón Intenso)${NC}"
-    echo -e "  ${PURPLE}[5] 🟣 Neon Purple    (Morado Synthwave)${NC}"
-    echo -e "  ${YELLOW}[6] 🟠 Neon Orange    (Naranja Incandescente)${NC}"
-    echo -e "  ${GREEN}[7] 🍈 Electric Lime  (Lima Eléctrico)${NC}"
-    echo -e "  ${PURPLE}[8] 🌸 Cyber Pink     (Rosa Neón Arcade)${NC}"
+    echo -e "  ${RED}[1] 🔴 Crimson Red      (Rojo Neón Carmesí - Favorito)${NC}"
+    echo -e "  ${BLUE}[2] 🔵 Plasma Blue      (Azul Eléctrico Cyberpunk)${NC}"
+    echo -e "  ${GREEN}[3] 🟢 Toxic Green      (Verde Hacker Neón)${NC}"
+    echo -e "  ${YELLOW}[4] 🟡 Cyber Yellow     (Amarillo Neón Intenso)${NC}"
+    echo -e "  ${PURPLE}[5] 🟣 Neon Purple      (Morado Synthwave)${NC}"
+    echo -e "  ${YELLOW}[6] 🟠 Neon Orange      (Naranja Incandescente / Lava)${NC}"
+    echo -e "  ${GREEN}[7] 🍈 Electric Lime    (Verde Lima Ácido)${NC}"
+    echo -e "  ${PURPLE}[8] 🌸 Cyber Pink       (Rosa Neón Arcade)${NC}"
+    echo -e "  ${CYAN}[9] 💎 Neon Cyan        (Azul Hielo / Arctic Ice)${NC}"
+    echo -e "  ${WHITE}[10] 🖤 Stealth White   (Blanco Puro Neón / Ghost)${NC}"
+    echo -e "  ${YELLOW}[11] 🪙 Cyber Gold      (Oro Metálico / Night City Amber)${NC}"
+    echo -e "  ${BLUE}[12] 🌊 Royal Indigo    (Azul Índigo / Zafiro Profundo)${NC}"
+    echo -e "  ${CYAN}[13] 🧪 Quantum Mint    (Verde Menta Cuántico)${NC}"
+    echo -e "  ${RED}[14] 🩸 Blood Ruby      (Rojo Rubí / Dark Wine)${NC}"
+    echo -e "  ${WHITE}[15] 🥈 Chrome Silver   (Plata Metalizado / Chrome)${NC}"
     echo -e "  [0] Salir sin cambios\n"
 
-    read -rp "Selecciona un color [1-8]: " opt
+    read -rp "Selecciona un color [1-15]: " opt
     case "$opt" in
         1) SELECTED_COLOR="red" ;;
         2) SELECTED_COLOR="blue" ;;
@@ -161,6 +169,13 @@ if [ -z "$SELECTED_COLOR" ]; then
         6) SELECTED_COLOR="orange" ;;
         7) SELECTED_COLOR="lime" ;;
         8) SELECTED_COLOR="pink" ;;
+        9) SELECTED_COLOR="cyan" ;;
+        10) SELECTED_COLOR="white" ;;
+        11) SELECTED_COLOR="gold" ;;
+        12) SELECTED_COLOR="indigo" ;;
+        13) SELECTED_COLOR="mint" ;;
+        14) SELECTED_COLOR="ruby" ;;
+        15) SELECTED_COLOR="silver" ;;
         0) echo -e "\nCancelado."; exit 0 ;;
         *) echo -e "\n${RED}Opción inválida.${NC}"; exit 1 ;;
     esac
@@ -192,18 +207,32 @@ SELECTED_COLOR=$(echo "$SELECTED_COLOR" | tr '[:upper:]' '[:lower:]')
 VARIANT_PATH="$SCRIPT_DIR/variants/$SELECTED_COLOR"
 
 if [ ! -d "$VARIANT_PATH" ]; then
-    echo -e "${RED}[!] Error: Color '$SELECTED_COLOR' no encontrado. Colores válidos: red, blue, green, yellow, purple, orange, lime, pink.${NC}"
+    echo -e "${RED}[!] Error: Color '$SELECTED_COLOR' no encontrado. Colores válidos: red, blue, green, yellow, purple, orange, lime, pink, cyan, white, gold, indigo, mint, ruby, silver.${NC}"
     exit 1
 fi
 
 CAP_COLOR="$(tr '[:lower:]' '[:upper:]' <<< ${SELECTED_COLOR:0:1})${SELECTED_COLOR:1}"
 THEME_NAME="Kali-${CAP_COLOR}-Dark-Borders"
 LOGIN_THEME_NAME="Kali-${CAP_COLOR}-Dragon-Login"
-ICON_THEME="Flat-Remix-${CAP_COLOR}-Dark"
 
-if [ "$SELECTED_COLOR" == "lime" ]; then
-    ICON_THEME="Flat-Remix-Green-Dark"
-fi
+case "$SELECTED_COLOR" in
+    red) ICON_THEME="Flat-Remix-Red-Dark" ;;
+    blue) ICON_THEME="Flat-Remix-Blue-Dark" ;;
+    green) ICON_THEME="Flat-Remix-Green-Dark" ;;
+    yellow) ICON_THEME="Flat-Remix-Yellow-Dark" ;;
+    purple) ICON_THEME="Flat-Remix-Purple-Dark" ;;
+    orange) ICON_THEME="Flat-Remix-Orange-Dark" ;;
+    lime) ICON_THEME="Flat-Remix-Green-Dark" ;;
+    pink) ICON_THEME="Flat-Remix-Pink-Dark" ;;
+    cyan) ICON_THEME="Flat-Remix-Teal-Dark" ;;
+    white) ICON_THEME="Flat-Remix-Slate-Dark" ;;
+    gold) ICON_THEME="Flat-Remix-Yellow-Dark" ;;
+    indigo) ICON_THEME="Flat-Remix-Blue-Dark" ;;
+    mint) ICON_THEME="Flat-Remix-Teal-Dark" ;;
+    ruby) ICON_THEME="Flat-Remix-Red-Dark" ;;
+    silver) ICON_THEME="Flat-Remix-Slate-Dark" ;;
+    *) ICON_THEME="Flat-Remix-Blue-Dark" ;;
+esac
 
 echo -e "\n${GREEN}${BOLD}=== Instalando Kali Dragon Suite - Edición ${CAP_COLOR} ===${NC}"
 
@@ -343,7 +372,6 @@ if [ "$INSTALL_ICONS" = true ]; then
     cp -rf "$VARIANT_PATH/icons/apps/scalable/"* "/usr/share/icons/$ICON_THEME/apps/scalable/" 2>/dev/null || true
     cp -rf "$VARIANT_PATH/icons/apps/scalable/"* "$TARGET_HOME/.local/share/icons/$ICON_THEME/apps/scalable/" 2>/dev/null || true
     
-    # Also update active icons in user directory
     gtk-update-icon-cache -f -t "/usr/share/icons/$ICON_THEME" 2>/dev/null || true
     
     if [ -n "$DBUS_ADDR" ]; then
@@ -366,6 +394,13 @@ if [ "$INSTALL_TERMINAL" = true ]; then
             orange) Z_HI="208"; Z_LO="202" ;;
             lime) Z_HI="118"; Z_LO="112" ;;
             pink) Z_HI="207"; Z_LO="198" ;;
+            cyan) Z_HI="51"; Z_LO="45" ;;
+            white) Z_HI="15"; Z_LO="250" ;;
+            gold) Z_HI="220"; Z_LO="214" ;;
+            indigo) Z_HI="63"; Z_LO="57" ;;
+            mint) Z_HI="49"; Z_LO="43" ;;
+            ruby) Z_HI="161"; Z_LO="125" ;;
+            silver) Z_HI="252"; Z_LO="245" ;;
             *) Z_HI="196"; Z_LO="160" ;;
         esac
         sed -i -E "s/%F\{[0-9]+\}┌──/%F{$Z_HI}┌──/g" "$ZSHRC_FILE" 2>/dev/null || true
@@ -384,6 +419,13 @@ if [ "$INSTALL_TERMINAL" = true ]; then
             orange) CURSOR_HEX="#ff6d00" ;;
             lime) CURSOR_HEX="#76ff03" ;;
             pink) CURSOR_HEX="#ff4081" ;;
+            cyan) CURSOR_HEX="#18ffff" ;;
+            white) CURSOR_HEX="#ffffff" ;;
+            gold) CURSOR_HEX="#ffab00" ;;
+            indigo) CURSOR_HEX="#536dfe" ;;
+            mint) CURSOR_HEX="#64ffda" ;;
+            ruby) CURSOR_HEX="#e91e63" ;;
+            silver) CURSOR_HEX="#eceff1" ;;
             *) CURSOR_HEX="#ff1744" ;;
         esac
         sed -i -E "s/ColorCursor=.*/ColorCursor=$CURSOR_HEX/g" "$QTERM_CFG" 2>/dev/null || true

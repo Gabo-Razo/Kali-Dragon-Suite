@@ -41,7 +41,7 @@
 }
 
 #login_button {
-    background-image: linear-gradient(135deg, #ff6d00 0%, #ff5722 50%, #802b00 100%);
+    background-image: linear-gradient(135deg, #ff6d00 0%, #ff6d00 50%, #802b00 100%);
     border: 1.5px solid #ff6d00;
     border-radius: 6px;
     color: #ffffff;
@@ -51,7 +51,7 @@
 }
 
 #login_button:hover {
-    background-image: linear-gradient(135deg, #ffffff 0%, #ff6d00 40%, #ff5722 100%);
+    background-image: linear-gradient(135deg, #ffffff 0%, #ff6d00 40%, #ff6d00 100%);
     box-shadow: 0 0 20px rgba(255, 109, 0, 0.45);
 }
 
@@ -131,7 +131,7 @@ entry#auth-prompt-entry:focus {
 
 #auth-unlock-button,
 #auth-action-area button.suggested-action {
-    background-image: linear-gradient(135deg, #ff6d00 0%, #ff5722 50%, #802b00 100%);
+    background-image: linear-gradient(135deg, #ff6d00 0%, #ff6d00 50%, #802b00 100%);
     border: 1.5px solid #ff6d00;
     border-radius: 6px;
     color: #ffffff;
@@ -142,7 +142,7 @@ entry#auth-prompt-entry:focus {
 
 #auth-unlock-button:hover,
 #auth-action-area button.suggested-action:hover {
-    background-image: linear-gradient(135deg, #ffffff 0%, #ff6d00 40%, #ff5722 100%);
+    background-image: linear-gradient(135deg, #ffffff 0%, #ff6d00 40%, #ff6d00 100%);
     box-shadow: 0 0 20px rgba(255, 109, 0, 0.45);
 }
 

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Kali-Gold-Dark-Borders
+Comment=Kali Gold Dark with 2px Continuous Solid Borders
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Kali-Gold-Dark-Borders
+MetacityTheme=Kali-Gold-Dark-Borders
+IconTheme=Flat-Remix-Yellow-Dark
+XfwmTheme=Kali-Gold-Dark-Borders

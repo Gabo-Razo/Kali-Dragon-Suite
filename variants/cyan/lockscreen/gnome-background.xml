@@ -1,0 +1,8 @@
+<background>
+  <static>
+    <duration>8640000.0</duration>
+    <file>
+      <size width="1920" height="1080">/usr/share/desktop-base/kali-theme/lockscreen/lockscreen.png</size>
+    </file>
+  </static>
+</background>

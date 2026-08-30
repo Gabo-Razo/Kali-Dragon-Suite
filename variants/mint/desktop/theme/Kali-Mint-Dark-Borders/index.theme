@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Kali-Mint-Dark-Borders
+Comment=Kali Mint Dark with 2px Continuous Solid Borders
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Kali-Mint-Dark-Borders
+MetacityTheme=Kali-Mint-Dark-Borders
+IconTheme=Flat-Remix-Teal-Dark
+XfwmTheme=Kali-Mint-Dark-Borders

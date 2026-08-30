@@ -1,7 +1,7 @@
-# Kali Linux Neon Purple GRUB Theme
+# Kali Linux Crimson Red GRUB Theme
 title-text: ""
 desktop-image: "grub-16x9.png"
-desktop-color: "#060103"
+desktop-color: "#aa00ff"
 terminal-left: "0"
 terminal-top: "0"
 terminal-width: "100%"
@@ -13,8 +13,8 @@ terminal-border: "0"
   top = 30%
   width = 48%
   height = 42%
-  item_color = "#dcdcdc"
-  selected_item_color = "#ffffff"
+  item_color = "#aa00ff"
+  selected_item_color = "#aa00ff"
   icon_width = 20
   icon_height = 20
   item_icon_space = 12
@@ -31,7 +31,7 @@ terminal-border: "0"
   align = "center"
   id = "__timeout__"
   text = "◈ Iniciando automáticamente en %d segundos... ◈"
-  color = "#d500f9"
+  color = "#aa00ff"
 }
 
 + label {
@@ -40,5 +40,5 @@ terminal-border: "0"
   width = 60%
   align = "center"
   text = "Usa las teclas ↑ y ↓ para seleccionar  •  Presiona ENTER para iniciar"
-  color = "#888888"
+  color = "#aa00ff"
 }

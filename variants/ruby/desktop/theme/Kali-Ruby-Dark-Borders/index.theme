@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Kali-Ruby-Dark-Borders
+Comment=Kali Ruby Dark with 2px Continuous Solid Borders
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Kali-Ruby-Dark-Borders
+MetacityTheme=Kali-Ruby-Dark-Borders
+IconTheme=Flat-Remix-Red-Dark
+XfwmTheme=Kali-Ruby-Dark-Borders
