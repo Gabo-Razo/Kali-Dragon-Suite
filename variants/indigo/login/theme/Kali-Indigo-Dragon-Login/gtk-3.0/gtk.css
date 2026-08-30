@@ -136,7 +136,11 @@ button#login_button:hover label,
     color: #ffffff !important;
 }
 
-/* 4. XFCE4 SCREENSAVER LOCK DIALOG (Lock / Suspend Wake-up) */
+
+/* ==========================================================================
+   🐉 UNIVERSAL SCREENSAVER / SUSPEND WAKEUP GLASSMORPHIC DIALOG - Indigo
+   ========================================================================== */
+
 window.screensaver-dialog,
 dialog.screensaver-dialog,
 .screensaver-dialog {
@@ -153,22 +157,23 @@ dialog.screensaver-dialog > box,
 .screensaver-dialog #login_window,
 .screensaver-dialog #login_box,
 .screensaver-dialog #content_frame {
-    background-color: rgba(12, 14, 20, 0.94);
-    border: 2px solid #536dfe;
-    border-radius: 14px;
-    box-shadow: 0 0 35px rgba(83, 109, 254, 0.50), 0 0 6px #3d5afe;
-    padding: 16px;
+    background-color: rgba(12, 14, 20, 0.94) !important;
+    border: 2px solid #536dfe !important;
+    border-radius: 14px !important;
+    box-shadow: 0 0 35px rgba(83, 109, 254, 0.50), 0 0 6px #3d5afe !important;
+    padding: 16px !important;
 }
 
 #auth-face-image,
-#user_image_border image {
-    border: 2.5px solid #536dfe;
-    border-radius: 50%;
-    box-shadow: 0 0 22px rgba(83, 109, 254, 0.50);
-    background-color: #0c0004;
+#user_image_border image,
+.screensaver-dialog #user_image {
+    border: 2.5px solid #536dfe !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 22px rgba(83, 109, 254, 0.50) !important;
+    background-color: #0c0004 !important;
 }
 
-/* 4.1 NO SOLID WHITE BARS (Pure Transparent InfoBars & Labels) */
+/* PERMANENTLY REMOVE THE THICK WHITE RECTANGLE ON GTKINFOBAR / GREETER_INFOBAR */
 #greeter_infobar,
 infobar#greeter_infobar,
 infobar,
@@ -189,7 +194,11 @@ label#auth-prompt-label,
 label#auth-capslock-label,
 #auth-realname-label,
 #auth-hostname-label,
-#auth-date-time-label {
+#auth-date-time-label,
+infobar:backdrop > revealer > box,
+infobar > revealer > box,
+infobar.info > revealer > box,
+infobar.info:backdrop > revealer > box {
     background: transparent !important;
     background-color: transparent !important;
     border: none !important;
@@ -198,10 +207,10 @@ label#auth-capslock-label,
 
 #auth-prompt-label,
 label#auth-prompt-label {
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 11pt;
-    text-shadow: 0 0 6px rgba(83, 109, 254, 0.50);
+    color: #ffffff !important;
+    font-weight: bold !important;
+    font-size: 11pt !important;
+    text-shadow: 0 0 6px rgba(83, 109, 254, 0.50) !important;
 }
 
 #auth-status-label,
@@ -209,23 +218,23 @@ label#auth-status-label,
 #status-message-label,
 label#status-message-label {
     color: #536dfe !important;
-    font-weight: bold;
-    font-size: 11pt;
-    text-shadow: 0 0 12px rgba(83, 109, 254, 0.50);
+    font-weight: bold !important;
+    font-size: 11pt !important;
+    text-shadow: 0 0 12px rgba(83, 109, 254, 0.50) !important;
 }
 
 #auth-capslock-label,
 label#auth-capslock-label {
-    color: #ffd600;
-    font-weight: bold;
+    color: #ffd600 !important;
+    font-weight: bold !important;
 }
 
 #auth-realname-label,
 #auth-hostname-label,
 #auth-date-time-label {
-    color: #ffffff;
-    font-weight: bold;
-    text-shadow: 0 0 8px rgba(83, 109, 254, 0.50);
+    color: #ffffff !important;
+    font-weight: bold !important;
+    text-shadow: 0 0 8px rgba(83, 109, 254, 0.50) !important;
 }
 
 #auth-prompt-entry,
@@ -234,10 +243,10 @@ entry#auth-prompt-entry,
 .screensaver-dialog entry {
     background-color: rgba(0, 0, 0, 0.70) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.20) !important;
-    border-radius: 6px;
+    border-radius: 6px !important;
     color: #ffffff !important;
     caret-color: #536dfe !important;
-    padding: 7px 12px;
+    padding: 7px 12px !important;
 }
 
 #auth-prompt-entry:focus,
@@ -248,7 +257,7 @@ entry#auth-prompt-entry:focus,
     box-shadow: 0 0 18px rgba(83, 109, 254, 0.50) !important;
 }
 
-/* 4.2 SCREENSAVER UNLOCK / CONFIRM BUTTON (Force High Contrast Text) */
+/* SCREENSAVER UNLOCK / CONFIRM BUTTON (Force High Contrast Text) */
 #auth-unlock-button,
 button#auth-unlock-button,
 #auth-action-area button.suggested-action,

@@ -5462,6 +5462,214 @@ menu menuitem:hover * {
     color: #ffffff !important;
 }
 
+
+/* ==========================================================================
+   🐉 UNIVERSAL SCREENSAVER / SUSPEND WAKEUP GLASSMORPHIC DIALOG - Purple
+   ========================================================================== */
+
+window.screensaver-dialog,
+dialog.screensaver-dialog,
+.screensaver-dialog {
+    background-color: #0c0205;
+    background-image: url("/usr/share/desktop-base/kali-theme/lockscreen/lockscreen.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.lock-dialog,
+.screensaver-dialog > box,
+dialog.screensaver-dialog > box,
+.screensaver-dialog #login_window,
+.screensaver-dialog #login_box,
+.screensaver-dialog #content_frame {
+    background-color: rgba(12, 14, 20, 0.94) !important;
+    border: 2px solid #d500f9 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 0 35px rgba(213, 0, 249, 0.50), 0 0 6px #aa00ff !important;
+    padding: 16px !important;
+}
+
+#auth-face-image,
+#user_image_border image,
+.screensaver-dialog #user_image {
+    border: 2.5px solid #d500f9 !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 22px rgba(213, 0, 249, 0.50) !important;
+    background-color: #0c0004 !important;
+}
+
+/* PERMANENTLY REMOVE THE THICK WHITE RECTANGLE ON GTKINFOBAR / GREETER_INFOBAR */
+#greeter_infobar,
+infobar#greeter_infobar,
+infobar,
+.infobar,
+infobar.info,
+infobar.warning,
+infobar.error,
+infobar.question,
+#infobar-content_area,
+#auth-prompt-box,
+#auth-status-label,
+label#auth-status-label,
+#status-message-label,
+label#status-message-label,
+#auth-prompt-label,
+label#auth-prompt-label,
+#auth-capslock-label,
+label#auth-capslock-label,
+#auth-realname-label,
+#auth-hostname-label,
+#auth-date-time-label,
+infobar:backdrop > revealer > box,
+infobar > revealer > box,
+infobar.info > revealer > box,
+infobar.info:backdrop > revealer > box {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+#auth-prompt-label,
+label#auth-prompt-label {
+    color: #ffffff !important;
+    font-weight: bold !important;
+    font-size: 11pt !important;
+    text-shadow: 0 0 6px rgba(213, 0, 249, 0.50) !important;
+}
+
+#auth-status-label,
+label#auth-status-label,
+#status-message-label,
+label#status-message-label {
+    color: #d500f9 !important;
+    font-weight: bold !important;
+    font-size: 11pt !important;
+    text-shadow: 0 0 12px rgba(213, 0, 249, 0.50) !important;
+}
+
+#auth-capslock-label,
+label#auth-capslock-label {
+    color: #ffd600 !important;
+    font-weight: bold !important;
+}
+
+#auth-realname-label,
+#auth-hostname-label,
+#auth-date-time-label {
+    color: #ffffff !important;
+    font-weight: bold !important;
+    text-shadow: 0 0 8px rgba(213, 0, 249, 0.50) !important;
+}
+
+#auth-prompt-entry,
+entry#auth-prompt-entry,
+#prompt_entry,
+.screensaver-dialog entry {
+    background-color: rgba(0, 0, 0, 0.70) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.20) !important;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+    caret-color: #d500f9 !important;
+    padding: 7px 12px !important;
+}
+
+#auth-prompt-entry:focus,
+entry#auth-prompt-entry:focus,
+#prompt_entry:focus,
+.screensaver-dialog entry:focus {
+    border: 2px solid #d500f9 !important;
+    box-shadow: 0 0 18px rgba(213, 0, 249, 0.50) !important;
+}
+
+/* SCREENSAVER UNLOCK / CONFIRM BUTTON (Force High Contrast Text) */
+#auth-unlock-button,
+button#auth-unlock-button,
+#auth-action-area button.suggested-action,
+#auth-action-area button.primary,
+.screensaver-dialog button.suggested-action,
+.screensaver-dialog button:default,
+.screensaver-dialog button:last-child {
+    background-color: #d500f9 !important;
+    background-image: linear-gradient(135deg, #d500f9 0%, #aa00ff 50%, #6a0080 100%) !important;
+    border: 1.5px solid #d500f9 !important;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    padding: 7px 20px !important;
+    box-shadow: 0 0 16px rgba(213, 0, 249, 0.50) !important;
+}
+
+#auth-unlock-button label,
+button#auth-unlock-button label,
+#auth-action-area button.suggested-action label,
+#auth-action-area button.primary label,
+.screensaver-dialog button.suggested-action label,
+.screensaver-dialog button:default label,
+.screensaver-dialog button:last-child label,
+#auth-unlock-button *,
+button#auth-unlock-button *,
+#auth-action-area button.suggested-action *,
+.screensaver-dialog button.suggested-action * {
+    color: #ffffff !important;
+    font-weight: bold !important;
+}
+
+#auth-unlock-button:hover,
+button#auth-unlock-button:hover,
+#auth-action-area button.suggested-action:hover,
+.screensaver-dialog button.suggested-action:hover,
+.screensaver-dialog button:default:hover {
+    background-color: #d500f9 !important;
+    background-image: linear-gradient(135deg, #ffffff 0%, #d500f9 40%, #aa00ff 100%) !important;
+    box-shadow: 0 0 28px rgba(213, 0, 249, 0.50) !important;
+    color: #ffffff !important;
+}
+
+#auth-unlock-button:hover label,
+button#auth-unlock-button:hover label,
+#auth-unlock-button:hover *,
+button#auth-unlock-button:hover * {
+    color: #ffffff !important;
+}
+
+#auth-cancel-button,
+#auth-logout-button,
+#auth-switch-button,
+.screensaver-dialog button:not(.suggested-action):not(#auth-unlock-button) {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+    padding: 6px 14px !important;
+}
+
+#auth-cancel-button label,
+#auth-logout-button label,
+#auth-switch-button label,
+.screensaver-dialog button:not(.suggested-action):not(#auth-unlock-button) label {
+    color: #ffffff !important;
+}
+
+#auth-cancel-button:hover,
+#auth-logout-button:hover,
+#auth-switch-button:hover,
+.screensaver-dialog button:not(.suggested-action):not(#auth-unlock-button):hover {
+    background-color: rgba(213, 0, 249, 0.35) !important;
+    border: 2px solid #d500f9 !important;
+    box-shadow: 0 0 16px rgba(213, 0, 249, 0.50) !important;
+    color: #ffffff !important;
+}
+
+#auth-cancel-button:hover label,
+#auth-logout-button:hover label,
+#auth-switch-button:hover label,
+.screensaver-dialog button:not(.suggested-action):not(#auth-unlock-button):hover label {
+    color: #ffffff !important;
+}
+
+
 /* 6. SOLID DARK LOGOUT / POWER OFF DIALOG */
 window#logout-dialog,
 dialog#logout-dialog,
