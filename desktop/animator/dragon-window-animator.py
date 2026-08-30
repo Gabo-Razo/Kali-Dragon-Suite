@@ -37,7 +37,7 @@ HI_RGB = tuple(COLOR_CFG.get("highlight", [255, 120, 140]))
 
 DRAGON_PATH = os.path.expanduser("~/.local/share/dragon-anim/dragon_sprite.png")
 if not os.path.exists(DRAGON_PATH):
-    DRAGON_PATH = "/home/gr/Escritorio/Kali-Red-Dragon-Suite/assets/dragon_sprite.png"
+    DRAGON_PATH = os.path.expanduser("~/.local/share/dragon-anim/dragon_sprite.png")
 
 def clean_window_opacity(wid):
     try:
@@ -182,7 +182,7 @@ class DragonOverlay(QWidget):
 
         DRAGON_PATH = os.path.expanduser("~/.local/share/dragon-anim/dragon_sprite.png")
         if not os.path.exists(DRAGON_PATH):
-            DRAGON_PATH = "/home/gr/Escritorio/Kali-Red-Dragon-Suite/assets/dragon_sprite.png"
+            DRAGON_PATH = os.path.expanduser("~/.local/share/dragon-anim/dragon_sprite.png")
         self.dragon_pixmap = QPixmap(DRAGON_PATH)
 
     def start_open_animation(self, wid, x, y, w, h):

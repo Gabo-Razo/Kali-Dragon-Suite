@@ -2,7 +2,7 @@ import os, math, colorsys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps
 
-BASE_DIR = "/home/gr/Escritorio/Kali-Red-Dragon-Suite"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 VARIANTS_DIR = os.path.join(BASE_DIR, "variants")
 os.makedirs(VARIANTS_DIR, exist_ok=True)
 

@@ -1,6 +1,6 @@
 import os, shutil
 
-BASE_DIR = "/home/gr/Escritorio/Kali-Red-Dragon-Suite"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 VARIANTS_DIR = os.path.join(BASE_DIR, "variants")
 
 COLORS = {
