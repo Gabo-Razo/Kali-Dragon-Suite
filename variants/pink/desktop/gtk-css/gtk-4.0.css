@@ -1,54 +1,70 @@
 
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - Pink EXTENSIONS & ENHANCEMENTS
+   🐉 KALI DRAGON SUITE - Pink SOLID OPAQUE ENHANCEMENTS
    ========================================================================== */
 
 @define-color theme_selected_bg_color #ff4081;
 @define-color theme_selected_fg_color #ffffff;
 @define-color selection_color #ff4081;
 
-/* 1. SOLID 2PX CONTINUOUS WINDOW BORDERS */
-window.ssd > decoration,
-window.csd > decoration,
-window.csd.background > decoration {
-    border: 2px solid #f50057;
-    border-radius: 6px 6px 0px 0px;
-    box-shadow: 0 0 10px rgba(255, 64, 129, 0.45), 0 0 2px #f50057;
+/* 1. GUARANTEED 100% SOLID OPAQUE WINDOWS & FILE MANAGER (THUNAR) */
+window,
+window.background,
+.background,
+view,
+textview,
+treeview,
+iconview,
+scrolledwindow,
+scrolledwindow.frame,
+placessidebar,
+.sidebar {
+    background-color: #23252e;
+    color: #eeeeec;
 }
 
-headerbar,
-.titlebar {
-    border-top: 2px solid #f50057;
-    border-left: 2px solid #f50057;
-    border-right: 2px solid #f50057;
-}
-
-/* 2. LAPTOP OSD VOLUME, BRIGHTNESS & NOTIFICATIONS */
-.osd,
-osd,
+/* 2. LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
+#XfceNotifyWindow,
 XfceNotifyWindow,
-#XfceNotifyWindow {
-    background-color: rgba(20, 22, 28, 0.95);
+.xfce4-notifyd,
+#xfce-notifyd-container,
+.osd,
+osd {
+    background-color: #1e2029;
     border: 2px solid #ff4081;
     border-radius: 10px;
     box-shadow: 0 0 16px rgba(255, 64, 129, 0.45);
     color: #ffffff;
+    padding: 10px 14px;
 }
 
+#XfceNotifyWindow label,
+.xfce4-notifyd label,
+.osd label {
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 0 6px rgba(255, 64, 129, 0.45);
+}
+
+#XfceNotifyWindow progressbar,
+#XfceNotifyWindow levelbar,
+.osd progressbar,
+.osd levelbar {
+    min-height: 8px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+#XfceNotifyWindow progressbar progress,
+#XfceNotifyWindow levelbar block.filled,
 .osd progressbar progress,
-osd progressbar progress,
 .osd levelbar block.filled {
     background-color: #ff4081;
+    border-radius: 4px;
     border: none;
 }
 
-.osd label,
-osd label {
-    color: #ffffff;
-    font-weight: bold;
-}
-
-/* 3. MENUS & CONTEXT POPUPS (GUARANTEED OPAQUE DARK BACKGROUND) */
+/* 3. SOLID DARK MENUS & CONTEXT POPUPS */
 menu,
 .menu,
 .context-menu,
@@ -74,192 +90,12 @@ menu menuitem:hover,
     border-radius: 4px;
 }
 
-menu separator,
-.menu separator {
-    background-color: rgba(255, 255, 255, 0.12);
-    min-height: 1px;
-    margin: 4px 0;
-}
-
-/* 4. TOOLTIPS */
-tooltip,
-tooltip.background,
-.tooltip {
-    background-color: rgba(20, 22, 28, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    color: #ffffff;
-}
-
-/* 5. LIGHTDM LOGIN GREETER CARD */
-#login_window,
-#panel_window {
-    background-color: rgba(14, 3, 8, 0.93);
-    border: 2px solid #ff4081;
-    border-radius: 12px;
-    box-shadow: 0 0 25px rgba(255, 64, 129, 0.45), 0 0 4px #f50057;
-}
-
-#user_image {
-    border: 2px solid #ff4081;
-    border-radius: 50%;
-    box-shadow: 0 0 16px rgba(255, 64, 129, 0.45);
-    background-color: #0c0004;
-}
-
-#prompt_label,
-#message_label {
-    color: #ff4081;
-    font-weight: bold;
-    text-shadow: 0 0 8px rgba(255, 64, 129, 0.45);
-}
-
-#entry {
-    background-color: rgba(0, 0, 0, 0.65);
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    color: #ffffff;
-    caret-color: #ff4081;
-    padding: 6px 12px;
-}
-
-#entry:focus {
-    border: 2px solid #ff4081;
-    box-shadow: 0 0 14px rgba(255, 64, 129, 0.45);
-}
-
-#login_button {
-    background-image: linear-gradient(135deg, #ff4081 0%, #ff4081 50%, #880e4f 100%);
-    border: 1.5px solid #ff4081;
-    border-radius: 6px;
-    color: #ffffff;
-    font-weight: bold;
-    padding: 6px 16px;
-    box-shadow: 0 0 12px rgba(255, 64, 129, 0.45);
-}
-
-#login_button:hover {
-    background-image: linear-gradient(135deg, #ffffff 0%, #ff4081 40%, #ff4081 100%);
-    box-shadow: 0 0 20px rgba(255, 64, 129, 0.45);
-}
-
-/* 6. XFCE4 SCREENSAVER LOCK DIALOG */
-window.screensaver-dialog,
-dialog.screensaver-dialog,
-.screensaver-dialog {
-    background-color: #0c0205;
-    background-image: url("/usr/share/desktop-base/kali-theme/lockscreen/lockscreen.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.lock-dialog,
-.screensaver-dialog > box,
-dialog.screensaver-dialog > box {
-    background-color: rgba(12, 3, 7, 0.94);
-    border: 2px solid #ff4081;
-    border-radius: 14px;
-    box-shadow: 0 0 30px rgba(255, 64, 129, 0.45), 0 0 4px #f50057;
-    padding: 20px;
-}
-
-#auth-face-image {
-    border: 2px solid #ff4081;
-    border-radius: 50%;
-    box-shadow: 0 0 18px rgba(255, 64, 129, 0.45);
-    background-color: #0c0004;
-}
-
-#auth-prompt-label,
-label#auth-prompt-label {
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 11pt;
-    text-shadow: 0 0 6px rgba(255, 64, 129, 0.45);
-}
-
-#auth-status-label,
-label#auth-status-label {
-    color: #ff4081;
-    font-weight: bold;
-    font-size: 11pt;
-    text-shadow: 0 0 10px rgba(255, 64, 129, 0.45);
-}
-
-#auth-capslock-label,
-label#auth-capslock-label {
-    color: #ffd600;
-    font-weight: bold;
-}
-
-#auth-realname-label,
-#auth-hostname-label,
-#auth-date-time-label {
-    color: #ffffff;
-    font-weight: bold;
-    text-shadow: 0 0 8px rgba(255, 64, 129, 0.45);
-}
-
-#auth-prompt-entry,
-entry#auth-prompt-entry {
-    background-color: rgba(0, 0, 0, 0.65);
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    color: #ffffff;
-    caret-color: #ff4081;
-    padding: 6px 12px;
-}
-
-#auth-prompt-entry:focus,
-entry#auth-prompt-entry:focus {
-    border: 2px solid #ff4081;
-    box-shadow: 0 0 14px rgba(255, 64, 129, 0.45);
-}
-
-#auth-unlock-button,
-#auth-action-area button.suggested-action {
-    background-image: linear-gradient(135deg, #ff4081 0%, #ff4081 50%, #880e4f 100%);
-    border: 1.5px solid #ff4081;
-    border-radius: 6px;
-    color: #ffffff;
-    font-weight: bold;
-    padding: 6px 18px;
-    box-shadow: 0 0 12px rgba(255, 64, 129, 0.45);
-}
-
-#auth-unlock-button:hover,
-#auth-action-area button.suggested-action:hover {
-    background-image: linear-gradient(135deg, #ffffff 0%, #ff4081 40%, #ff4081 100%);
-    box-shadow: 0 0 20px rgba(255, 64, 129, 0.45);
-}
-
-#auth-cancel-button,
-#auth-logout-button,
-#auth-switch-button {
-    background-color: rgba(255, 255, 255, 0.08);
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    color: #ffffff;
-    padding: 6px 12px;
-}
-
-#auth-cancel-button:hover,
-#auth-logout-button:hover,
-#auth-switch-button:hover {
-    background-color: rgba(255, 64, 129, 0.3);
-    border: 2px solid #ff4081;
-    box-shadow: 0 0 14px rgba(255, 64, 129, 0.45);
-    color: #ffffff;
-}
-
-/* 7. XFCE4 SESSION LOGOUT DIALOG */
+/* 4. SOLID DARK LOGOUT / POWER OFF DIALOG */
 window#logout-dialog,
 dialog#logout-dialog,
 .xfce4-session-logout,
 window.xfce4-session-logout {
-    background-color: rgba(12, 3, 7, 0.95);
+    background-color: #1a1c23;
     border: 2px solid #ff4081;
     border-radius: 14px;
     box-shadow: 0 0 30px rgba(255, 64, 129, 0.45), 0 0 4px #f50057;
@@ -275,18 +111,18 @@ window#logout-dialog label,
 
 window#logout-dialog button,
 .xfce4-session-logout button {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
     border-radius: 8px;
     color: #ffffff;
-    font-weight: 500;
+    font-weight: bold;
     padding: 8px 14px;
     margin: 4px;
 }
 
 window#logout-dialog button:hover,
 .xfce4-session-logout button:hover {
-    background-color: rgba(255, 64, 129, 0.25);
+    background-color: rgba(255, 64, 129, 0.35);
     border: 2px solid #ff4081;
     box-shadow: 0 0 16px rgba(255, 64, 129, 0.45);
     color: #ffffff;
