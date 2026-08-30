@@ -277,11 +277,6 @@ if [ "$INSTALL_LOGIN" = true ]; then
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" "/var/lib/AccountsService/icons/$TARGET_USER" 2>/dev/null || true
     chown "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.face" "$TARGET_HOME/.face.icon" 2>/dev/null || true
     
-    # 3.3 Lockscreen & Logout GTK CSS in user & system themes
-    mkdir -p "$TARGET_HOME/.config/gtk-3.0" "$TARGET_HOME/.themes/$THEME_NAME/gtk-3.0"
-    cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-3.0.css" "$TARGET_HOME/.config/gtk-3.0/gtk.css"
-    cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-3.0.css" "$TARGET_HOME/.themes/$THEME_NAME/gtk-3.0/gtk.css" 2>/dev/null || true
-    
     chmod 644 /etc/lightdm/lightdm-gtk-greeter.conf 2>/dev/null || true
     chmod -R 755 "/usr/share/themes/$LOGIN_THEME_NAME"
 fi

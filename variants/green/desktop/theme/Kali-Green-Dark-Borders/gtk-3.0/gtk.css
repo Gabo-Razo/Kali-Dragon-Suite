@@ -1,14 +1,9 @@
 
 /* ==========================================================================
-   🐉 KALI DRAGON GLASSMORPHISM SUITE - Green EDITION
-   Unified Styling for LightDM Greeter, XFCE4 Screensaver & Logout Dialogs
+   🐉 KALI DRAGON GLASSMORPHISM LOGIN & LOCK SUITE - Green EDITION
    ========================================================================== */
 
-@define-color theme_selected_bg_color #00e676;
-@define-color theme_selected_fg_color #ffffff;
-@define-color selection_color #00e676;
-
-/* 1. LIGHTDM LOGIN GREETER CARD */
+/* 1. LIGHTDM LOGIN GREETER */
 #login_window,
 #panel_window {
     background-color: rgba(14, 3, 8, 0.93);
@@ -60,7 +55,7 @@
     box-shadow: 0 0 20px rgba(0, 230, 118, 0.45);
 }
 
-/* 2. XFCE4 SCREENSAVER LOCK DIALOG (Wake-up / Resume / Lock) */
+/* 2. XFCE4 SCREENSAVER LOCK DIALOG */
 .screensaver-dialog,
 #screensaver-dialog,
 window.screensaver-dialog,
@@ -162,16 +157,7 @@ entry#auth-prompt-entry:focus {
     color: #ffffff;
 }
 
-spinner {
-    color: #00e676;
-}
-
-progressbar progress {
-    background-color: #00e676;
-    border-color: #00e676;
-}
-
-/* 3. XFCE4 SESSION LOGOUT DIALOG (Cerrar Sesión / Apagar / Reiniciar) */
+/* 3. XFCE4 SESSION LOGOUT DIALOG */
 window#logout-dialog,
 dialog#logout-dialog,
 .xfce4-session-logout,
@@ -209,18 +195,11 @@ window#logout-dialog button:hover,
     color: #ffffff;
 }
 
-window#logout-dialog button:active,
-window#logout-dialog button:focus,
-.xfce4-session-logout button:focus {
-    border: 2px solid #00e676;
-    box-shadow: 0 0 12px rgba(0, 230, 118, 0.45);
-}
 
-/* 4. SOLID 2PX CONTINUOUS WINDOW BORDERS */
-window.ssd decoration,
-window.csd decoration,
-window.csd,
-decoration {
+/* 4. SOLID 2PX CONTINUOUS WINDOW BORDERS (Excludes tooltips) */
+window.ssd > decoration,
+window.csd > decoration,
+window.csd.background > decoration {
     border: 2px solid #00c853;
     border-radius: 6px 6px 0px 0px;
     box-shadow: 0 0 10px rgba(0, 230, 118, 0.45), 0 0 2px #00c853;
@@ -231,4 +210,15 @@ headerbar,
     border-top: 2px solid #00c853;
     border-left: 2px solid #00c853;
     border-right: 2px solid #00c853;
+}
+
+/* Safe standard tooltip styling to never inherit window border */
+tooltip,
+tooltip.background,
+.tooltip {
+    background-color: rgba(20, 22, 28, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
 }

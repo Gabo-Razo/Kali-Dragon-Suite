@@ -1,14 +1,9 @@
 
 /* ==========================================================================
-   🐉 KALI DRAGON GLASSMORPHISM SUITE - Blue EDITION
-   Unified Styling for LightDM Greeter, XFCE4 Screensaver & Logout Dialogs
+   🐉 KALI DRAGON GLASSMORPHISM LOGIN & LOCK SUITE - Blue EDITION
    ========================================================================== */
 
-@define-color theme_selected_bg_color #00b0ff;
-@define-color theme_selected_fg_color #ffffff;
-@define-color selection_color #00b0ff;
-
-/* 1. LIGHTDM LOGIN GREETER CARD */
+/* 1. LIGHTDM LOGIN GREETER */
 #login_window,
 #panel_window {
     background-color: rgba(14, 3, 8, 0.93);
@@ -60,7 +55,7 @@
     box-shadow: 0 0 20px rgba(0, 176, 255, 0.45);
 }
 
-/* 2. XFCE4 SCREENSAVER LOCK DIALOG (Wake-up / Resume / Lock) */
+/* 2. XFCE4 SCREENSAVER LOCK DIALOG */
 .screensaver-dialog,
 #screensaver-dialog,
 window.screensaver-dialog,
@@ -162,16 +157,7 @@ entry#auth-prompt-entry:focus {
     color: #ffffff;
 }
 
-spinner {
-    color: #00b0ff;
-}
-
-progressbar progress {
-    background-color: #00b0ff;
-    border-color: #00b0ff;
-}
-
-/* 3. XFCE4 SESSION LOGOUT DIALOG (Cerrar Sesión / Apagar / Reiniciar) */
+/* 3. XFCE4 SESSION LOGOUT DIALOG */
 window#logout-dialog,
 dialog#logout-dialog,
 .xfce4-session-logout,
@@ -207,28 +193,4 @@ window#logout-dialog button:hover,
     border: 2px solid #00b0ff;
     box-shadow: 0 0 16px rgba(0, 176, 255, 0.45);
     color: #ffffff;
-}
-
-window#logout-dialog button:active,
-window#logout-dialog button:focus,
-.xfce4-session-logout button:focus {
-    border: 2px solid #00b0ff;
-    box-shadow: 0 0 12px rgba(0, 176, 255, 0.45);
-}
-
-/* 4. SOLID 2PX CONTINUOUS WINDOW BORDERS */
-window.ssd decoration,
-window.csd decoration,
-window.csd,
-decoration {
-    border: 2px solid #2979ff;
-    border-radius: 6px 6px 0px 0px;
-    box-shadow: 0 0 10px rgba(0, 176, 255, 0.45), 0 0 2px #2979ff;
-}
-
-headerbar,
-.titlebar {
-    border-top: 2px solid #2979ff;
-    border-left: 2px solid #2979ff;
-    border-right: 2px solid #2979ff;
 }
