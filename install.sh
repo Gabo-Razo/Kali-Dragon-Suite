@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==============================================================================
 #  🐉 KALI DRAGON SUITE - MULTI-COLOR MODULAR MASTER INSTALLER
-#  Supports 8 Colors & Modular Component Selection (All, GRUB, Login, Desktop)
+#  Full Granular Modular Component Support & 8 Color Editions
 # ==============================================================================
 
 set -e
@@ -26,10 +26,15 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 SELECTED_COLOR=""
-INSTALL_GRUB=true
-INSTALL_PLYMOUTH=true
-INSTALL_LOGIN=true
-INSTALL_DESKTOP=true
+INSTALL_GRUB=false
+INSTALL_PLYMOUTH=false
+INSTALL_LOGIN=false
+INSTALL_BORDERS=false
+INSTALL_ANIMATOR=false
+INSTALL_WALLPAPER=false
+INSTALL_ICONS=false
+INSTALL_TERMINAL=false
+MODULAR_FLAG_PASSED=false
 
 # Parse CLI Arguments
 while [[ $# -gt 0 ]]; do
@@ -38,39 +43,71 @@ while [[ $# -gt 0 ]]; do
             SELECTED_COLOR="$2"
             shift 2
             ;;
-        --grub-only)
-            INSTALL_GRUB=true
-            INSTALL_PLYMOUTH=false
-            INSTALL_LOGIN=false
-            INSTALL_DESKTOP=false
-            shift
-            ;;
-        --login-only)
-            INSTALL_GRUB=false
-            INSTALL_PLYMOUTH=false
-            INSTALL_LOGIN=true
-            INSTALL_DESKTOP=false
-            shift
-            ;;
-        --plymouth-only)
-            INSTALL_GRUB=false
-            INSTALL_PLYMOUTH=true
-            INSTALL_LOGIN=false
-            INSTALL_DESKTOP=false
-            shift
-            ;;
-        --desktop-only)
-            INSTALL_GRUB=false
-            INSTALL_PLYMOUTH=false
-            INSTALL_LOGIN=false
-            INSTALL_DESKTOP=true
-            shift
-            ;;
         --all)
             INSTALL_GRUB=true
             INSTALL_PLYMOUTH=true
             INSTALL_LOGIN=true
-            INSTALL_DESKTOP=true
+            INSTALL_BORDERS=true
+            INSTALL_ANIMATOR=true
+            INSTALL_WALLPAPER=true
+            INSTALL_ICONS=true
+            INSTALL_TERMINAL=true
+            MODULAR_FLAG_PASSED=true
+            shift
+            ;;
+        --boot-only)
+            INSTALL_GRUB=true
+            INSTALL_PLYMOUTH=true
+            MODULAR_FLAG_PASSED=true
+            shift
+            ;;
+        --grub-only)
+            INSTALL_GRUB=true
+            MODULAR_FLAG_PASSED=true
+            shift
+            ;;
+        --plymouth-only)
+            INSTALL_PLYMOUTH=true
+            MODULAR_FLAG_PASSED=true
+            shift
+            ;;
+        --login-only)
+            INSTALL_LOGIN=true
+            MODULAR_FLAG_PASSED=true
+            shift
+            ;;
+        --animator-only)
+            INSTALL_ANIMATOR=true
+            MODULAR_FLAG_PASSED=true
+            shift
+            ;;
+        --borders-only)
+            INSTALL_BORDERS=true
+            MODULAR_FLAG_PASSED=true
+            shift
+            ;;
+        --wallpaper-only)
+            INSTALL_WALLPAPER=true
+            MODULAR_FLAG_PASSED=true
+            shift
+            ;;
+        --icons-only)
+            INSTALL_ICONS=true
+            MODULAR_FLAG_PASSED=true
+            shift
+            ;;
+        --terminal-only)
+            INSTALL_TERMINAL=true
+            MODULAR_FLAG_PASSED=true
+            shift
+            ;;
+        --desktop-only)
+            INSTALL_BORDERS=true
+            INSTALL_ANIMATOR=true
+            INSTALL_WALLPAPER=true
+            INSTALL_ICONS=true
+            INSTALL_TERMINAL=true
+            MODULAR_FLAG_PASSED=true
             shift
             ;;
         red|blue|green|yellow|purple|orange|lime|pink)
@@ -82,6 +119,18 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+# If no modular flag was passed via CLI, default to full install
+if [ "$MODULAR_FLAG_PASSED" = false ]; then
+    INSTALL_GRUB=true
+    INSTALL_PLYMOUTH=true
+    INSTALL_LOGIN=true
+    INSTALL_BORDERS=true
+    INSTALL_ANIMATOR=true
+    INSTALL_WALLPAPER=true
+    INSTALL_ICONS=true
+    INSTALL_TERMINAL=true
+fi
 
 # Interactive Color Selection if not provided
 if [ -z "$SELECTED_COLOR" ]; then
@@ -117,17 +166,25 @@ if [ -z "$SELECTED_COLOR" ]; then
     esac
 
     echo -e "\n${BOLD}¿Qué componentes deseas instalar?${NC}"
-    echo -e "  [1] 🌟 Todo completo (GRUB + Plymouth + Login + Escritorio & Dragón)"
-    echo -e "  [2] 🎛️  Solo el Menú de Arranque GRUB"
-    echo -e "  [3] 🛡️  Solo la Pantalla de Login (LightDM)"
-    echo -e "  [4] 🪟  Solo Escritorio (Bordes de Ventana y Animador del Dragón)"
+    echo -e "  [1] 🌟 Todo completo (GRUB + Plymouth + Login + Escritorio + Terminal)"
+    echo -e "  [2] 🎛️  Todo el Arranque (Menú GRUB + Animación Plymouth de carga)"
+    echo -e "  [3] 🛡️  Solo Pantalla de Login (LightDM)"
+    echo -e "  [4] 🐉  Solo Animador del Dragón (Vuelo al abrir/cerrar ventanas)"
+    echo -e "  [5] 🪟  Solo Bordes de Ventana de 2px (XFWM4 & GTK)"
+    echo -e "  [6] 🖼️  Solo Fondo de Pantalla"
+    echo -e "  [7] 🎨  Solo Iconos de Sistema y Menú del Panel"
+    echo -e "  [8] 💻  Solo Prompt y Colores de la Terminal"
     
-    read -rp "Selecciona una opción [1-4] (Enter para Todo): " comp_opt
+    read -rp "Selecciona una opción [1-8] (Enter para Todo): " comp_opt
     case "$comp_opt" in
-        2) INSTALL_GRUB=true; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_DESKTOP=false ;;
-        3) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=true; INSTALL_DESKTOP=false ;;
-        4) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_DESKTOP=true ;;
-        *) INSTALL_GRUB=true; INSTALL_PLYMOUTH=true; INSTALL_LOGIN=true; INSTALL_DESKTOP=true ;;
+        2) INSTALL_GRUB=true; INSTALL_PLYMOUTH=true; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=false; INSTALL_ICONS=false; INSTALL_TERMINAL=false ;;
+        3) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=true; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=false; INSTALL_ICONS=false; INSTALL_TERMINAL=false ;;
+        4) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=true; INSTALL_WALLPAPER=false; INSTALL_ICONS=false; INSTALL_TERMINAL=false ;;
+        5) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=true; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=false; INSTALL_ICONS=false; INSTALL_TERMINAL=false ;;
+        6) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=true; INSTALL_ICONS=false; INSTALL_TERMINAL=false ;;
+        7) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=false; INSTALL_ICONS=true; INSTALL_TERMINAL=false ;;
+        8) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=false; INSTALL_ICONS=false; INSTALL_TERMINAL=true ;;
+        *) INSTALL_GRUB=true; INSTALL_PLYMOUTH=true; INSTALL_LOGIN=true; INSTALL_BORDERS=true; INSTALL_ANIMATOR=true; INSTALL_WALLPAPER=true; INSTALL_ICONS=true; INSTALL_TERMINAL=true ;;
     esac
 fi
 
@@ -149,8 +206,7 @@ fi
 
 echo -e "\n${GREEN}${BOLD}=== Instalando Kali Dragon Suite - Edición ${CAP_COLOR} ===${NC}"
 
-# 1. Backups
-echo -e "${CYAN}[*] Comprobando respaldos de seguridad del sistema...${NC}"
+# Backups
 if [ ! -d "/boot/grub/themes/kali.pristine_backup" ] && [ -d "/boot/grub/themes/kali" ]; then
     cp -r /boot/grub/themes/kali /boot/grub/themes/kali.pristine_backup
 fi
@@ -161,7 +217,17 @@ if [ ! -f "/etc/lightdm/lightdm-gtk-greeter.conf.pristine_backup" ] && [ -f "/et
     cp /etc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf.pristine_backup
 fi
 
-# 2. GRUB
+# Detect active graphical session
+USER_PID=$(pgrep -u "$TARGET_USER" xfce4-session | head -n 1 || true)
+if [ -n "$USER_PID" ]; then
+    DBUS_ADDR=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || true)
+    USER_DISP=$(grep -z DISPLAY /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || echo ":0")
+else
+    USER_DISP=":0"
+    DBUS_ADDR=""
+fi
+
+# 1. GRUB Boot Menu
 if [ "$INSTALL_GRUB" = true ]; then
     echo -e "${CYAN}[+] Instalando Menú de Arranque GRUB (${CAP_COLOR} Frosted Glass + Selectores + 70+ Iconos)...${NC}"
     mkdir -p /boot/grub/themes/kali/icons
@@ -174,9 +240,9 @@ if [ "$INSTALL_GRUB" = true ]; then
     chmod -R 755 /boot/grub/themes/kali
 fi
 
-# 3. Plymouth & Transitions
+# 2. Plymouth & Boot Handoff
 if [ "$INSTALL_PLYMOUTH" = true ]; then
-    echo -e "${CYAN}[+] Instalando Pantalla de Carga Plymouth y fondos de traspaso (100% fondo limpio)...${NC}"
+    echo -e "${CYAN}[+] Instalando Pantalla de Carga Plymouth y fondos de traspaso limpios...${NC}"
     cp -f "$VARIANT_PATH/boot/plymouth/"* /usr/share/plymouth/themes/kali/
     mkdir -p /usr/share/desktop-base/kali-theme/{grub,login,wallpaper/contents/images}
     mkdir -p /usr/share/grub/themes/kali
@@ -189,10 +255,9 @@ if [ "$INSTALL_PLYMOUTH" = true ]; then
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/images/desktop-base/desktop-grub.png 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/transition/login-background.png" /usr/share/desktop-base/kali-theme/login/
     cp -f "$VARIANT_PATH/boot/transition/login-blurred.png" /usr/share/desktop-base/kali-theme/login/
-    cp -f "$VARIANT_PATH/assets/wallpaper_${SELECTED_COLOR}.png" /usr/share/desktop-base/kali-theme/wallpaper/contents/images/1920x1080.png 2>/dev/null || true
 fi
 
-# 4. Login (LightDM)
+# 3. Login Screen (LightDM)
 if [ "$INSTALL_LOGIN" = true ]; then
     echo -e "${CYAN}[+] Instalando Pantalla de Login (LightDM ${CAP_COLOR} Theme & Avatar)...${NC}"
     mkdir -p "/usr/share/themes/Kali-${CAP_COLOR}-Dragon-Login/gtk-3.0"
@@ -203,11 +268,9 @@ if [ "$INSTALL_LOGIN" = true ]; then
     chmod -R 755 "/usr/share/themes/Kali-${CAP_COLOR}-Dragon-Login"
 fi
 
-# 5. Desktop (XFWM4, GTK3/4 Themes, Icons, Terminal Prompt, Animator, Wallpaper)
-if [ "$INSTALL_DESKTOP" = true ]; then
-    echo -e "${CYAN}[+] Configurando Bordes de Ventana (XFWM4 & GTK), Iconos de Panel, Terminal y Animador...${NC}"
-    
-    # 5.1 Copy full GTK + XFWM4 Theme
+# 4. Window Borders (XFWM4 & GTK3/4 CSD)
+if [ "$INSTALL_BORDERS" = true ]; then
+    echo -e "${CYAN}[+] Instalando Bordes de Ventana de 2px (XFWM4 & GTK)...${NC}"
     mkdir -p "$TARGET_HOME/.themes/$THEME_NAME"
     mkdir -p "$TARGET_HOME/.local/share/themes/$THEME_NAME"
     mkdir -p "/usr/share/themes/$THEME_NAME"
@@ -216,12 +279,20 @@ if [ "$INSTALL_DESKTOP" = true ]; then
     cp -rf "$VARIANT_PATH/desktop/theme/$THEME_NAME/"* "$TARGET_HOME/.local/share/themes/$THEME_NAME/"
     cp -rf "$VARIANT_PATH/desktop/theme/$THEME_NAME/"* "/usr/share/themes/$THEME_NAME/"
     
-    # 5.2 User Config CSS
     mkdir -p "$TARGET_HOME/.config/gtk-3.0" "$TARGET_HOME/.config/gtk-4.0"
     cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-3.0.css" "$TARGET_HOME/.config/gtk-3.0/gtk.css"
     cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-4.0.css" "$TARGET_HOME/.config/gtk-4.0/gtk.css"
+    
+    if [ -n "$DBUS_ADDR" ]; then
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfwm4 -p /general/theme -s "$THEME_NAME" 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s "$THEME_NAME" 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfwm4 --replace >/dev/null 2>&1 &
+    fi
+fi
 
-    # 5.3 Animator Daemon
+# 5. Dragon Window Animator Daemon
+if [ "$INSTALL_ANIMATOR" = true ]; then
+    echo -e "${CYAN}[+] Configurando Animador del Dragón Volador...${NC}"
     mkdir -p "$TARGET_HOME/.local/share/dragon-anim" "$TARGET_HOME/.local/bin" "$TARGET_HOME/.config/autostart"
     cp -f "$SCRIPT_DIR/desktop/animator/dragon-window-animator.py" "$TARGET_HOME/.local/bin/"
     cp -f "$VARIANT_PATH/desktop/animator/dragon_sprite.png" "$TARGET_HOME/.local/share/dragon-anim/"
@@ -229,7 +300,34 @@ if [ "$INSTALL_DESKTOP" = true ]; then
     cp -f "$SCRIPT_DIR/desktop/animator/dragon-animator.desktop" "$TARGET_HOME/.config/autostart/"
     chmod +x "$TARGET_HOME/.local/bin/dragon-window-animator.py"
 
-    # 5.4 Update ZSH Prompt Colors
+    pkill -f dragon-window-animator.py 2>/dev/null || true
+    sleep 0.2
+    su - "$TARGET_USER" -c "DISPLAY=$USER_DISP nohup $TARGET_HOME/.local/bin/dragon-window-animator.py --no-fork >/dev/null 2>&1 &" 2>/dev/null || true
+fi
+
+# 6. Desktop Wallpaper
+if [ "$INSTALL_WALLPAPER" = true ]; then
+    echo -e "${CYAN}[+] Aplicando Fondo de Pantalla del Dragón 1080p...${NC}"
+    WALLPAPER_FILE="$VARIANT_PATH/assets/wallpaper_${SELECTED_COLOR}.png"
+    if [ -n "$DBUS_ADDR" ]; then
+        for prop in $(sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -l 2>/dev/null | grep "last-image" || true); do
+            sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER_FILE" 2>/dev/null || true
+        done
+    fi
+fi
+
+# 7. System & Panel Icons
+if [ "$INSTALL_ICONS" = true ]; then
+    echo -e "${CYAN}[+] Actualizando Iconos de Sistema y Menú del Panel (${ICON_THEME})...${NC}"
+    if [ -n "$DBUS_ADDR" ]; then
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON_THEME" 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfce4-panel -r >/dev/null 2>&1 &
+    fi
+fi
+
+# 8. Terminal Prompt & Colors
+if [ "$INSTALL_TERMINAL" = true ]; then
+    echo -e "${CYAN}[+] Configurando Prompt y Colores de la Terminal...${NC}"
     ZSHRC_FILE="$TARGET_HOME/.zshrc"
     if [ -f "$ZSHRC_FILE" ]; then
         case "$SELECTED_COLOR" in
@@ -248,7 +346,6 @@ if [ "$INSTALL_DESKTOP" = true ]; then
         sed -i -E "s/\)─\[%B%F\{15\}%\(6~.%-1~\/…\/%4~.%5~\)%b%F\{[0-9]+\}\]/\)─[%B%F{15}%(6~.%-1~\/…\/%4~.%5~)%b%F{$Z_HI}\]/g" "$ZSHRC_FILE" 2>/dev/null || true
     fi
 
-    # 5.5 Update QTerminal Color Scheme if exists
     QTERM_CFG="$TARGET_HOME/.config/qterminal.org/qterminal.ini"
     if [ -f "$QTERM_CFG" ]; then
         case "$SELECTED_COLOR" in
@@ -264,42 +361,11 @@ if [ "$INSTALL_DESKTOP" = true ]; then
         esac
         sed -i -E "s/ColorCursor=.*/ColorCursor=$CURSOR_HEX/g" "$QTERM_CFG" 2>/dev/null || true
     fi
-
-    chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.themes" "$TARGET_HOME/.local" "$TARGET_HOME/.config"
-
-    # 5.6 Live Desktop Session Sync
-    USER_PID=$(pgrep -u "$TARGET_USER" xfce4-session | head -n 1 || true)
-    if [ -n "$USER_PID" ]; then
-        DBUS_ADDR=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || true)
-        USER_DISP=$(grep -z DISPLAY /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || true)
-        
-        # Set Window Theme + GTK Theme + Icon Theme
-        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfwm4 -p /general/theme -s "$THEME_NAME" 2>/dev/null || true
-        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s "$THEME_NAME" 2>/dev/null || true
-        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON_THEME" 2>/dev/null || true
-        
-        # Apply Matching Wallpaper
-        WALLPAPER_FILE="$VARIANT_PATH/assets/wallpaper_${SELECTED_COLOR}.png"
-        for prop in $(sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -l 2>/dev/null | grep "last-image" || true); do
-            sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER_FILE" 2>/dev/null || true
-        done
-        
-        # Live reload window manager and panel
-        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfwm4 --replace >/dev/null 2>&1 &
-        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfce4-panel -r >/dev/null 2>&1 &
-    fi
-
-    # 5.7 Restart animator daemon cleanly with DISPLAY
-    pkill -f dragon-window-animator.py 2>/dev/null || true
-    sleep 0.2
-    if [ -n "$TARGET_USER" ]; then
-        USER_PID=$(pgrep -u "$TARGET_USER" xfce4-session | head -n 1 || true)
-        USER_DISP=$(grep -z DISPLAY /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || echo ":0")
-        su - "$TARGET_USER" -c "DISPLAY=$USER_DISP nohup $TARGET_HOME/.local/bin/dragon-window-animator.py --no-fork >/dev/null 2>&1 &" 2>/dev/null || true
-    fi
 fi
 
-# 6. Rebuild Bootloader if needed
+chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.themes" "$TARGET_HOME/.local" "$TARGET_HOME/.config" 2>/dev/null || true
+
+# Rebuild Bootloader if needed
 if [ "$INSTALL_GRUB" = true ] || [ "$INSTALL_PLYMOUTH" = true ]; then
     echo -e "${CYAN}[*] Compilando GRUB e Initramfs...${NC}"
     if [ "$INSTALL_GRUB" = true ]; then

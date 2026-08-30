@@ -7,12 +7,13 @@
 
 ![Kali Dragon Preview](assets/preview_red.png)
 
-**Una suite visual completa, modular y cinematográfica para Kali Linux.**  
-Transforma toda la experiencia visual en 8 ediciones de color: desde el menú de arranque de **GRUB** con tarjeta *frosted glass* y más de 70 iconos de distros, la animación de carga de **Plymouth**, la pantalla de **Login (LightDM)**, hasta el escritorio **XFCE** con bordes de 2px y animaciones del dragón al abrir y cerrar ventanas.
+**Una suite visual completa, 100% modular y cinematográfica para Kali Linux.**  
+Transforma toda la experiencia visual en 8 ediciones de color: desde el menú de arranque de **GRUB** con tarjeta *frosted glass* y más de 70 iconos de distros, la animación de carga de **Plymouth**, la pantalla de **Login (LightDM)**, hasta el escritorio **XFCE** con bordes de 2px, iconos de panel y animaciones del dragón volador al abrir y cerrar ventanas.
 
 [![Platform: Kali Linux](https://img.shields.io/badge/Platform-Kali%20Linux%202026.x-red?style=for-the-badge&logo=kalilinux)](https://www.kali.org/)
 [![Desktop: XFCE4 / XFWM4](https://img.shields.io/badge/Desktop-XFCE4%20%2F%20XFWM4-blue?style=for-the-badge&logo=xfce)](https://www.xfce.org/)
 [![Colors: 8 Editions](https://img.shields.io/badge/Colors-8%20Variants-purple?style=for-the-badge)](#-ediciones-de-color-disponibles)
+[![Modular: 100% Granular](https://img.shields.io/badge/Components-Modular-green?style=for-the-badge)](#-instalación-modular-por-componentes-independientes)
 [![Engine: PyQt6 Event-Driven](https://img.shields.io/badge/Engine-PyQt6%20%280%25%20CPU%29-green?style=for-the-badge&logo=python)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-crimson?style=for-the-badge)](LICENSE)
 
@@ -39,44 +40,46 @@ Transforma toda la experiencia visual en 8 ediciones de color: desde el menú de
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/TU-USUARIO/Kali-Dragon-Suite.git
+git clone https://github.com/Gabo-Razo/Kali-Dragon-Suite.git
 cd Kali-Dragon-Suite
 
-# 2. Ejecutar el menú interactivo (puedes elegir color y componentes)
+# 2. Ejecutar el menú interactivo
 sudo ./install.sh
 ```
 
 ---
 
+## 🧩 Instalación Modular (Por Componentes Independientes)
+
+Puedes instalar **únicamente la parte que tú quieras** sin alterar el resto de tu sistema:
+
+| Componente | Comando de Ejemplo | ¿Qué hace? |
+| :--- | :--- | :--- |
+| **🌟 Todo el Sistema** | `sudo ./install.sh --color red --all` | Instala GRUB, Plymouth, Login, Bordes, Dragón, Iconos y Terminal. |
+| **🎛️ Todo el Arranque** | `sudo ./install.sh --color purple --boot-only` | Instala el Menú GRUB Frosted Glass + la animación de carga de Plymouth. |
+| **🔘 Solo Menú GRUB** | `sudo ./install.sh --color green --grub-only` | Solo instala el tema de GRUB con sus 70+ iconos y selectores. |
+| **⚡ Solo Animación Carga**| `sudo ./install.sh --color blue --plymouth-only` | Solo instala el logo del dragón palpitante de Plymouth. |
+| **🛡️ Solo Pantalla de Login** | `sudo ./install.sh --color purple --login-only` | Instala la tarjeta de cristal de LightDM y el avatar del dragón. |
+| **🐉 Solo Dragón Volador** | `sudo ./install.sh --color red --animator-only` | Activa el demonio del dragón al abrir y cerrar ventanas (0% CPU). |
+| **🪟 Solo Bordes de Ventana**| `sudo ./install.sh --color lime --borders-only` | Aplica marcos sólidos de 2px a todas las ventanas (XFWM4 y GTK). |
+| **🖼️ Solo Fondo de Pantalla**| `sudo ./install.sh --color yellow --wallpaper-only` | Aplica el fondo 1080p del dragón a tu escritorio. |
+| **🎨 Solo Iconos de Panel** | `sudo ./install.sh --color orange --icons-only` | Cambia el dragón del menú del panel y los iconos del sistema. |
+| **💻 Solo Terminal** | `sudo ./install.sh --color pink --terminal-only` | Cambia el prompt de ZSH/Bash y el cursor al color elegido. |
+| **🖥️ Solo Escritorio** | `sudo ./install.sh --color green --desktop-only` | Instala Bordes + Dragón + Fondo + Iconos + Terminal (sin tocar GRUB). |
+
+---
+
 ## ⚡ Comandos Rápidos por Consola
 
-### ¿Quieres un color específico?
 ```bash
-sudo ./install.sh --color red       # 🔴 Instalar todo en Rojo
-sudo ./install.sh --color green     # 🟢 Instalar todo en Verde
-sudo ./install.sh --color blue      # 🔵 Instalar todo en Azul
-sudo ./install.sh --color purple    # 🟣 Instalar todo en Morado
-sudo ./install.sh --color yellow    # 🟡 Instalar todo en Amarillo
-sudo ./install.sh --color orange    # 🟠 Instalar todo en Naranja
-sudo ./install.sh --color lime      # 🍈 Instalar todo en Lima
-sudo ./install.sh --color pink      # 🌸 Instalar todo en Rosa
-```
-
-### ¿Solo quieres partes específicas? (Instalación Modular)
-Si no quieres cambiar todo tu sistema y prefieres solo una parte:
-
-```bash
-# Solo el menú de arranque GRUB (por ejemplo en Verde)
-sudo ./install.sh --color green --grub-only
-
-# Solo la pantalla de Login (LightDM) (por ejemplo en Morado)
-sudo ./install.sh --color purple --login-only
-
-# Solo el escritorio (Bordes de ventana de 2px y animador del dragón)
-sudo ./install.sh --color red --desktop-only
-
-# Solo la animación de carga de arranque (Plymouth)
-sudo ./install.sh --color blue --plymouth-only
+sudo ./install.sh --color red       # 🔴 Todo en Rojo
+sudo ./install.sh --color green     # 🟢 Todo en Verde
+sudo ./install.sh --color purple    # 🟣 Todo en Morado
+sudo ./install.sh --color blue      # 🔵 Todo en Azul
+sudo ./install.sh --color yellow    # 🟡 Todo en Amarillo
+sudo ./install.sh --color orange    # 🟠 Todo en Naranja
+sudo ./install.sh --color lime      # 🍈 Todo en Lima
+sudo ./install.sh --color pink      # 🌸 Todo en Rosa
 ```
 
 ---
