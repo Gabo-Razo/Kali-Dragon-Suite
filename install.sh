@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==============================================================================
 #  🐉 KALI DRAGON SUITE - 15 COLOR EDITIONS MODULAR MASTER INSTALLER
-#  Full Granular Modular Component Support & 15 Color Editions
+#  Full Granular Modular Component Support & Real-time Live Action Logging
 # ==============================================================================
 
 set -e
@@ -234,7 +234,9 @@ case "$SELECTED_COLOR" in
     *) ICON_THEME="Flat-Remix-Blue-Dark" ;;
 esac
 
-echo -e "\n${GREEN}${BOLD}=== Instalando Kali Dragon Suite - Edición ${CAP_COLOR} ===${NC}"
+echo -e "\n${GREEN}${BOLD}========================================================================${NC}"
+echo -e "${GREEN}${BOLD}       🐉  INSTALANDO KALI DRAGON SUITE - EDICIÓN ${CAP_COLOR^^}       ${NC}"
+echo -e "${GREEN}${BOLD}========================================================================${NC}\n"
 
 # Detect active graphical session and DBus
 USER_PID=$(pgrep -u "$TARGET_USER" xfce4-session | head -n 1 || true)
@@ -255,17 +257,21 @@ fi
 
 # 1. GRUB Boot Menu
 if [ "$INSTALL_GRUB" = true ]; then
-    echo -e "${CYAN}[+] Instalando Menú de Arranque GRUB (${CAP_COLOR} Frosted Glass + Selectores + 70+ Iconos)...${NC}"
+    echo -e "${CYAN}${BOLD}[+] [1/8] Instalando Menú de Arranque GRUB (${CAP_COLOR})...${NC}"
+    echo -e "    -> Creando directorios en /boot/grub/themes/kali/..."
     mkdir -p /boot/grub/themes/kali/icons
+    echo -e "    -> Desplegando fondos 16:9, 4:3, selectores neón y barras de scroll..."
     cp -f "$VARIANT_PATH/boot/grub/grub-16x9.png" /boot/grub/themes/kali/
     cp -f "$VARIANT_PATH/boot/grub/grub-4x3.png" /boot/grub/themes/kali/
     cp -f "$VARIANT_PATH/boot/grub/select_"*.png /boot/grub/themes/kali/
     cp -f "$VARIANT_PATH/boot/grub/slider_"*.png /boot/grub/themes/kali/ 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/grub/theme.txt" /boot/grub/themes/kali/
+    echo -e "    -> Instalando 70+ iconos de sistemas operativos recoloreados en ${CAP_COLOR}..."
     cp -rf "$VARIANT_PATH/boot/grub/icons/"* /boot/grub/themes/kali/icons/
     chmod -R 755 /boot/grub/themes/kali
 
     if [ -f /etc/default/grub ]; then
+        echo -e "    -> Actualizando /etc/default/grub (GRUB_THEME activado)..."
         if grep -q '^GRUB_THEME=' /etc/default/grub; then
             sed -i 's|^GRUB_THEME=.*|GRUB_THEME="/boot/grub/themes/kali/theme.txt"|g' /etc/default/grub
         elif grep -q '^#GRUB_THEME=' /etc/default/grub; then
@@ -274,12 +280,15 @@ if [ "$INSTALL_GRUB" = true ]; then
             echo 'GRUB_THEME="/boot/grub/themes/kali/theme.txt"' >> /etc/default/grub
         fi
     fi
+    echo -e "    ${GREEN}✔ Menú de arranque GRUB configurado.${NC}\n"
 fi
 
 # 2. Plymouth & Boot Handoff
 if [ "$INSTALL_PLYMOUTH" = true ]; then
-    echo -e "${CYAN}[+] Instalando Pantalla de Carga Plymouth y fondos de traspaso limpios...${NC}"
+    echo -e "${CYAN}${BOLD}[+] [2/8] Instalando Pantalla de Carga Plymouth (${CAP_COLOR})...${NC}"
+    echo -e "    -> Desplegando animación del dragón y script en /usr/share/plymouth/themes/kali/..."
     cp -f "$VARIANT_PATH/boot/plymouth/"* /usr/share/plymouth/themes/kali/
+    echo -e "    -> Configurando fondos de traspaso sin parpadeo (desktop-grub)..."
     mkdir -p /usr/share/desktop-base/kali-theme/{grub,login,lockscreen,wallpaper/contents/images}
     mkdir -p /usr/share/grub/themes/kali
     mkdir -p /usr/share/images/desktop-base
@@ -289,66 +298,72 @@ if [ "$INSTALL_PLYMOUTH" = true ]; then
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/grub/themes/kali/grub-16x9.png 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/grub/themes/kali/grub-4x3.png 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/images/desktop-base/desktop-grub.png 2>/dev/null || true
+    echo -e "    ${GREEN}✔ Animación Plymouth y traspaso configurados.${NC}\n"
 fi
 
-# 3. Login, Lock Screen (Screensaver/Suspend) & Logout Dialog (Unified Glassmorphism & Wallpaper)
+# 3. Login, Lock Screen (Screensaver/Suspend) & Logout Dialog
 if [ "$INSTALL_LOGIN" = true ]; then
-    echo -e "${CYAN}[+] Instalando Pantallas de Login (LightDM), Bloqueo (Suspend) y Cuadro de Cerrar Sesión (${CAP_COLOR})...${NC}"
+    echo -e "${CYAN}${BOLD}[+] [3/8] Configurando Login (LightDM), Bloqueo y Cuadro de Cierre (${CAP_COLOR})...${NC}"
     mkdir -p "/usr/share/themes/$LOGIN_THEME_NAME/gtk-3.0"
     mkdir -p /usr/share/desktop-base/kali-theme/{login,lockscreen}
     mkdir -p /usr/share/backgrounds/kali
     mkdir -p /var/lib/AccountsService/icons
     
     # 3.1 LightDM Theme & Greeter
+    echo -e "    -> Desplegando tema GTK para LightDM (/usr/share/themes/$LOGIN_THEME_NAME)..."
     cp -rf "$VARIANT_PATH/login/theme/$LOGIN_THEME_NAME/"* "/usr/share/themes/$LOGIN_THEME_NAME/"
+    echo -e "    -> Modificando configuración de LightDM (/etc/lightdm/lightdm-gtk-greeter.conf)..."
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" /usr/share/desktop-base/kali-theme/login/
     cp -f "$VARIANT_PATH/login/lightdm-gtk-greeter.conf" /etc/lightdm/lightdm-gtk-greeter.conf
     cp -f "$VARIANT_PATH/boot/transition/login-background.png" /usr/share/desktop-base/kali-theme/login/
     cp -f "$VARIANT_PATH/boot/transition/login-blurred.png" /usr/share/desktop-base/kali-theme/login/
     
     # 3.2 Lockscreen Wallpaper, XML & Avatar
+    echo -e "    -> Configurando wallpapers de bloqueo (Screensaver / Suspend)..."
     cp -f "$VARIANT_PATH/lockscreen/lockscreen.png" /usr/share/desktop-base/kali-theme/lockscreen/
     cp -f "$VARIANT_PATH/lockscreen/gnome-background.xml" /usr/share/desktop-base/kali-theme/lockscreen/
     cp -f "$VARIANT_PATH/lockscreen/dragon-avatar.png" /usr/share/desktop-base/kali-theme/lockscreen/
     
-    # Overwrite default backgrounds so lockscreen never bleeds generic desktop
     cp -f "$VARIANT_PATH/lockscreen/lockscreen.png" /usr/share/backgrounds/kali/kali-cubes2-16x9.jpg 2>/dev/null || true
     cp -f "$VARIANT_PATH/lockscreen/lockscreen.png" /usr/share/backgrounds/kali/kali-cubes-16x9.jpg 2>/dev/null || true
     cp -f "$VARIANT_PATH/lockscreen/gnome-background.xml" /usr/share/backgrounds/kali/kali-cubes2.xml 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/transition/login-blurred.png" /usr/share/backgrounds/kali/login-blurred 2>/dev/null || true
     
-    # User Profile Avatar in target color
+    echo -e "    -> Estableciendo avatar del dragón en AccountsService y perfil de usuario..."
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" "$TARGET_HOME/.face" 2>/dev/null || true
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" "$TARGET_HOME/.face.icon" 2>/dev/null || true
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" "/var/lib/AccountsService/icons/$TARGET_USER" 2>/dev/null || true
     chown "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.face" "$TARGET_HOME/.face.icon" 2>/dev/null || true
     
-    # Configure screensaver lock image in xfconf
     if [ -n "$DBUS_ADDR" ]; then
+        echo -e "    -> Configurando imagen de bloqueo en xfce4-screensaver..."
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-screensaver -p /screensavers/xfce-floaters/image-path -s "/usr/share/desktop-base/kali-theme/lockscreen/lockscreen.png" --create -t string 2>/dev/null || true
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-screensaver -p /lock/saver-theme -s "" --create -t string 2>/dev/null || true
     fi
     
     chmod 644 /etc/lightdm/lightdm-gtk-greeter.conf 2>/dev/null || true
     chmod -R 755 "/usr/share/themes/$LOGIN_THEME_NAME"
+    echo -e "    ${GREEN}✔ Login, Bloqueo y Logout configurados con éxito.${NC}\n"
 fi
 
 # 4. Window Borders (XFWM4 & GTK3/4 CSD)
 if [ "$INSTALL_BORDERS" = true ]; then
-    echo -e "${CYAN}[+] Instalando Bordes de Ventana de 2px (XFWM4 & GTK 100% Sólidos)...${NC}"
+    echo -e "${CYAN}${BOLD}[+] [4/8] Instalando Bordes de Ventana de 2px (XFWM4 & GTK Sólidos)...${NC}"
     mkdir -p "$TARGET_HOME/.themes/$THEME_NAME"
     mkdir -p "$TARGET_HOME/.local/share/themes/$THEME_NAME"
     mkdir -p "/usr/share/themes/$THEME_NAME"
     
+    echo -e "    -> Desplegando tema XFWM4 con PNGs 2px en ~/.themes y /usr/share/themes..."
     cp -rf "$VARIANT_PATH/desktop/theme/$THEME_NAME/"* "$TARGET_HOME/.themes/$THEME_NAME/"
     cp -rf "$VARIANT_PATH/desktop/theme/$THEME_NAME/"* "$TARGET_HOME/.local/share/themes/$THEME_NAME/"
     cp -rf "$VARIANT_PATH/desktop/theme/$THEME_NAME/"* "/usr/share/themes/$THEME_NAME/"
     
+    echo -e "    -> Configurando hojas de estilo GTK3 y GTK4 100% sólidas (#23252e)..."
     mkdir -p "$TARGET_HOME/.config/gtk-3.0" "$TARGET_HOME/.config/gtk-4.0"
     cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-3.0.css" "$TARGET_HOME/.config/gtk-3.0/gtk.css"
     cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-4.0.css" "$TARGET_HOME/.config/gtk-4.0/gtk.css"
     
-    # Flush Thunar in-memory stylesheet cache
+    echo -e "    -> Purgando caché de Thunar y recargando gestor de ventanas (xfwm4)..."
     su - "$TARGET_USER" -c 'thunar -q 2>/dev/null || true; pkill -f thunar 2>/dev/null || true' || true
 
     if [ -n "$DBUS_ADDR" ]; then
@@ -360,59 +375,75 @@ if [ "$INSTALL_BORDERS" = true ]; then
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfsettingsd --replace &
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfwm4 --replace &
     fi
+    echo -e "    ${GREEN}✔ Bordes de ventana de 2px aplicados en vivo.${NC}\n"
 fi
 
-# 5. Dragon Window Animator Daemon
+# 5. Dragon Window Animator Daemon (Systemd User Service + Autostart)
 if [ "$INSTALL_ANIMATOR" = true ]; then
-    echo -e "${CYAN}[+] Configurando Animador del Dragón Volador (60 FPS)...${NC}"
-    mkdir -p "$TARGET_HOME/.local/share/dragon-anim" "$TARGET_HOME/.local/bin" "$TARGET_HOME/.config/autostart"
+    echo -e "${CYAN}${BOLD}[+] [5/8] Configurando Animador del Dragón Volador (60 FPS)...${NC}"
+    mkdir -p "$TARGET_HOME/.local/share/dragon-anim" "$TARGET_HOME/.local/bin" "$TARGET_HOME/.config/autostart" "$TARGET_HOME/.config/systemd/user"
+    
+    echo -e "    -> Desplegando ejecutable del animador en ~/.local/bin/dragon-window-animator.py..."
     cp -f "$SCRIPT_DIR/desktop/animator/dragon-window-animator.py" "$TARGET_HOME/.local/bin/"
+    echo -e "    -> Copiando sprite proporcional 1:1 y configuración de color..."
     cp -f "$VARIANT_PATH/desktop/animator/dragon_sprite.png" "$TARGET_HOME/.local/share/dragon-anim/"
     cp -f "$VARIANT_PATH/desktop/animator/color_config.json" "$TARGET_HOME/.local/share/dragon-anim/"
     cp -f "$SCRIPT_DIR/desktop/animator/dragon-animator.desktop" "$TARGET_HOME/.config/autostart/"
+    cp -f "$SCRIPT_DIR/desktop/animator/dragon-animator.service" "$TARGET_HOME/.config/systemd/user/"
     chmod +x "$TARGET_HOME/.local/bin/dragon-window-animator.py"
 
+    echo -e "    -> Limpiando procesos antiguos e iniciando servicio persistente systemd..."
     pkill -9 -f dragon-window-animator.py 2>/dev/null || true
     rm -f /tmp/dragon-animator.pid
 
-    # Clean window opacities cleanly
     su - "$TARGET_USER" -c 'python3 -c "import subprocess, re; out=subprocess.check_output([\"xprop\", \"-root\", \"_NET_CLIENT_LIST\"], stderr=subprocess.DEVNULL).decode(); m=re.search(r\"# (.*)\", out); [subprocess.run([\"xprop\", \"-id\", str(int(x.strip(), 16)), \"-remove\", \"_NET_WM_WINDOW_OPACITY\"], stderr=subprocess.DEVNULL) for x in m.group(1).split(\",\") if x.strip()] if m else None" 2>/dev/null' || true
     sleep 0.2
-    su - "$TARGET_USER" -c "DISPLAY=$USER_DISP setsid $TARGET_HOME/.local/bin/dragon-window-animator.py >/dev/null 2>&1 &" 2>/dev/null || true
+
+    if [ -n "$DBUS_ADDR" ]; then
+        sudo -u "$TARGET_USER" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" systemctl --user daemon-reload 2>/dev/null || true
+        sudo -u "$TARGET_USER" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" systemctl --user enable --now dragon-animator.service 2>/dev/null || true
+    fi
+    echo -e "    ${GREEN}✔ Servicio del animador de ventanas activo y protegido.${NC}\n"
 fi
 
 # 6. Desktop Wallpaper
 if [ "$INSTALL_WALLPAPER" = true ]; then
-    echo -e "${CYAN}[+] Aplicando Fondo de Pantalla del Dragón 1080p...${NC}"
+    echo -e "${CYAN}${BOLD}[+] [6/8] Aplicando Fondo de Pantalla del Dragón 1080p (${CAP_COLOR})...${NC}"
     WALLPAPER_FILE="$VARIANT_PATH/assets/wallpaper_${SELECTED_COLOR}.png"
+    echo -e "    -> Estableciendo wallpaper: $WALLPAPER_FILE..."
     if [ -n "$DBUS_ADDR" ]; then
         for prop in $(sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -l 2>/dev/null | grep "last-image" || true); do
             sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER_FILE" 2>/dev/null || true
         done
     fi
+    echo -e "    ${GREEN}✔ Fondo de pantalla aplicado en todos los monitores.${NC}\n"
 fi
 
 # 7. System & Panel Icons (Matching Lock, Logout, Shutdown & Menu Dragon)
 if [ "$INSTALL_ICONS" = true ]; then
-    echo -e "${CYAN}[+] Actualizando Iconos de Sistema, Menú y Botones del Panel (${ICON_THEME})...${NC}"
+    echo -e "${CYAN}${BOLD}[+] [7/8] Actualizando Iconos de Sistema y Panel (${ICON_THEME})...${NC}"
     mkdir -p "/usr/share/icons/$ICON_THEME/apps/scalable"
     mkdir -p "$TARGET_HOME/.local/share/icons/$ICON_THEME/apps/scalable"
     
+    echo -e "    -> Copiando iconos del menú del dragón y botones de apagado/bloqueo..."
     cp -rf "$VARIANT_PATH/icons/apps/scalable/"* "/usr/share/icons/$ICON_THEME/apps/scalable/" 2>/dev/null || true
     cp -rf "$VARIANT_PATH/icons/apps/scalable/"* "$TARGET_HOME/.local/share/icons/$ICON_THEME/apps/scalable/" 2>/dev/null || true
     
+    echo -e "    -> Actualizando caché de iconos GTK..."
     gtk-update-icon-cache -f -t "/usr/share/icons/$ICON_THEME" 2>/dev/null || true
     gtk-update-icon-cache -f -t "$TARGET_HOME/.local/share/icons/$ICON_THEME" 2>/dev/null || true
     
     if [ -n "$DBUS_ADDR" ]; then
+        echo -e "    -> Recargando panel de XFCE para refrescar iconos en vivo..."
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON_THEME" 2>/dev/null || true
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfce4-panel -r 2>/dev/null || true
     fi
+    echo -e "    ${GREEN}✔ Iconos de sistema sincronizados y panel recargado.${NC}\n"
 fi
 
 # 8. Terminal Prompt & Colors
 if [ "$INSTALL_TERMINAL" = true ]; then
-    echo -e "${CYAN}[+] Configurando Prompt y Colores de la Terminal...${NC}"
+    echo -e "${CYAN}${BOLD}[+] [8/8] Configurando Prompt y Colores de la Terminal...${NC}"
     ZSHRC_FILE="$TARGET_HOME/.zshrc"
     if [ -f "$ZSHRC_FILE" ]; then
         case "$SELECTED_COLOR" in
@@ -433,6 +464,7 @@ if [ "$INSTALL_TERMINAL" = true ]; then
             silver) Z_HI="252"; Z_LO="245" ;;
             *) Z_HI="196"; Z_LO="160" ;;
         esac
+        echo -e "    -> Modificando prompt ZSH con códigos de color ANSI ($Z_HI / $Z_LO)..."
         sed -i -E "s/%F\{[0-9]+\}┌──/%F{$Z_HI}┌──/g" "$ZSHRC_FILE" 2>/dev/null || true
         sed -i -E "s/%F\{[0-9]+\}%n/%F{$Z_LO}%n/g" "$ZSHRC_FILE" 2>/dev/null || true
         sed -i -E "s/\)─\[%B%F\{15\}%\(6~.%-1~\/…\/%4~.%5~\)%b%F\{[0-9]+\}\]/\)─[%B%F{15}%(6~.%-1~\/…\/%4~.%5~)%b%F{$Z_HI}\]/g" "$ZSHRC_FILE" 2>/dev/null || true
@@ -458,20 +490,25 @@ if [ "$INSTALL_TERMINAL" = true ]; then
             silver) CURSOR_HEX="#eceff1" ;;
             *) CURSOR_HEX="#ff1744" ;;
         esac
+        echo -e "    -> Estableciendo color del cursor de la terminal ($CURSOR_HEX)..."
         sed -i -E "s/ColorCursor=.*/ColorCursor=$CURSOR_HEX/g" "$QTERM_CFG" 2>/dev/null || true
         sed -i -E "s/TerminalTransparency=.*/TerminalTransparency=0/g" "$QTERM_CFG" 2>/dev/null || true
     fi
+    echo -e "    ${GREEN}✔ Terminal y prompt configurados.${NC}\n"
 fi
 
+echo -e "${CYAN}[*] Ajustando permisos de usuario (${TARGET_USER})...${NC}"
 chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.themes" "$TARGET_HOME/.local" "$TARGET_HOME/.config" "$TARGET_HOME/.face" "$TARGET_HOME/.face.icon" 2>/dev/null || true
 
 # Rebuild Bootloader if needed
 if [ "$INSTALL_GRUB" = true ] || [ "$INSTALL_PLYMOUTH" = true ]; then
-    echo -e "${CYAN}[*] Compilando GRUB e Initramfs...${NC}"
+    echo -e "${CYAN}${BOLD}[*] Compilando imágenes de arranque del sistema...${NC}"
     if [ "$INSTALL_GRUB" = true ]; then
+        echo -e "    -> Ejecutando update-grub..."
         update-grub
     fi
     if [ "$INSTALL_PLYMOUTH" = true ]; then
+        echo -e "    -> Ejecutando plymouth-set-default-theme / update-initramfs..."
         plymouth-set-default-theme -R kali 2>/dev/null || update-initramfs -u
     fi
 fi
