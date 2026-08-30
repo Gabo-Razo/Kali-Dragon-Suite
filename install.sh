@@ -348,6 +348,8 @@ if [ "$INSTALL_ANIMATOR" = true ]; then
     chmod +x "$TARGET_HOME/.local/bin/dragon-window-animator.py"
 
     pkill -f dragon-window-animator.py 2>/dev/null || true
+    # Safety cleanup of any lingering window opacities
+    su - "$TARGET_USER" -c 'python3 -c "import subprocess, re; out=subprocess.check_output([\"xprop\", \"-root\", \"_NET_CLIENT_LIST\"], stderr=subprocess.DEVNULL).decode(); m=re.search(r\"# (.*)\", out); [subprocess.run([\"xprop\", \"-id\", str(int(x.strip(), 16)), \"-remove\", \"_NET_WM_WINDOW_OPACITY\"], stderr=subprocess.DEVNULL) for x in m.group(1).split(\",\") if x.strip()] if m else None" 2>/dev/null' || true
     sleep 0.2
     su - "$TARGET_USER" -c "DISPLAY=$USER_DISP nohup $TARGET_HOME/.local/bin/dragon-window-animator.py --no-fork >/dev/null 2>&1 &" 2>/dev/null || true
 fi

@@ -1,9 +1,98 @@
 
 /* ==========================================================================
-   🐉 KALI DRAGON GLASSMORPHISM LOGIN & LOCK SUITE - Ruby EDITION
+   🐉 KALI DRAGON SUITE - Ruby EXTENSIONS & ENHANCEMENTS
    ========================================================================== */
 
-/* 1. LIGHTDM LOGIN GREETER */
+@define-color theme_selected_bg_color #e91e63;
+@define-color theme_selected_fg_color #ffffff;
+@define-color selection_color #e91e63;
+
+/* 1. SOLID 2PX CONTINUOUS WINDOW BORDERS */
+window.ssd > decoration,
+window.csd > decoration,
+window.csd.background > decoration {
+    border: 2px solid #c2185b;
+    border-radius: 6px 6px 0px 0px;
+    box-shadow: 0 0 10px rgba(233, 30, 99, 0.45), 0 0 2px #c2185b;
+}
+
+headerbar,
+.titlebar {
+    border-top: 2px solid #c2185b;
+    border-left: 2px solid #c2185b;
+    border-right: 2px solid #c2185b;
+}
+
+/* 2. LAPTOP OSD VOLUME, BRIGHTNESS & NOTIFICATIONS */
+.osd,
+osd,
+XfceNotifyWindow,
+#XfceNotifyWindow {
+    background-color: rgba(20, 22, 28, 0.95);
+    border: 2px solid #e91e63;
+    border-radius: 10px;
+    box-shadow: 0 0 16px rgba(233, 30, 99, 0.45);
+    color: #ffffff;
+}
+
+.osd progressbar progress,
+osd progressbar progress,
+.osd levelbar block.filled {
+    background-color: #e91e63;
+    border: none;
+}
+
+.osd label,
+osd label {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* 3. MENUS & CONTEXT POPUPS (GUARANTEED OPAQUE DARK BACKGROUND) */
+menu,
+.menu,
+.context-menu,
+popover.background {
+    background-color: #1e2029;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    padding: 4px;
+}
+
+menu menuitem,
+.menu menuitem {
+    padding: 5px 12px;
+    color: #eeeeec;
+}
+
+menu menuitem:hover,
+.menu menuitem:hover {
+    background-color: #e91e63;
+    color: #ffffff;
+    border-radius: 4px;
+}
+
+menu separator,
+.menu separator {
+    background-color: rgba(255, 255, 255, 0.12);
+    min-height: 1px;
+    margin: 4px 0;
+}
+
+/* 4. TOOLTIPS */
+tooltip,
+tooltip.background,
+.tooltip {
+    background-color: rgba(20, 22, 28, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}
+
+/* 5. LIGHTDM LOGIN GREETER CARD */
 #login_window,
 #panel_window {
     background-color: rgba(14, 3, 8, 0.93);
@@ -55,7 +144,7 @@
     box-shadow: 0 0 20px rgba(233, 30, 99, 0.45);
 }
 
-/* 2. XFCE4 SCREENSAVER LOCK DIALOG (Lock / Suspend Wake-up) */
+/* 6. XFCE4 SCREENSAVER LOCK DIALOG */
 window.screensaver-dialog,
 dialog.screensaver-dialog,
 .screensaver-dialog {
@@ -165,7 +254,7 @@ entry#auth-prompt-entry:focus {
     color: #ffffff;
 }
 
-/* 3. XFCE4 SESSION LOGOUT DIALOG */
+/* 7. XFCE4 SESSION LOGOUT DIALOG */
 window#logout-dialog,
 dialog#logout-dialog,
 .xfce4-session-logout,
@@ -200,32 +289,5 @@ window#logout-dialog button:hover,
     background-color: rgba(194, 24, 91, 0.25);
     border: 2px solid #e91e63;
     box-shadow: 0 0 16px rgba(233, 30, 99, 0.45);
-    color: #ffffff;
-}
-
-
-/* 4. SOLID 2PX CONTINUOUS WINDOW BORDERS */
-window.ssd > decoration,
-window.csd > decoration,
-window.csd.background > decoration {
-    border: 2px solid #c2185b;
-    border-radius: 6px 6px 0px 0px;
-    box-shadow: 0 0 10px rgba(233, 30, 99, 0.45), 0 0 2px #c2185b;
-}
-
-headerbar,
-.titlebar {
-    border-top: 2px solid #c2185b;
-    border-left: 2px solid #c2185b;
-    border-right: 2px solid #c2185b;
-}
-
-tooltip,
-tooltip.background,
-.tooltip {
-    background-color: rgba(20, 22, 28, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     color: #ffffff;
 }
