@@ -33,7 +33,7 @@ login_template = """/* =========================================================
 @define-color selected_bg_color {primary};
 @define-color selected_fg_color {fg};
 
-/* 1. LIGHTDM LOGIN GREETER WINDOW (Glowing Glassmorphic Card) */
+/* 1. LIGHTDM LOGIN GREETER WINDOW */
 #login_window,
 #panel_window,
 window#login_window,
@@ -96,13 +96,13 @@ button.default,
 #login_window button.image-button,
 #login_window button:default,
 #login_window button:last-child {{
-    background-image: linear-gradient(135deg, {primary} 0%, {circle} 50%, {dark} 100%);
-    border: 1.5px solid {primary};
-    border-radius: 6px;
+    background-image: linear-gradient(135deg, {primary} 0%, {circle} 50%, {dark} 100%) !important;
+    border: 1.5px solid {primary} !important;
+    border-radius: 6px !important;
     color: {fg} !important;
-    font-weight: bold;
-    padding: 7px 20px;
-    box-shadow: 0 0 16px {glow};
+    font-weight: bold !important;
+    padding: 7px 20px !important;
+    box-shadow: 0 0 16px {glow} !important;
 }}
 
 #login_button label,
@@ -132,19 +132,14 @@ button.default:hover,
 #login_window button:default:hover,
 #login_window button.image-button:hover,
 #login_window button:last-child:hover {{
-    background-image: linear-gradient(135deg, #ffffff 0%, {primary} 40%, {circle} 100%);
-    box-shadow: 0 0 28px {glow};
+    background-image: linear-gradient(135deg, #ffffff 0%, {primary} 40%, {circle} 100%) !important;
+    box-shadow: 0 0 28px {glow} !important;
     color: {fg} !important;
 }}
 
 #login_button:hover label,
 button#login_button:hover label,
-button.suggested-action:hover label,
-.suggested-action:hover label,
-button:default:hover label,
-button.default:hover label,
-#login_button:hover *,
-button#login_button:hover * {{
+#login_button:hover * {{
     color: {fg} !important;
 }}
 
@@ -179,35 +174,47 @@ dialog.screensaver-dialog,
 
 .lock-dialog,
 .screensaver-dialog > box,
-dialog.screensaver-dialog > box {{
+dialog.screensaver-dialog > box,
+.screensaver-dialog #login_window,
+.screensaver-dialog #login_box,
+.screensaver-dialog #content_frame {{
     background-color: rgba(12, 14, 20, 0.94);
     border: 2px solid {primary};
     border-radius: 14px;
     box-shadow: 0 0 35px {glow}, 0 0 6px {hex};
-    padding: 20px;
+    padding: 16px;
 }}
 
-#auth-face-image {{
+#auth-face-image,
+#user_image_border image {{
     border: 2.5px solid {primary};
     border-radius: 50%;
     box-shadow: 0 0 22px {glow};
     background-color: #0c0004;
 }}
 
-/* Ensure all screensaver labels have transparent backgrounds (NO SOLID WHITE BARS) */
-#auth-prompt-label,
-label#auth-prompt-label,
+/* 4.1 NO SOLID WHITE BARS (Pure Transparent InfoBars & Labels) */
+#greeter_infobar,
+infobar#greeter_infobar,
+infobar,
+.infobar,
+infobar.info,
+infobar.warning,
+infobar.error,
+infobar.question,
+#infobar-content_area,
+#auth-prompt-box,
 #auth-status-label,
 label#auth-status-label,
-#auth-message-label,
-label#auth-message-label,
+#status-message-label,
+label#status-message-label,
+#auth-prompt-label,
+label#auth-prompt-label,
 #auth-capslock-label,
 label#auth-capslock-label,
 #auth-realname-label,
 #auth-hostname-label,
-#auth-date-time-label,
-infobar,
-.infobar {{
+#auth-date-time-label {{
     background: transparent !important;
     background-color: transparent !important;
     border: none !important;
@@ -224,8 +231,8 @@ label#auth-prompt-label {{
 
 #auth-status-label,
 label#auth-status-label,
-#auth-message-label,
-label#auth-message-label {{
+#status-message-label,
+label#status-message-label {{
     color: {primary} !important;
     font-weight: bold;
     font-size: 11pt;
@@ -248,8 +255,9 @@ label#auth-capslock-label {{
 
 #auth-prompt-entry,
 entry#auth-prompt-entry,
+#prompt_entry,
 .screensaver-dialog entry {{
-    background-color: rgba(0, 0, 0, 0.65) !important;
+    background-color: rgba(0, 0, 0, 0.70) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.20) !important;
     border-radius: 6px;
     color: #ffffff !important;
@@ -259,18 +267,21 @@ entry#auth-prompt-entry,
 
 #auth-prompt-entry:focus,
 entry#auth-prompt-entry:focus,
+#prompt_entry:focus,
 .screensaver-dialog entry:focus {{
     border: 2px solid {primary} !important;
     box-shadow: 0 0 18px {glow} !important;
 }}
 
-/* SCREENSAVER UNLOCK / CONFIRM BUTTON (Force High Contrast Text on Label) */
+/* 4.2 SCREENSAVER UNLOCK / CONFIRM BUTTON (Force High Contrast Text) */
 #auth-unlock-button,
+button#auth-unlock-button,
 #auth-action-area button.suggested-action,
 #auth-action-area button.primary,
 .screensaver-dialog button.suggested-action,
 .screensaver-dialog button:default,
 .screensaver-dialog button:last-child {{
+    background-color: {primary} !important;
     background-image: linear-gradient(135deg, {primary} 0%, {circle} 50%, {dark} 100%) !important;
     border: 1.5px solid {primary} !important;
     border-radius: 6px !important;
@@ -281,12 +292,14 @@ entry#auth-prompt-entry:focus,
 }}
 
 #auth-unlock-button label,
+button#auth-unlock-button label,
 #auth-action-area button.suggested-action label,
 #auth-action-area button.primary label,
 .screensaver-dialog button.suggested-action label,
 .screensaver-dialog button:default label,
 .screensaver-dialog button:last-child label,
 #auth-unlock-button *,
+button#auth-unlock-button *,
 #auth-action-area button.suggested-action *,
 .screensaver-dialog button.suggested-action * {{
     color: {fg} !important;
@@ -294,19 +307,20 @@ entry#auth-prompt-entry:focus,
 }}
 
 #auth-unlock-button:hover,
+button#auth-unlock-button:hover,
 #auth-action-area button.suggested-action:hover,
 .screensaver-dialog button.suggested-action:hover,
 .screensaver-dialog button:default:hover {{
+    background-color: {primary} !important;
     background-image: linear-gradient(135deg, #ffffff 0%, {primary} 40%, {circle} 100%) !important;
     box-shadow: 0 0 28px {glow} !important;
     color: {fg} !important;
 }}
 
 #auth-unlock-button:hover label,
-#auth-action-area button.suggested-action:hover label,
-.screensaver-dialog button.suggested-action:hover label,
+button#auth-unlock-button:hover label,
 #auth-unlock-button:hover *,
-#auth-action-area button.suggested-action:hover * {{
+button#auth-unlock-button:hover * {{
     color: {fg} !important;
 }}
 
@@ -419,7 +433,7 @@ for c_key, c_info in ALL_COLORS.items():
     with open(os.path.join(t_dir, "gtk.css"), "w") as f:
         f.write(content)
 
-# 2. REBUILD DESKTOP THEMES WITH HIGH-CONTRAST SELECTION AND BUTTONS
+# 2. REBUILD DESKTOP THEMES WITH AUTOCOMPLETE / SEARCH SUGGESTIONS & SELECTIONS
 with open("/usr/share/themes/Kali-Dark/gtk-3.0/gtk.css", "r") as f:
     base_gtk3 = f.read()
 
@@ -428,7 +442,7 @@ with open("/usr/share/themes/Kali-Dark/gtk-4.0/gtk.css", "r") as f:
 
 desktop_addon_template = """
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS, HIGH-CONTRAST BUTTONS & SELECTION
+   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS, HIGH-CONTRAST AUTOCOMPLETE & SELECTION
    ========================================================================== */
 
 @define-color theme_selected_bg_color {primary};
@@ -437,7 +451,7 @@ desktop_addon_template = """
 @define-color selected_bg_color {primary};
 @define-color selected_fg_color {fg};
 
-/* GLOBAL TEXT & ITEM SELECTION (Browser inputs, documents, list views) */
+/* 1. GLOBAL TEXT & ITEM SELECTION (Browser inputs, documents, list views) */
 selection,
 *:selected,
 entry:selected,
@@ -467,7 +481,41 @@ list row:selected *,
     color: {fg} !important;
 }}
 
-/* PRIMARY & SUGGESTED ACTION BUTTONS (OK / Confirm / Submit) */
+/* 2. AUTOCOMPLETE / SEARCH BOX SUGGESTIONS & INLINE COMPLETION POPOVERS */
+popover,
+popover.background,
+.popover,
+.entry-completion,
+entry completion,
+.autocomplete-popover,
+treeview.completion,
+#whiskermenu-window treeview,
+appfinder treeview {{
+    background-color: #1e2029;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}}
+
+treeview.completion:selected,
+.entry-completion:selected,
+popover menuitem:hover,
+popover menuitem:focus,
+#whiskermenu-window treeview:selected,
+appfinder treeview:selected {{
+    background-color: {primary} !important;
+    color: {fg} !important;
+}}
+
+treeview.completion:selected *,
+.entry-completion:selected *,
+popover menuitem:hover *,
+popover menuitem:focus *,
+#whiskermenu-window treeview:selected *,
+appfinder treeview:selected * {{
+    color: {fg} !important;
+}}
+
+/* 3. PRIMARY & SUGGESTED ACTION BUTTONS (OK / Confirm / Submit) */
 button.suggested-action,
 button.primary,
 button:default,
@@ -505,7 +553,7 @@ button.primary:hover * {{
     color: {fg} !important;
 }}
 
-/* LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
+/* 4. LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
 #XfceNotifyWindow,
 XfceNotifyWindow,
 .xfce4-notifyd,
@@ -546,7 +594,7 @@ osd {{
     border: none;
 }}
 
-/* SOLID DARK MENUS & CONTEXT POPUPS */
+/* 5. SOLID DARK MENUS & CONTEXT POPUPS */
 menu,
 .menu,
 .context-menu,
@@ -577,7 +625,7 @@ menu menuitem:hover * {{
     color: {fg} !important;
 }}
 
-/* SOLID DARK LOGOUT / POWER OFF DIALOG */
+/* 6. SOLID DARK LOGOUT / POWER OFF DIALOG */
 window#logout-dialog,
 dialog#logout-dialog,
 .xfce4-session-logout,
@@ -676,4 +724,4 @@ for c_key, c_info in ALL_COLORS.items():
     with open(os.path.join(gtk4_dir, "gtk-dark.css"), "w") as f:
         f.write(full_4)
 
-print("SUCCESS: Perfectly harmonized all 15 login, screensaver, and desktop themes with high-contrast text and zero white bars!")
+print("SUCCESS: 100% harmonized all 15 login, screensaver, autocomplete and desktop themes!")

@@ -8,7 +8,7 @@
 @define-color selected_bg_color #d500f9;
 @define-color selected_fg_color #ffffff;
 
-/* 1. LIGHTDM LOGIN GREETER WINDOW (Glowing Glassmorphic Card) */
+/* 1. LIGHTDM LOGIN GREETER WINDOW */
 #login_window,
 #panel_window,
 window#login_window,
@@ -71,13 +71,13 @@ button.default,
 #login_window button.image-button,
 #login_window button:default,
 #login_window button:last-child {
-    background-image: linear-gradient(135deg, #d500f9 0%, #aa00ff 50%, #6a0080 100%);
-    border: 1.5px solid #d500f9;
-    border-radius: 6px;
+    background-image: linear-gradient(135deg, #d500f9 0%, #aa00ff 50%, #6a0080 100%) !important;
+    border: 1.5px solid #d500f9 !important;
+    border-radius: 6px !important;
     color: #ffffff !important;
-    font-weight: bold;
-    padding: 7px 20px;
-    box-shadow: 0 0 16px rgba(213, 0, 249, 0.50);
+    font-weight: bold !important;
+    padding: 7px 20px !important;
+    box-shadow: 0 0 16px rgba(213, 0, 249, 0.50) !important;
 }
 
 #login_button label,
@@ -107,19 +107,14 @@ button.default:hover,
 #login_window button:default:hover,
 #login_window button.image-button:hover,
 #login_window button:last-child:hover {
-    background-image: linear-gradient(135deg, #ffffff 0%, #d500f9 40%, #aa00ff 100%);
-    box-shadow: 0 0 28px rgba(213, 0, 249, 0.50);
+    background-image: linear-gradient(135deg, #ffffff 0%, #d500f9 40%, #aa00ff 100%) !important;
+    box-shadow: 0 0 28px rgba(213, 0, 249, 0.50) !important;
     color: #ffffff !important;
 }
 
 #login_button:hover label,
 button#login_button:hover label,
-button.suggested-action:hover label,
-.suggested-action:hover label,
-button:default:hover label,
-button.default:hover label,
-#login_button:hover *,
-button#login_button:hover * {
+#login_button:hover * {
     color: #ffffff !important;
 }
 
@@ -154,35 +149,47 @@ dialog.screensaver-dialog,
 
 .lock-dialog,
 .screensaver-dialog > box,
-dialog.screensaver-dialog > box {
+dialog.screensaver-dialog > box,
+.screensaver-dialog #login_window,
+.screensaver-dialog #login_box,
+.screensaver-dialog #content_frame {
     background-color: rgba(12, 14, 20, 0.94);
     border: 2px solid #d500f9;
     border-radius: 14px;
     box-shadow: 0 0 35px rgba(213, 0, 249, 0.50), 0 0 6px #aa00ff;
-    padding: 20px;
+    padding: 16px;
 }
 
-#auth-face-image {
+#auth-face-image,
+#user_image_border image {
     border: 2.5px solid #d500f9;
     border-radius: 50%;
     box-shadow: 0 0 22px rgba(213, 0, 249, 0.50);
     background-color: #0c0004;
 }
 
-/* Ensure all screensaver labels have transparent backgrounds (NO SOLID WHITE BARS) */
-#auth-prompt-label,
-label#auth-prompt-label,
+/* 4.1 NO SOLID WHITE BARS (Pure Transparent InfoBars & Labels) */
+#greeter_infobar,
+infobar#greeter_infobar,
+infobar,
+.infobar,
+infobar.info,
+infobar.warning,
+infobar.error,
+infobar.question,
+#infobar-content_area,
+#auth-prompt-box,
 #auth-status-label,
 label#auth-status-label,
-#auth-message-label,
-label#auth-message-label,
+#status-message-label,
+label#status-message-label,
+#auth-prompt-label,
+label#auth-prompt-label,
 #auth-capslock-label,
 label#auth-capslock-label,
 #auth-realname-label,
 #auth-hostname-label,
-#auth-date-time-label,
-infobar,
-.infobar {
+#auth-date-time-label {
     background: transparent !important;
     background-color: transparent !important;
     border: none !important;
@@ -199,8 +206,8 @@ label#auth-prompt-label {
 
 #auth-status-label,
 label#auth-status-label,
-#auth-message-label,
-label#auth-message-label {
+#status-message-label,
+label#status-message-label {
     color: #d500f9 !important;
     font-weight: bold;
     font-size: 11pt;
@@ -223,8 +230,9 @@ label#auth-capslock-label {
 
 #auth-prompt-entry,
 entry#auth-prompt-entry,
+#prompt_entry,
 .screensaver-dialog entry {
-    background-color: rgba(0, 0, 0, 0.65) !important;
+    background-color: rgba(0, 0, 0, 0.70) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.20) !important;
     border-radius: 6px;
     color: #ffffff !important;
@@ -234,18 +242,21 @@ entry#auth-prompt-entry,
 
 #auth-prompt-entry:focus,
 entry#auth-prompt-entry:focus,
+#prompt_entry:focus,
 .screensaver-dialog entry:focus {
     border: 2px solid #d500f9 !important;
     box-shadow: 0 0 18px rgba(213, 0, 249, 0.50) !important;
 }
 
-/* SCREENSAVER UNLOCK / CONFIRM BUTTON (Force High Contrast Text on Label) */
+/* 4.2 SCREENSAVER UNLOCK / CONFIRM BUTTON (Force High Contrast Text) */
 #auth-unlock-button,
+button#auth-unlock-button,
 #auth-action-area button.suggested-action,
 #auth-action-area button.primary,
 .screensaver-dialog button.suggested-action,
 .screensaver-dialog button:default,
 .screensaver-dialog button:last-child {
+    background-color: #d500f9 !important;
     background-image: linear-gradient(135deg, #d500f9 0%, #aa00ff 50%, #6a0080 100%) !important;
     border: 1.5px solid #d500f9 !important;
     border-radius: 6px !important;
@@ -256,12 +267,14 @@ entry#auth-prompt-entry:focus,
 }
 
 #auth-unlock-button label,
+button#auth-unlock-button label,
 #auth-action-area button.suggested-action label,
 #auth-action-area button.primary label,
 .screensaver-dialog button.suggested-action label,
 .screensaver-dialog button:default label,
 .screensaver-dialog button:last-child label,
 #auth-unlock-button *,
+button#auth-unlock-button *,
 #auth-action-area button.suggested-action *,
 .screensaver-dialog button.suggested-action * {
     color: #ffffff !important;
@@ -269,19 +282,20 @@ entry#auth-prompt-entry:focus,
 }
 
 #auth-unlock-button:hover,
+button#auth-unlock-button:hover,
 #auth-action-area button.suggested-action:hover,
 .screensaver-dialog button.suggested-action:hover,
 .screensaver-dialog button:default:hover {
+    background-color: #d500f9 !important;
     background-image: linear-gradient(135deg, #ffffff 0%, #d500f9 40%, #aa00ff 100%) !important;
     box-shadow: 0 0 28px rgba(213, 0, 249, 0.50) !important;
     color: #ffffff !important;
 }
 
 #auth-unlock-button:hover label,
-#auth-action-area button.suggested-action:hover label,
-.screensaver-dialog button.suggested-action:hover label,
+button#auth-unlock-button:hover label,
 #auth-unlock-button:hover *,
-#auth-action-area button.suggested-action:hover * {
+button#auth-unlock-button:hover * {
     color: #ffffff !important;
 }
 

@@ -7177,7 +7177,7 @@ flowboxchild:selected image {
 
 
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS, HIGH-CONTRAST BUTTONS & SELECTION
+   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS, HIGH-CONTRAST AUTOCOMPLETE & SELECTION
    ========================================================================== */
 
 @define-color theme_selected_bg_color #76ff03;
@@ -7186,7 +7186,7 @@ flowboxchild:selected image {
 @define-color selected_bg_color #76ff03;
 @define-color selected_fg_color #121317;
 
-/* GLOBAL TEXT & ITEM SELECTION (Browser inputs, documents, list views) */
+/* 1. GLOBAL TEXT & ITEM SELECTION (Browser inputs, documents, list views) */
 selection,
 *:selected,
 entry:selected,
@@ -7216,7 +7216,41 @@ list row:selected *,
     color: #121317 !important;
 }
 
-/* PRIMARY & SUGGESTED ACTION BUTTONS (OK / Confirm / Submit) */
+/* 2. AUTOCOMPLETE / SEARCH BOX SUGGESTIONS & INLINE COMPLETION POPOVERS */
+popover,
+popover.background,
+.popover,
+.entry-completion,
+entry completion,
+.autocomplete-popover,
+treeview.completion,
+#whiskermenu-window treeview,
+appfinder treeview {
+    background-color: #1e2029;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+treeview.completion:selected,
+.entry-completion:selected,
+popover menuitem:hover,
+popover menuitem:focus,
+#whiskermenu-window treeview:selected,
+appfinder treeview:selected {
+    background-color: #76ff03 !important;
+    color: #121317 !important;
+}
+
+treeview.completion:selected *,
+.entry-completion:selected *,
+popover menuitem:hover *,
+popover menuitem:focus *,
+#whiskermenu-window treeview:selected *,
+appfinder treeview:selected * {
+    color: #121317 !important;
+}
+
+/* 3. PRIMARY & SUGGESTED ACTION BUTTONS (OK / Confirm / Submit) */
 button.suggested-action,
 button.primary,
 button:default,
@@ -7254,7 +7288,7 @@ button.primary:hover * {
     color: #121317 !important;
 }
 
-/* LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
+/* 4. LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
 #XfceNotifyWindow,
 XfceNotifyWindow,
 .xfce4-notifyd,
@@ -7295,7 +7329,7 @@ osd {
     border: none;
 }
 
-/* SOLID DARK MENUS & CONTEXT POPUPS */
+/* 5. SOLID DARK MENUS & CONTEXT POPUPS */
 menu,
 .menu,
 .context-menu,
@@ -7326,7 +7360,7 @@ menu menuitem:hover * {
     color: #121317 !important;
 }
 
-/* SOLID DARK LOGOUT / POWER OFF DIALOG */
+/* 6. SOLID DARK LOGOUT / POWER OFF DIALOG */
 window#logout-dialog,
 dialog#logout-dialog,
 .xfce4-session-logout,
