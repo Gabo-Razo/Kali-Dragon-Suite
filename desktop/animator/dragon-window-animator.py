@@ -162,6 +162,17 @@ def enforce_window_geometry(wid, target_w, target_h, pos_x, pos_y):
         pass
 
 class DragonOverlay(QWidget):
+
+    def safety_restore_opacity(self, wid):
+        # Guaranteed fallback to ensure window never stays invisible
+        QTimer.singleShot(600, lambda: self.force_full_opacity(wid))
+
+    def force_full_opacity(self, wid):
+        try:
+            subprocess.run(["xprop", "-id", str(wid), "-f", "_NET_WM_WINDOW_OPACITY", "32c", "-set", "_NET_WM_WINDOW_OPACITY", "0xffffffff"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=0.2)
+        except Exception:
+            pass
+
     def __init__(self):
         super().__init__()
         self.setWindowFlags(

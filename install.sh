@@ -141,6 +141,11 @@ fi
 
 CAP_COLOR="$(tr '[:lower:]' '[:upper:]' <<< ${SELECTED_COLOR:0:1})${SELECTED_COLOR:1}"
 THEME_NAME="Kali-${CAP_COLOR}-Dark-Borders"
+ICON_THEME="Flat-Remix-${CAP_COLOR}-Dark"
+
+if [ "$SELECTED_COLOR" == "lime" ]; then
+    ICON_THEME="Flat-Remix-Green-Dark"
+fi
 
 echo -e "\n${GREEN}${BOLD}=== Instalando Kali Dragon Suite - Edición ${CAP_COLOR} ===${NC}"
 
@@ -198,9 +203,9 @@ if [ "$INSTALL_LOGIN" = true ]; then
     chmod -R 755 "/usr/share/themes/Kali-${CAP_COLOR}-Dragon-Login"
 fi
 
-# 5. Desktop (XFWM4, GTK3/4 Themes, CSS, Animator, Wallpaper)
+# 5. Desktop (XFWM4, GTK3/4 Themes, Icons, Terminal Prompt, Animator, Wallpaper)
 if [ "$INSTALL_DESKTOP" = true ]; then
-    echo -e "${CYAN}[+] Configurando Bordes de Ventana (XFWM4 & GTK), Animador y Fondo de Escritorio...${NC}"
+    echo -e "${CYAN}[+] Configurando Bordes de Ventana (XFWM4 & GTK), Iconos de Panel, Terminal y Animador...${NC}"
     
     # 5.1 Copy full GTK + XFWM4 Theme
     mkdir -p "$TARGET_HOME/.themes/$THEME_NAME"
@@ -224,9 +229,45 @@ if [ "$INSTALL_DESKTOP" = true ]; then
     cp -f "$SCRIPT_DIR/desktop/animator/dragon-animator.desktop" "$TARGET_HOME/.config/autostart/"
     chmod +x "$TARGET_HOME/.local/bin/dragon-window-animator.py"
 
+    # 5.4 Update ZSH Prompt Colors
+    ZSHRC_FILE="$TARGET_HOME/.zshrc"
+    if [ -f "$ZSHRC_FILE" ]; then
+        case "$SELECTED_COLOR" in
+            red) Z_HI="196"; Z_LO="160" ;;
+            purple) Z_HI="165"; Z_LO="135" ;;
+            green) Z_HI="46"; Z_LO="34" ;;
+            blue) Z_HI="39"; Z_LO="27" ;;
+            yellow) Z_HI="226"; Z_LO="214" ;;
+            orange) Z_HI="208"; Z_LO="202" ;;
+            lime) Z_HI="118"; Z_LO="112" ;;
+            pink) Z_HI="207"; Z_LO="198" ;;
+            *) Z_HI="196"; Z_LO="160" ;;
+        esac
+        sed -i -E "s/%F\{[0-9]+\}┌──/%F{$Z_HI}┌──/g" "$ZSHRC_FILE" 2>/dev/null || true
+        sed -i -E "s/%F\{[0-9]+\}%n/%F{$Z_LO}%n/g" "$ZSHRC_FILE" 2>/dev/null || true
+        sed -i -E "s/\)─\[%B%F\{15\}%\(6~.%-1~\/…\/%4~.%5~\)%b%F\{[0-9]+\}\]/\)─[%B%F{15}%(6~.%-1~\/…\/%4~.%5~)%b%F{$Z_HI}\]/g" "$ZSHRC_FILE" 2>/dev/null || true
+    fi
+
+    # 5.5 Update QTerminal Color Scheme if exists
+    QTERM_CFG="$TARGET_HOME/.config/qterminal.org/qterminal.ini"
+    if [ -f "$QTERM_CFG" ]; then
+        case "$SELECTED_COLOR" in
+            red) CURSOR_HEX="#ff1744" ;;
+            purple) CURSOR_HEX="#d500f9" ;;
+            green) CURSOR_HEX="#00e676" ;;
+            blue) CURSOR_HEX="#00b0ff" ;;
+            yellow) CURSOR_HEX="#ffd600" ;;
+            orange) CURSOR_HEX="#ff6d00" ;;
+            lime) CURSOR_HEX="#76ff03" ;;
+            pink) CURSOR_HEX="#ff4081" ;;
+            *) CURSOR_HEX="#ff1744" ;;
+        esac
+        sed -i -E "s/ColorCursor=.*/ColorCursor=$CURSOR_HEX/g" "$QTERM_CFG" 2>/dev/null || true
+    fi
+
     chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.themes" "$TARGET_HOME/.local" "$TARGET_HOME/.config"
 
-    # 5.4 Live Desktop Session Sync
+    # 5.6 Live Desktop Session Sync
     USER_PID=$(pgrep -u "$TARGET_USER" xfce4-session | head -n 1 || true)
     if [ -n "$USER_PID" ]; then
         DBUS_ADDR=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || true)
@@ -235,6 +276,7 @@ if [ "$INSTALL_DESKTOP" = true ]; then
         # Set Window Theme + GTK Theme + Icon Theme
         sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfwm4 -p /general/theme -s "$THEME_NAME" 2>/dev/null || true
         sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s "$THEME_NAME" 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON_THEME" 2>/dev/null || true
         
         # Apply Matching Wallpaper
         WALLPAPER_FILE="$VARIANT_PATH/assets/wallpaper_${SELECTED_COLOR}.png"
@@ -242,14 +284,18 @@ if [ "$INSTALL_DESKTOP" = true ]; then
             sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfce4-desktop -p "$prop" -s "$WALLPAPER_FILE" 2>/dev/null || true
         done
         
-        # Live reload window manager
+        # Live reload window manager and panel
         sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfwm4 --replace >/dev/null 2>&1 &
+        sudo -u "$TARGET_USER" DISPLAY="${USER_DISP:-:0}" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfce4-panel -r >/dev/null 2>&1 &
     fi
 
-    # Restart animator daemon
+    # 5.7 Restart animator daemon cleanly with DISPLAY
     pkill -f dragon-window-animator.py 2>/dev/null || true
+    sleep 0.2
     if [ -n "$TARGET_USER" ]; then
-        su - "$TARGET_USER" -c "DISPLAY=${DISPLAY:-:0.0} XAUTHORITY=${XAUTHORITY:-$TARGET_HOME/.Xauthority} nohup $TARGET_HOME/.local/bin/dragon-window-animator.py --no-fork >/dev/null 2>&1 &" 2>/dev/null || true
+        USER_PID=$(pgrep -u "$TARGET_USER" xfce4-session | head -n 1 || true)
+        USER_DISP=$(grep -z DISPLAY /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || echo ":0")
+        su - "$TARGET_USER" -c "DISPLAY=$USER_DISP nohup $TARGET_HOME/.local/bin/dragon-window-animator.py --no-fork >/dev/null 2>&1 &" 2>/dev/null || true
     fi
 fi
 

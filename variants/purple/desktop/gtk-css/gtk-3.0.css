@@ -4,15 +4,14 @@ window.ssd decoration,
 window.csd decoration,
 window.csd,
 decoration {
-    border: 2px solid #aa00ff !important;
-    border-radius: 6px 6px 0px 0px !important;
-    box-shadow: 0 0 10px #d500f940, 0 0 2px #aa00ff !important;
+    border: 2px solid #aa00ff;
+    border-radius: 6px 6px 0px 0px;
+    box-shadow: 0 0 10px rgba(213, 0, 249, 0.4), 0 0 2px #aa00ff;
 }
 
-/* Headerbar border matching */
 headerbar,
 .titlebar {
-    border-top: 2px solid #aa00ff !important;
-    border-left: 2px solid #aa00ff !important;
-    border-right: 2px solid #aa00ff !important;
+    border-top: 2px solid #aa00ff;
+    border-left: 2px solid #aa00ff;
+    border-right: 2px solid #aa00ff;
 }
