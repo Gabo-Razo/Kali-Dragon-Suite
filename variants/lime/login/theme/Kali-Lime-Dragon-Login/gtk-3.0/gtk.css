@@ -8,7 +8,7 @@
 @define-color selected_bg_color #76ff03;
 @define-color selected_fg_color #121317;
 
-/* 1. LIGHTDM LOGIN GREETER WINDOW */
+/* 1. LIGHTDM LOGIN GREETER WINDOW (Card + Border) */
 #login_window,
 #panel_window,
 window#login_window,
@@ -16,14 +16,14 @@ window#panel_window {
     background-color: rgba(18, 20, 26, 0.94);
     border: 2px solid #76ff03;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(118, 255, 3, 0.50), 0 0 4px #64dd17;
+    box-shadow: 0 0 30px rgba(118, 255, 3, 0.55), 0 0 4px #64dd17;
 }
 
 #user_image,
 image#user_image {
     border: 2px solid #76ff03;
     border-radius: 50%;
-    box-shadow: 0 0 18px rgba(118, 255, 3, 0.50);
+    box-shadow: 0 0 18px rgba(118, 255, 3, 0.55);
     background-color: #12141a;
 }
 
@@ -35,12 +35,13 @@ label#message_label,
 label#user_label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 8px rgba(118, 255, 3, 0.50);
+    text-shadow: 0 0 8px rgba(118, 255, 3, 0.55);
 }
 
 #entry,
 entry#entry,
-#login_window entry {
+#login_window entry,
+#user_combobox entry {
     background-color: rgba(0, 0, 0, 0.65);
     border: 1.5px solid rgba(255, 255, 255, 0.20);
     border-radius: 6px;
@@ -53,17 +54,16 @@ entry#entry,
 entry#entry:focus,
 #login_window entry:focus {
     border: 2px solid #76ff03;
-    box-shadow: 0 0 16px rgba(118, 255, 3, 0.50);
+    box-shadow: 0 0 16px rgba(118, 255, 3, 0.55);
 }
 
-/* 2. UNIVERSAL LIGHTDM CONFIRM / SUBMIT BUTTON (Zero Blue Override) */
+/* 2. UNIVERSAL PRIMARY LOGIN / CONFIRM / SUBMIT BUTTON (Vivid Theme Color + High Contrast Text) */
 #login_button,
 button#login_button,
 button.suggested-action,
 .suggested-action,
 button:default,
 button.default,
-#panel_window button.suggested-action,
 #login_window button.suggested-action,
 #login_window button.image-button,
 #login_window button:default,
@@ -72,10 +72,21 @@ button.default,
     background-image: none;
     border: 1.5px solid #76ff03;
     border-radius: 6px;
-    color: #121317;
+    color: #121317 !important;
     font-weight: bold;
-    padding: 7px 18px;
-    box-shadow: 0 0 14px rgba(118, 255, 3, 0.50);
+    padding: 7px 20px;
+    box-shadow: 0 0 16px rgba(118, 255, 3, 0.55);
+}
+
+#login_button *,
+button#login_button *,
+button.suggested-action *,
+.suggested-action *,
+button:default *,
+button.default *,
+#login_window button.suggested-action *,
+#login_window button:default * {
+    color: #121317 !important;
 }
 
 #login_button:hover,
@@ -91,8 +102,8 @@ button.default:hover,
     background-color: #b2ff59;
     background-image: none;
     border: 1.5px solid #76ff03;
-    box-shadow: 0 0 22px rgba(118, 255, 3, 0.50);
-    color: #121317;
+    box-shadow: 0 0 24px rgba(118, 255, 3, 0.55);
+    color: #121317 !important;
 }
 
 /* 3. LIGHTDM TOP PANEL & INDICATORS */
@@ -104,8 +115,12 @@ button.default:hover,
 
 #panel_window menuitem:hover {
     background-color: #76ff03;
-    color: #121317;
+    color: #121317 !important;
     border-radius: 4px;
+}
+
+#panel_window menuitem:hover * {
+    color: #121317 !important;
 }
 
 /* 4. XFCE4 SCREENSAVER LOCK DIALOG (Lock / Suspend Wake-up) */
@@ -125,14 +140,14 @@ dialog.screensaver-dialog > box {
     background-color: rgba(18, 20, 26, 0.95);
     border: 2px solid #76ff03;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(118, 255, 3, 0.50), 0 0 4px #64dd17;
+    box-shadow: 0 0 30px rgba(118, 255, 3, 0.55), 0 0 4px #64dd17;
     padding: 20px;
 }
 
 #auth-face-image {
     border: 2px solid #76ff03;
     border-radius: 50%;
-    box-shadow: 0 0 18px rgba(118, 255, 3, 0.50);
+    box-shadow: 0 0 18px rgba(118, 255, 3, 0.55);
     background-color: #12141a;
 }
 
@@ -141,7 +156,7 @@ label#auth-prompt-label {
     color: #ffffff;
     font-weight: bold;
     font-size: 11pt;
-    text-shadow: 0 0 6px rgba(118, 255, 3, 0.50);
+    text-shadow: 0 0 6px rgba(118, 255, 3, 0.55);
 }
 
 #auth-status-label,
@@ -149,7 +164,7 @@ label#auth-status-label {
     color: #76ff03;
     font-weight: bold;
     font-size: 11pt;
-    text-shadow: 0 0 10px rgba(118, 255, 3, 0.50);
+    text-shadow: 0 0 10px rgba(118, 255, 3, 0.55);
 }
 
 #auth-capslock-label,
@@ -163,7 +178,7 @@ label#auth-capslock-label {
 #auth-date-time-label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 8px rgba(118, 255, 3, 0.50);
+    text-shadow: 0 0 8px rgba(118, 255, 3, 0.55);
 }
 
 #auth-prompt-entry,
@@ -179,19 +194,25 @@ entry#auth-prompt-entry {
 #auth-prompt-entry:focus,
 entry#auth-prompt-entry:focus {
     border: 2px solid #76ff03;
-    box-shadow: 0 0 16px rgba(118, 255, 3, 0.50);
+    box-shadow: 0 0 16px rgba(118, 255, 3, 0.55);
 }
 
 #auth-unlock-button,
-#auth-action-area button.suggested-action {
+#auth-action-area button.suggested-action,
+#auth-action-area button.primary {
     background-color: #76ff03;
     background-image: none;
     border: 1.5px solid #76ff03;
     border-radius: 6px;
-    color: #121317;
+    color: #121317 !important;
     font-weight: bold;
     padding: 7px 18px;
-    box-shadow: 0 0 14px rgba(118, 255, 3, 0.50);
+    box-shadow: 0 0 16px rgba(118, 255, 3, 0.55);
+}
+
+#auth-unlock-button *,
+#auth-action-area button.suggested-action * {
+    color: #121317 !important;
 }
 
 #auth-unlock-button:hover,
@@ -199,8 +220,8 @@ entry#auth-prompt-entry:focus {
     background-color: #b2ff59;
     background-image: none;
     border: 1.5px solid #76ff03;
-    box-shadow: 0 0 22px rgba(118, 255, 3, 0.50);
-    color: #121317;
+    box-shadow: 0 0 24px rgba(118, 255, 3, 0.55);
+    color: #121317 !important;
 }
 
 #auth-cancel-button,
@@ -218,7 +239,7 @@ entry#auth-prompt-entry:focus {
 #auth-switch-button:hover {
     background-color: rgba(118, 255, 3, 0.30);
     border: 2px solid #76ff03;
-    box-shadow: 0 0 14px rgba(118, 255, 3, 0.50);
+    box-shadow: 0 0 14px rgba(118, 255, 3, 0.55);
     color: #ffffff;
 }
 
@@ -230,7 +251,7 @@ window.xfce4-session-logout {
     background-color: #1a1c23;
     border: 2px solid #76ff03;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(118, 255, 3, 0.50), 0 0 4px #64dd17;
+    box-shadow: 0 0 30px rgba(118, 255, 3, 0.55), 0 0 4px #64dd17;
     padding: 16px;
 }
 
@@ -238,7 +259,7 @@ window#logout-dialog label,
 .xfce4-session-logout label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 6px rgba(118, 255, 3, 0.50);
+    text-shadow: 0 0 6px rgba(118, 255, 3, 0.55);
 }
 
 window#logout-dialog button,
@@ -254,8 +275,13 @@ window#logout-dialog button,
 
 window#logout-dialog button:hover,
 .xfce4-session-logout button:hover {
-    background-color: rgba(118, 255, 3, 0.35);
+    background-color: #76ff03;
     border: 2px solid #76ff03;
-    box-shadow: 0 0 16px rgba(118, 255, 3, 0.50);
-    color: #ffffff;
+    box-shadow: 0 0 18px rgba(118, 255, 3, 0.55);
+    color: #121317 !important;
+}
+
+window#logout-dialog button:hover *,
+.xfce4-session-logout button:hover * {
+    color: #121317 !important;
 }

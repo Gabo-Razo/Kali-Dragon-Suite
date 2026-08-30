@@ -7177,8 +7177,32 @@ flowboxchild:selected image {
 
 
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS & LOGOUT DIALOG
+   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS, BUTTONS & LOGOUT DIALOG
    ========================================================================== */
+
+/* HIGH-CONTRAST PRIMARY BUTTONS (SUGGESTED / CONFIRM / OK) */
+button.suggested-action,
+button.primary,
+button.destructive-action {
+    background-color: #eceff1;
+    background-image: none;
+    border: 1px solid #eceff1;
+    color: #121317 !important;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(236, 239, 241, 0.55);
+}
+
+button.suggested-action *,
+button.primary * {
+    color: #121317 !important;
+}
+
+button.suggested-action:hover,
+button.primary:hover {
+    background-color: #ffffff;
+    color: #121317 !important;
+    box-shadow: 0 0 16px rgba(236, 239, 241, 0.55);
+}
 
 /* LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
 #XfceNotifyWindow,
@@ -7190,7 +7214,7 @@ osd {
     background-color: #1e2029;
     border: 2px solid #eceff1;
     border-radius: 10px;
-    box-shadow: 0 0 16px rgba(236, 239, 241, 0.45);
+    box-shadow: 0 0 16px rgba(236, 239, 241, 0.55);
     color: #ffffff;
     padding: 10px 14px;
 }
@@ -7200,7 +7224,7 @@ osd {
 .osd label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 6px rgba(236, 239, 241, 0.45);
+    text-shadow: 0 0 6px rgba(236, 239, 241, 0.55);
 }
 
 #XfceNotifyWindow progressbar,
@@ -7243,8 +7267,12 @@ menu menuitem,
 menu menuitem:hover,
 .menu menuitem:hover {
     background-color: #eceff1;
-    color: #ffffff;
+    color: #121317 !important;
     border-radius: 4px;
+}
+
+menu menuitem:hover * {
+    color: #121317 !important;
 }
 
 /* SOLID DARK LOGOUT / POWER OFF DIALOG */
@@ -7255,7 +7283,7 @@ window.xfce4-session-logout {
     background-color: #1a1c23;
     border: 2px solid #eceff1;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(236, 239, 241, 0.45), 0 0 4px #cfd8dc;
+    box-shadow: 0 0 30px rgba(236, 239, 241, 0.55), 0 0 4px #cfd8dc;
     padding: 16px;
 }
 
@@ -7263,7 +7291,7 @@ window#logout-dialog label,
 .xfce4-session-logout label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 6px rgba(236, 239, 241, 0.45);
+    text-shadow: 0 0 6px rgba(236, 239, 241, 0.55);
 }
 
 window#logout-dialog button,
@@ -7279,8 +7307,13 @@ window#logout-dialog button,
 
 window#logout-dialog button:hover,
 .xfce4-session-logout button:hover {
-    background-color: rgba(207, 216, 220, 0.35);
+    background-color: #eceff1;
     border: 2px solid #eceff1;
-    box-shadow: 0 0 16px rgba(236, 239, 241, 0.45);
-    color: #ffffff;
+    box-shadow: 0 0 18px rgba(236, 239, 241, 0.55);
+    color: #121317 !important;
+}
+
+window#logout-dialog button:hover *,
+.xfce4-session-logout button:hover * {
+    color: #121317 !important;
 }

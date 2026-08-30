@@ -98,7 +98,7 @@ rubberband,
 treeview.view rubberband,
 flowbox rubberband {
   border: 1px solid #00e5ff;
-  background-color: rgba(0, 229, 255, 0.22); }
+  background-color: rgba(24, 255, 255, 0.22); }
 
 flowbox flowboxchild {
   padding: 3px; }
@@ -800,7 +800,7 @@ button.suggested-action {
   border-color: #186eff;
   border-bottom-color: #0054e4;
   background-image: image(#4b8eff);
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(0, 229, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(24, 255, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
   
   button.suggested-action.flat {
     border-color: transparent;
@@ -817,7 +817,7 @@ button.suggested-action {
     border-color: #00e5ff;
     border-bottom-color: #006080;
     background-image: linear-gradient(to top, #2274ff, #2c7aff 1px);
-    box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(0, 229, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(24, 255, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
   
   button.suggested-action:active,
   button.suggested-action:checked {
@@ -1717,7 +1717,7 @@ headerbar {
       border-color: #186eff;
       border-bottom-color: #0054e4;
       background-image: image(#4b8eff);
-      box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(0, 229, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(24, 255, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
       .selection-mode button.titlebutton, .selection-mode .titlebar:not(headerbar) button.flat, .selection-mode.titlebar:not(headerbar) button.flat, .selection-mode headerbar button.flat,
       headerbar.selection-mode button.flat {
         border-color: transparent;
@@ -1733,7 +1733,7 @@ headerbar {
         border-color: #00e5ff;
         border-bottom-color: #006080;
         background-image: linear-gradient(to top, #2274ff, #2c7aff 1px);
-        box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(0, 229, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
+        box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(24, 255, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
       .selection-mode .titlebar:not(headerbar) button:active, .selection-mode .titlebar:not(headerbar) button:checked, .selection-mode.titlebar:not(headerbar) button:active, .selection-mode.titlebar:not(headerbar) button:checked, .selection-mode headerbar button:active, .selection-mode headerbar button:checked, .selection-mode headerbar button.toggle:checked, .selection-mode headerbar button.toggle:active,
       headerbar.selection-mode button:active,
       headerbar.selection-mode button:checked,
@@ -5283,14 +5283,14 @@ button.suggested-action {
   border-color: #186eff;
   border-bottom-color: #0054e4;
   background-image: image(#4b8eff);
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(0, 229, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(24, 255, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
   button.suggested-action:hover {
     color: #ffffff;
     outline-color: rgba(255, 255, 255, 0.3);
     border-color: #00e5ff;
     border-bottom-color: #006080;
     background-image: linear-gradient(to top, #2274ff, #2c7aff 1px);
-    box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(0, 229, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(24, 255, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
   button.suggested-action:active, button.suggested-action:checked {
     color: #ffffff;
     outline-color: rgba(255, 255, 255, 0.3);
@@ -5704,7 +5704,7 @@ infobar.info.action:hover button.flat {
   border-color: #186eff;
   border-bottom-color: #0054e4;
   background-image: image(#4b8eff);
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(0, 229, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(24, 255, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
   infobar.info button:hover,
   infobar.info button.flat:hover, infobar.info.action:hover button:hover,
   infobar.info.action:hover button.flat:hover {
@@ -5713,7 +5713,7 @@ infobar.info.action:hover button.flat {
     border-color: #00e5ff;
     border-bottom-color: #006080;
     background-image: linear-gradient(to top, #2274ff, #2c7aff 1px);
-    box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(0, 229, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0px rgba(24, 255, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.27); }
   infobar.info button:active, infobar.info button:checked,
   infobar.info button.flat:active,
   infobar.info button.flat:checked, infobar.info.action:hover button:active, infobar.info.action:hover button:checked,
@@ -7177,8 +7177,32 @@ flowboxchild:selected image {
 
 
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS & LOGOUT DIALOG
+   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS, BUTTONS & LOGOUT DIALOG
    ========================================================================== */
+
+/* HIGH-CONTRAST PRIMARY BUTTONS (SUGGESTED / CONFIRM / OK) */
+button.suggested-action,
+button.primary,
+button.destructive-action {
+    background-color: #18ffff;
+    background-image: none;
+    border: 1px solid #18ffff;
+    color: #121317 !important;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(24, 255, 255, 0.55);
+}
+
+button.suggested-action *,
+button.primary * {
+    color: #121317 !important;
+}
+
+button.suggested-action:hover,
+button.primary:hover {
+    background-color: #84ffff;
+    color: #121317 !important;
+    box-shadow: 0 0 16px rgba(24, 255, 255, 0.55);
+}
 
 /* LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
 #XfceNotifyWindow,
@@ -7190,7 +7214,7 @@ osd {
     background-color: #1e2029;
     border: 2px solid #18ffff;
     border-radius: 10px;
-    box-shadow: 0 0 16px rgba(24, 255, 255, 0.45);
+    box-shadow: 0 0 16px rgba(24, 255, 255, 0.55);
     color: #ffffff;
     padding: 10px 14px;
 }
@@ -7200,7 +7224,7 @@ osd {
 .osd label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 6px rgba(24, 255, 255, 0.45);
+    text-shadow: 0 0 6px rgba(24, 255, 255, 0.55);
 }
 
 #XfceNotifyWindow progressbar,
@@ -7243,8 +7267,12 @@ menu menuitem,
 menu menuitem:hover,
 .menu menuitem:hover {
     background-color: #18ffff;
-    color: #ffffff;
+    color: #121317 !important;
     border-radius: 4px;
+}
+
+menu menuitem:hover * {
+    color: #121317 !important;
 }
 
 /* SOLID DARK LOGOUT / POWER OFF DIALOG */
@@ -7255,7 +7283,7 @@ window.xfce4-session-logout {
     background-color: #1a1c23;
     border: 2px solid #18ffff;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(24, 255, 255, 0.45), 0 0 4px #00e5ff;
+    box-shadow: 0 0 30px rgba(24, 255, 255, 0.55), 0 0 4px #00e5ff;
     padding: 16px;
 }
 
@@ -7263,7 +7291,7 @@ window#logout-dialog label,
 .xfce4-session-logout label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 6px rgba(24, 255, 255, 0.45);
+    text-shadow: 0 0 6px rgba(24, 255, 255, 0.55);
 }
 
 window#logout-dialog button,
@@ -7279,8 +7307,13 @@ window#logout-dialog button,
 
 window#logout-dialog button:hover,
 .xfce4-session-logout button:hover {
-    background-color: rgba(0, 229, 255, 0.35);
+    background-color: #18ffff;
     border: 2px solid #18ffff;
-    box-shadow: 0 0 16px rgba(24, 255, 255, 0.45);
-    color: #ffffff;
+    box-shadow: 0 0 18px rgba(24, 255, 255, 0.55);
+    color: #121317 !important;
+}
+
+window#logout-dialog button:hover *,
+.xfce4-session-logout button:hover * {
+    color: #121317 !important;
 }
