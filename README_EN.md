@@ -5,6 +5,18 @@
 
 ---
 
+## 📸 Visual Showcase & Previews
+
+| Component | Real In-System Screenshot |
+| :--- | :--- |
+| **🖥️ GRUB Boot Menu** | ![GRUB Boot Menu](assets/previews/1_grub_boot_menu.png) |
+| **⏳ Plymouth Boot Splash** | ![Plymouth Animation](assets/previews/3_plymouth_animation.png) |
+| **🔒 Lockscreen / Suspend Dialog** | ![Lockscreen Dialog](assets/previews/2_lockscreen_dialog.png) |
+| **🪟 2px Window Borders & GTK** | ![Desktop Window Borders](assets/previews/4_desktop_window_borders.png) |
+| **🐉 Dragon Window Animator (60 FPS)** | ![Dragon Window Animation](assets/previews/5_dragon_window_animation.gif) |
+
+---
+
 ## 🎨 15 Available Color Editions
 
 | Edition | Primary Color | CLI Name |

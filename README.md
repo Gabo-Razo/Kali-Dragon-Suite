@@ -5,6 +5,18 @@
 
 ---
 
+## 📸 Galería Visual y Vistas Previas
+
+| Componente | Captura de Pantalla Real |
+| :--- | :--- |
+| **🖥️ Menú de Arranque GRUB** | ![GRUB Boot Menu](assets/previews/1_grub_boot_menu.png) |
+| **⏳ Pantalla de Carga Plymouth** | ![Plymouth Animation](assets/previews/3_plymouth_animation.png) |
+| **🔒 Pantalla de Bloqueo / Suspensión** | ![Lockscreen Dialog](assets/previews/2_lockscreen_dialog.png) |
+| **🪟 Bordes de Ventana 2px & GTK** | ![Desktop Window Borders](assets/previews/4_desktop_window_borders.png) |
+| **🐉 Animador del Dragón (60 FPS)** | ![Dragon Window Animation](assets/previews/5_dragon_window_animation.gif) |
+
+---
+
 ## 🎨 15 Ediciones de Color Disponibles
 
 | Edición | Color Primario | Nombre Clave |
