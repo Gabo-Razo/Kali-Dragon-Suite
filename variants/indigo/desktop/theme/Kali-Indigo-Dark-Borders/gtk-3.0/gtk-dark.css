@@ -7177,14 +7177,42 @@ flowboxchild:selected image {
 
 
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - Indigo SOLID OPAQUE ENHANCEMENTS
+   🐉 KALI DRAGON SUITE - Indigo SELECTION & SOLID OPAQUE STYLES
    ========================================================================== */
 
 @define-color theme_selected_bg_color #536dfe;
 @define-color theme_selected_fg_color #ffffff;
 @define-color selection_color #536dfe;
+@define-color selected_bg_color #536dfe;
+@define-color selected_fg_color #ffffff;
 
-/* 1. GUARANTEED 100% SOLID OPAQUE WINDOWS & FILE MANAGER (THUNAR) */
+/* 1. MOUSE DRAG RUBBERBAND SELECTION BOX (DESKTOP & FILE MANAGER) */
+.rubberband,
+rubberband,
+flowbox rubberband,
+grid.rubberband,
+treeview.rubberband,
+.content-view rubberband,
+XfdesktopIconView.rubberband,
+#XfdesktopIconView.rubberband {
+    background-color: rgba(61, 90, 254, 0.25);
+    border: 1.5px solid #536dfe;
+    border-radius: 2px;
+}
+
+/* 2. SELECTED ITEMS, TEXT & LIST ROWS */
+:selected,
+*:selected,
+selection,
+.view:selected,
+treeview:selected,
+row:selected,
+flowboxchild:selected {
+    background-color: #536dfe;
+    color: #ffffff;
+}
+
+/* 3. GUARANTEED 100% SOLID OPAQUE WINDOWS & FILE MANAGER (THUNAR) */
 window,
 window.background,
 .background,
@@ -7200,7 +7228,7 @@ placessidebar,
     color: #eeeeec;
 }
 
-/* 2. LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
+/* 4. LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
 #XfceNotifyWindow,
 XfceNotifyWindow,
 .xfce4-notifyd,
@@ -7241,7 +7269,7 @@ osd {
     border: none;
 }
 
-/* 3. SOLID DARK MENUS & CONTEXT POPUPS */
+/* 5. SOLID DARK MENUS & CONTEXT POPUPS */
 menu,
 .menu,
 .context-menu,
@@ -7267,7 +7295,7 @@ menu menuitem:hover,
     border-radius: 4px;
 }
 
-/* 4. SOLID DARK LOGOUT / POWER OFF DIALOG */
+/* 6. SOLID DARK LOGOUT / POWER OFF DIALOG */
 window#logout-dialog,
 dialog#logout-dialog,
 .xfce4-session-logout,
