@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-🐉 KALI DRAGON SUITE - MASTER 60 FPS WINDOW ANIMATOR (WINDOW-CONFINED)
-- 100% Contained within window interior bounds (Zero off-screen spawn/exit).
-- Silk-smooth organic easing (No awkward speed jumps).
-- Pure cinematic dragon flight, tangent banking, resplandor shockwave & smooth reveal.
+🐉 KALI DRAGON SUITE - MASTER 60 FPS WINDOW ANIMATOR (PROPORTIONAL 1:1 SPRITE)
+- Strict 1:1 Natural Aspect Ratio Preservation (Zero squish, flattening or distortion).
+- 100% Contained within window interior bounds.
+- Silk-smooth organic easing, tangent banking, resplandor shockwave & window crystallization.
 """
 
 import sys, os, time, math, random, json, signal, subprocess, threading, re
@@ -150,6 +150,11 @@ class DragonOverlay(QWidget):
         if not os.path.exists(sprite_path):
             sprite_path = "/home/gr/Escritorio/Kali-Red-Dragon-Suite/variants/gold/desktop/animator/dragon_sprite.png"
         self.dragon_pixmap = QPixmap(sprite_path)
+        
+        # Calculate natural aspect ratio (Width / Height)
+        pw = float(self.dragon_pixmap.width())
+        ph = float(self.dragon_pixmap.height())
+        self.aspect_ratio = (pw / ph) if ph > 0 else 1.46
 
     @pyqtSlot(int, int, int, int, int)
     def start_open_animation(self, wid, x, y, w, h):
@@ -168,7 +173,6 @@ class DragonOverlay(QWidget):
         screen = QApplication.primaryScreen().geometry()
         self.setGeometry(0, 0, screen.width(), screen.height())
 
-        # Start hidden and guarantee restoration with 700ms watchdog
         set_window_opacity(wid, 0.0)
         QTimer.singleShot(700, lambda: clean_window_opacity(wid))
 
@@ -194,7 +198,6 @@ class DragonOverlay(QWidget):
 
         cx = x + w / 2.0
         cy = y + h / 2.0
-        # Confined particles strictly within the window boundaries
         for _ in range(35):
             angle = random.uniform(0, 2 * math.pi)
             dist = random.uniform(min(w, h) * 0.20, min(w, h) * 0.45)
@@ -221,20 +224,16 @@ class DragonOverlay(QWidget):
         cx = self.tx + self.tw / 2.0
         cy = self.ty + self.th / 2.0
         
-        # Smooth continuous easing curve (smoothstep)
         prog = t * t * (3.0 - 2.0 * t)
-        
         rx = self.tw * 0.38
         ry = self.th * 0.38
 
         if not is_reverse:
-            # Orbital trajectory from inner perimeter smoothly spiraling to center (cx, cy)
             angle = -math.pi * 0.75 + prog * (math.pi * 2.0)
             cur_rx = rx * (1.0 - prog * 0.85)
             cur_ry = ry * (1.0 - prog * 0.85)
             scale = 0.50 + 0.50 * math.sin(t * math.pi)
         else:
-            # Reverse takeoff from center expanding slightly outward within window
             angle = math.pi * 0.25 + prog * (math.pi * 1.8)
             cur_rx = rx * (0.2 + prog * 0.65)
             cur_ry = ry * (0.2 + prog * 0.65)
@@ -243,7 +242,6 @@ class DragonOverlay(QWidget):
         px = cx + math.cos(angle) * cur_rx
         py = cy + math.sin(angle) * cur_ry
 
-        # Calculate natural tangent banking angle
         dt = 0.02
         prog_next = (t + dt) * (t + dt) * (3.0 - 2.0 * (t + dt))
         if not is_reverse:
@@ -264,9 +262,8 @@ class DragonOverlay(QWidget):
         if not self.is_animating:
             return
 
-        self.anim_progress += 0.024 # Silky-smooth 60 FPS pacing (~42 frames / 650ms)
+        self.anim_progress += 0.024
 
-        # Smooth window crystallization / fade-in from 0.45 to 0.80
         if self.anim_mode == "OPEN" and self.active_wid:
             if self.anim_progress >= 0.45:
                 fade_alpha = min(1.0, (self.anim_progress - 0.45) / 0.35)
@@ -321,16 +318,15 @@ class DragonOverlay(QWidget):
                         painter.setPen(pen)
                         painter.drawLine(QPointF(p1[0], p1[1]), QPointF(p2[0], p2[1]))
 
-                # Flying Dragon Sprite with natural banking
-                wobble = math.sin(flight_t * 12.0) * 0.08
-                sw = min(150.0, self.tw * 0.50) * scale * (1.0 + wobble)
-                sh = sw * (1.0 - wobble)
+                # 100% Proportional, un-squished Dragon Sprite
+                sw = min(170.0, min(self.tw, self.th) * 0.50) * scale
+                sh = sw / self.aspect_ratio
 
                 painter.save()
                 painter.translate(px, py)
                 painter.rotate(angle_deg)
 
-                glow_rad = 65 * scale
+                glow_rad = (sw / 2.0) * 1.1
                 glow_radial = QRadialGradient(QPointF(0, 0), glow_rad)
                 glow_radial.setColorAt(0.0, QColor(255, 255, 255, int((1.0 - flight_t * 0.3) * 220)))
                 glow_radial.setColorAt(0.35, QColor(r, g, b, int((1.0 - flight_t * 0.3) * 180)))
@@ -355,7 +351,6 @@ class DragonOverlay(QWidget):
                 painter.setPen(Qt.PenStyle.NoPen)
                 painter.drawEllipse(QPointF(cx, cy), burst_radius, burst_radius)
 
-                # Expanding Neon Frame that matches exact window boundary
                 frame_scale = 0.92 + impact_t * 0.08
                 bw = self.tw * frame_scale
                 bh = self.th * frame_scale
@@ -415,11 +410,12 @@ class DragonOverlay(QWidget):
                 painter.setPen(Qt.PenStyle.NoPen)
                 painter.drawEllipse(QPointF(cx, cy), burst_radius, burst_radius)
 
+                # 100% Proportional Dragon Sprite
                 dragon_scale = min(1.0, summon_t * 1.6) * (min(self.tw, self.th) / 550.0)
-                dw = min(160.0, self.tw * 0.60) * dragon_scale
-                dh = dw
+                sw = min(180.0, min(self.tw, self.th) * 0.55) * dragon_scale
+                sh = sw / self.aspect_ratio
                 painter.setOpacity(min(1.0, summon_t * 2.0))
-                painter.drawPixmap(QRectF(cx - dw / 2.0, cy - dh / 2.0, dw, dh), self.dragon_pixmap, QRectF(self.dragon_pixmap.rect()))
+                painter.drawPixmap(QRectF(cx - sw / 2.0, cy - sh / 2.0, sw, sh), self.dragon_pixmap, QRectF(self.dragon_pixmap.rect()))
                 painter.setOpacity(1.0)
 
             # 3. Takeoff & Dissolution at Center (0.60 to 1.0)
@@ -444,15 +440,15 @@ class DragonOverlay(QWidget):
                         painter.setPen(pen)
                         painter.drawLine(QPointF(p1[0], p1[1]), QPointF(p2[0], p2[1]))
 
-                wobble = math.sin(takeoff_t * 14.0) * 0.12
-                sw = min(140.0, self.tw * 0.50) * scale * (1.0 + wobble)
-                sh = sw * (1.0 - wobble)
+                # 100% Proportional Dragon Sprite
+                sw = min(160.0, min(self.tw, self.th) * 0.48) * scale
+                sh = sw / self.aspect_ratio
 
                 painter.save()
                 painter.translate(px, py)
                 painter.rotate(angle_deg)
 
-                glow_rad = 65 * scale
+                glow_rad = (sw / 2.0) * 1.1
                 glow_radial = QRadialGradient(QPointF(0, 0), glow_rad)
                 glow_radial.setColorAt(0.0, QColor(255, 255, 255, int((1.0 - takeoff_t) * 200)))
                 glow_radial.setColorAt(0.4, QColor(r, g, b, int((1.0 - takeoff_t) * 180)))
