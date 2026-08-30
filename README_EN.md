@@ -18,12 +18,12 @@
 | **Electric Lime** | `#76ff03` / `#64dd17` | `lime` |
 | **Cyber Pink** | `#ff4081` / `#f50057` | `pink` |
 | **Neon Cyan** | `#18ffff` / `#00e5ff` | `cyan` |
-| **Stealth White** | `#ffffff` / `#f5f5f5` | `white` |
+| **Neon Teal** | `#00f2fe` / `#00b4d8` | `teal` |
 | **Cyber Gold** | `#ffab00` / `#ffd700` | `gold` |
 | **Royal Indigo** | `#536dfe` / `#3d5afe` | `indigo` |
 | **Quantum Mint** | `#64ffda` / `#00bfa5` | `mint` |
 | **Blood Ruby** | `#e91e63` / `#c2185b` | `ruby` |
-| **Chrome Silver** | `#eceff1` / `#cfd8dc` | `silver` |
+| **Cyber Magenta** | `#ff007f` / `#e00070` | `magenta` |
 
 ---
 

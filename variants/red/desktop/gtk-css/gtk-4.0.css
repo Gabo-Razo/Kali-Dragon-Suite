@@ -1,81 +1,176 @@
 
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - SOLID NOTIFICATIONS & LOGOUT DIALOG
+   🐉 KALI DRAGON GLASSMORPHISM LOGIN & LOCK SUITE - Red EDITION
    ========================================================================== */
 
-/* LAPTOP OSD NOTIFICATIONS (VOLUME, BRIGHTNESS & NOTIFY-OSD) */
-#XfceNotifyWindow,
-XfceNotifyWindow,
-.xfce4-notifyd,
-#xfce-notifyd-container,
-.osd,
-osd {
-    background-color: #1e2029;
+/* 1. LIGHTDM LOGIN GREETER */
+#login_window,
+#panel_window {
+    background-color: rgba(14, 3, 8, 0.93);
     border: 2px solid #ff1744;
-    border-radius: 10px;
-    box-shadow: 0 0 16px rgba(255, 23, 68, 0.45);
-    color: #ffffff;
-    padding: 10px 14px;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(255, 23, 68, 0.45), 0 0 4px #ec0101;
 }
 
-#XfceNotifyWindow label,
-.xfce4-notifyd label,
-.osd label {
+#user_image {
+    border: 2px solid #ff1744;
+    border-radius: 50%;
+    box-shadow: 0 0 16px rgba(255, 23, 68, 0.45);
+    background-color: #0c0004;
+}
+
+#prompt_label,
+#message_label {
+    color: #ff1744;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(255, 23, 68, 0.45);
+}
+
+#entry {
+    background-color: rgba(0, 0, 0, 0.65);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: #ffffff;
+    caret-color: #ff1744;
+    padding: 6px 12px;
+}
+
+#entry:focus {
+    border: 2px solid #ff1744;
+    box-shadow: 0 0 14px rgba(255, 23, 68, 0.45);
+}
+
+#login_button {
+    background-image: linear-gradient(135deg, #ff1744 0%, #d50000 50%, #8a0000 100%);
+    border: 1.5px solid #ff1744;
+    border-radius: 6px;
     color: #ffffff;
     font-weight: bold;
+    padding: 6px 16px;
+    box-shadow: 0 0 12px rgba(255, 23, 68, 0.45);
+}
+
+#login_button:hover {
+    background-image: linear-gradient(135deg, #ffffff 0%, #ff1744 40%, #d50000 100%);
+    box-shadow: 0 0 20px rgba(255, 23, 68, 0.45);
+}
+
+/* 2. XFCE4 SCREENSAVER LOCK DIALOG (Lock / Suspend Wake-up) */
+window.screensaver-dialog,
+dialog.screensaver-dialog,
+.screensaver-dialog {
+    background-color: #0c0205;
+    background-image: url("/usr/share/desktop-base/kali-theme/lockscreen/lockscreen.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.lock-dialog,
+.screensaver-dialog > box,
+dialog.screensaver-dialog > box {
+    background-color: rgba(12, 3, 7, 0.94);
+    border: 2px solid #ff1744;
+    border-radius: 14px;
+    box-shadow: 0 0 30px rgba(255, 23, 68, 0.45), 0 0 4px #ec0101;
+    padding: 20px;
+}
+
+#auth-face-image {
+    border: 2px solid #ff1744;
+    border-radius: 50%;
+    box-shadow: 0 0 18px rgba(255, 23, 68, 0.45);
+    background-color: #0c0004;
+}
+
+#auth-prompt-label,
+label#auth-prompt-label {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 11pt;
     text-shadow: 0 0 6px rgba(255, 23, 68, 0.45);
 }
 
-#XfceNotifyWindow progressbar,
-#XfceNotifyWindow levelbar,
-.osd progressbar,
-.osd levelbar {
-    min-height: 8px;
-    background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 4px;
+#auth-status-label,
+label#auth-status-label {
+    color: #ff1744;
+    font-weight: bold;
+    font-size: 11pt;
+    text-shadow: 0 0 10px rgba(255, 23, 68, 0.45);
 }
 
-#XfceNotifyWindow progressbar progress,
-#XfceNotifyWindow levelbar block.filled,
-.osd progressbar progress,
-.osd levelbar block.filled {
-    background-color: #ff1744;
-    border-radius: 4px;
-    border: none;
+#auth-capslock-label,
+label#auth-capslock-label {
+    color: #ffd600;
+    font-weight: bold;
 }
 
-/* SOLID DARK MENUS & CONTEXT POPUPS */
-menu,
-.menu,
-.context-menu,
-popover.background {
-    background-color: #1e2029;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+#auth-realname-label,
+#auth-hostname-label,
+#auth-date-time-label {
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(255, 23, 68, 0.45);
+}
+
+#auth-prompt-entry,
+entry#auth-prompt-entry {
+    background-color: rgba(0, 0, 0, 0.65);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
     color: #ffffff;
-    padding: 4px;
+    caret-color: #ff1744;
+    padding: 6px 12px;
 }
 
-menu menuitem,
-.menu menuitem {
-    padding: 5px 12px;
-    color: #eeeeec;
+#auth-prompt-entry:focus,
+entry#auth-prompt-entry:focus {
+    border: 2px solid #ff1744;
+    box-shadow: 0 0 14px rgba(255, 23, 68, 0.45);
 }
 
-menu menuitem:hover,
-.menu menuitem:hover {
-    background-color: #ff1744;
+#auth-unlock-button,
+#auth-action-area button.suggested-action {
+    background-image: linear-gradient(135deg, #ff1744 0%, #d50000 50%, #8a0000 100%);
+    border: 1.5px solid #ff1744;
+    border-radius: 6px;
     color: #ffffff;
-    border-radius: 4px;
+    font-weight: bold;
+    padding: 6px 18px;
+    box-shadow: 0 0 12px rgba(255, 23, 68, 0.45);
 }
 
-/* SOLID DARK LOGOUT / POWER OFF DIALOG */
+#auth-unlock-button:hover,
+#auth-action-area button.suggested-action:hover {
+    background-image: linear-gradient(135deg, #ffffff 0%, #ff1744 40%, #d50000 100%);
+    box-shadow: 0 0 20px rgba(255, 23, 68, 0.45);
+}
+
+#auth-cancel-button,
+#auth-logout-button,
+#auth-switch-button {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: #ffffff;
+    padding: 6px 12px;
+}
+
+#auth-cancel-button:hover,
+#auth-logout-button:hover,
+#auth-switch-button:hover {
+    background-color: rgba(255, 23, 68, 0.3);
+    border: 2px solid #ff1744;
+    box-shadow: 0 0 14px rgba(255, 23, 68, 0.45);
+    color: #ffffff;
+}
+
+/* 3. XFCE4 SESSION LOGOUT DIALOG */
 window#logout-dialog,
 dialog#logout-dialog,
 .xfce4-session-logout,
 window.xfce4-session-logout {
-    background-color: #1a1c23;
+    background-color: rgba(12, 3, 7, 0.95);
     border: 2px solid #ff1744;
     border-radius: 14px;
     box-shadow: 0 0 30px rgba(255, 23, 68, 0.45), 0 0 4px #ec0101;
@@ -91,19 +186,46 @@ window#logout-dialog label,
 
 window#logout-dialog button,
 .xfce4-session-logout button {
-    background-color: rgba(255, 255, 255, 0.08);
-    border: 1.5px solid rgba(255, 255, 255, 0.18);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
     color: #ffffff;
-    font-weight: bold;
+    font-weight: 500;
     padding: 8px 14px;
     margin: 4px;
 }
 
 window#logout-dialog button:hover,
 .xfce4-session-logout button:hover {
-    background-color: rgba(255, 23, 68, 0.35);
+    background-color: rgba(255, 23, 68, 0.25);
     border: 2px solid #ff1744;
     box-shadow: 0 0 16px rgba(255, 23, 68, 0.45);
+    color: #ffffff;
+}
+
+
+/* 4. SOLID 2PX CONTINUOUS WINDOW BORDERS */
+window.ssd > decoration,
+window.csd > decoration,
+window.csd.background > decoration {
+    border: 2px solid #ec0101;
+    border-radius: 6px 6px 0px 0px;
+    box-shadow: 0 0 10px rgba(255, 23, 68, 0.45), 0 0 2px #ec0101;
+}
+
+headerbar,
+.titlebar {
+    border-top: 2px solid #ec0101;
+    border-left: 2px solid #ec0101;
+    border-right: 2px solid #ec0101;
+}
+
+tooltip,
+tooltip.background,
+.tooltip {
+    background-color: rgba(20, 22, 28, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     color: #ffffff;
 }

@@ -151,12 +151,12 @@ if [ -z "$SELECTED_COLOR" ]; then
     echo -e "  ${GREEN}[7] 🍈 Electric Lime    (Verde Lima Ácido)${NC}"
     echo -e "  ${PURPLE}[8] 🌸 Cyber Pink       (Rosa Neón Arcade)${NC}"
     echo -e "  ${CYAN}[9] 💎 Neon Cyan        (Azul Hielo / Arctic Ice)${NC}"
-    echo -e "  ${WHITE}[10] 🖤 Stealth White   (Blanco Puro Neón / Ghost)${NC}"
+    echo -e "  ${CYAN}[10] 🌊 Neon Teal       (Turquesa Neón / Cyber Aqua)${NC}"
     echo -e "  ${YELLOW}[11] 🪙 Cyber Gold      (Oro Metálico / Night City Amber)${NC}"
-    echo -e "  ${BLUE}[12] 🌊 Royal Indigo    (Azul Índigo / Zafiro Profundo)${NC}"
+    echo -e "  ${BLUE}[12] 🌌 Royal Indigo    (Azul Índigo / Zafiro Profundo)${NC}"
     echo -e "  ${CYAN}[13] 🧪 Quantum Mint    (Verde Menta Cuántico)${NC}"
     echo -e "  ${RED}[14] 🩸 Blood Ruby      (Rojo Rubí / Dark Wine)${NC}"
-    echo -e "  ${WHITE}[15] 🥈 Chrome Silver   (Plata Metalizado / Chrome)${NC}"
+    echo -e "  ${PURPLE}[15] 🔮 Cyber Magenta   (Magenta Neón / Retrowave)${NC}"
     echo -e "  [0] Salir sin cambios\n"
 
     read -rp "Selecciona un color [1-15]: " opt
@@ -170,12 +170,12 @@ if [ -z "$SELECTED_COLOR" ]; then
         7) SELECTED_COLOR="lime" ;;
         8) SELECTED_COLOR="pink" ;;
         9) SELECTED_COLOR="cyan" ;;
-        10) SELECTED_COLOR="white" ;;
+        10) SELECTED_COLOR="teal" ;;
         11) SELECTED_COLOR="gold" ;;
         12) SELECTED_COLOR="indigo" ;;
         13) SELECTED_COLOR="mint" ;;
         14) SELECTED_COLOR="ruby" ;;
-        15) SELECTED_COLOR="silver" ;;
+        15) SELECTED_COLOR="magenta" ;;
         0) echo -e "\nCancelado."; exit 0 ;;
         *) echo -e "\n${RED}Opción inválida.${NC}"; exit 1 ;;
     esac
@@ -207,7 +207,7 @@ SELECTED_COLOR=$(echo "$SELECTED_COLOR" | tr '[:upper:]' '[:lower:]')
 VARIANT_PATH="$SCRIPT_DIR/variants/$SELECTED_COLOR"
 
 if [ ! -d "$VARIANT_PATH" ]; then
-    echo -e "${RED}[!] Error: Color '$SELECTED_COLOR' no encontrado. Colores válidos: red, blue, green, yellow, purple, orange, lime, pink, cyan, white, gold, indigo, mint, ruby, silver.${NC}"
+    echo -e "${RED}[!] Error: Color '$SELECTED_COLOR' no encontrado. Colores válidos: red, blue, green, yellow, purple, orange, lime, pink, cyan, teal, gold, indigo, mint, ruby, magenta.${NC}"
     exit 1
 fi
 
@@ -225,12 +225,12 @@ case "$SELECTED_COLOR" in
     lime) ICON_THEME="Flat-Remix-Green-Dark" ;;
     pink) ICON_THEME="Flat-Remix-Pink-Dark" ;;
     cyan) ICON_THEME="Flat-Remix-Teal-Dark" ;;
-    white) ICON_THEME="Flat-Remix-Slate-Dark" ;;
+    teal) ICON_THEME="Flat-Remix-Teal-Dark" ;;
     gold) ICON_THEME="Flat-Remix-Yellow-Dark" ;;
     indigo) ICON_THEME="Flat-Remix-Blue-Dark" ;;
     mint) ICON_THEME="Flat-Remix-Teal-Dark" ;;
     ruby) ICON_THEME="Flat-Remix-Red-Dark" ;;
-    silver) ICON_THEME="Flat-Remix-Slate-Dark" ;;
+    magenta) ICON_THEME="Flat-Remix-Pink-Dark" ;;
     *) ICON_THEME="Flat-Remix-Blue-Dark" ;;
 esac
 

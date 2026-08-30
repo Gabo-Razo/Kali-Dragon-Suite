@@ -77,12 +77,12 @@ ALL_COLORS = {
         "z_hi": "51", "z_lo": "45", "cursor": "#18ffff",
         "base_theme": "Kali-Dark", "icon_theme": "Flat-Remix-Teal-Dark"
     },
-    "white": {
-        "hex": "#f5f5f5", "primary": "#ffffff", "circle": "#e0e0e0", "dark": "#424242",
-        "glow": "rgba(255, 255, 255, 0.50)", "rgb": (245, 245, 245),
-        "target_hue": 0.0, "sat_mult": 0.02, "is_mono": True, "mono_tint": (255, 255, 255),
-        "z_hi": "15", "z_lo": "250", "cursor": "#ffffff",
-        "base_theme": "Kali-Dark", "icon_theme": "Flat-Remix-Slate-Dark"
+    "teal": {
+        "hex": "#00b4d8", "primary": "#00f2fe", "circle": "#00b4d8", "dark": "#0077b6",
+        "glow": "rgba(0, 242, 254, 0.45)", "rgb": (0, 242, 254),
+        "target_hue": 182.0/360.0, "sat_mult": 1.15, "is_mono": False,
+        "z_hi": "45", "z_lo": "38", "cursor": "#00f2fe",
+        "base_theme": "Kali-Dark", "icon_theme": "Flat-Remix-Teal-Dark"
     },
     "gold": {
         "hex": "#ffd700", "primary": "#ffab00", "circle": "#ffd700", "dark": "#7f5500",
@@ -112,12 +112,12 @@ ALL_COLORS = {
         "z_hi": "161", "z_lo": "125", "cursor": "#e91e63",
         "base_theme": "Kali-Pink-Dark", "icon_theme": "Flat-Remix-Red-Dark"
     },
-    "silver": {
-        "hex": "#cfd8dc", "primary": "#eceff1", "circle": "#b0bec5", "dark": "#37474f",
-        "glow": "rgba(236, 239, 241, 0.45)", "rgb": (207, 216, 220),
-        "target_hue": 0.0, "sat_mult": 0.10, "is_mono": True, "mono_tint": (207, 216, 220),
-        "z_hi": "252", "z_lo": "245", "cursor": "#eceff1",
-        "base_theme": "Kali-Dark", "icon_theme": "Flat-Remix-Slate-Dark"
+    "magenta": {
+        "hex": "#e00070", "primary": "#ff007f", "circle": "#d80064", "dark": "#7a0038",
+        "glow": "rgba(255, 0, 127, 0.45)", "rgb": (255, 0, 127),
+        "target_hue": 320.0/360.0, "sat_mult": 1.15, "is_mono": False,
+        "z_hi": "198", "z_lo": "162", "cursor": "#ff007f",
+        "base_theme": "Kali-Pink-Dark", "icon_theme": "Flat-Remix-Pink-Dark"
     }
 }
 

@@ -6,8 +6,8 @@ VARIANTS_DIR = os.path.join(BASE_DIR, "variants")
 
 COLORS = [
     "red", "blue", "green", "yellow", "purple", "orange",
-    "lime", "pink", "cyan", "white", "gold", "indigo",
-    "mint", "ruby", "silver"
+    "lime", "pink", "cyan", "teal", "gold", "indigo",
+    "mint", "ruby", "magenta"
 ]
 
 print("=" * 70)

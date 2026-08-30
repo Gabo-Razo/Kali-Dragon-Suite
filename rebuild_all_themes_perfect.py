@@ -14,12 +14,12 @@ ALL_COLORS = {
     "lime": {"hex": "#64dd17", "primary": "#76ff03", "circle": "#76ff03", "dark": "#33691e", "glow": "rgba(118, 255, 3, 0.50)", "rgb": (118, 255, 3), "fg": "#121317"},
     "pink": {"hex": "#f50057", "primary": "#ff4081", "circle": "#ff4081", "dark": "#880e4f", "glow": "rgba(255, 64, 129, 0.50)", "rgb": (255, 64, 129), "fg": "#ffffff"},
     "cyan": {"hex": "#00e5ff", "primary": "#18ffff", "circle": "#00e5ff", "dark": "#006080", "glow": "rgba(24, 255, 255, 0.50)", "rgb": (24, 255, 255), "fg": "#121317"},
-    "white": {"hex": "#f5f5f5", "primary": "#ffffff", "circle": "#e0e0e0", "dark": "#424242", "glow": "rgba(255, 255, 255, 0.60)", "rgb": (255, 255, 255), "fg": "#121317"},
+    "teal": {"hex": "#00b4d8", "primary": "#00f2fe", "circle": "#00b4d8", "dark": "#0077b6", "glow": "rgba(0, 242, 254, 0.50)", "rgb": (0, 242, 254), "fg": "#ffffff"},
     "gold": {"hex": "#ffd700", "primary": "#ffab00", "circle": "#ffd700", "dark": "#7f5500", "glow": "rgba(255, 171, 0, 0.50)", "rgb": (255, 215, 0), "fg": "#121317"},
     "indigo": {"hex": "#3d5afe", "primary": "#536dfe", "circle": "#3d5afe", "dark": "#1a237e", "glow": "rgba(83, 109, 254, 0.50)", "rgb": (61, 90, 254), "fg": "#ffffff"},
     "mint": {"hex": "#00bfa5", "primary": "#64ffda", "circle": "#00bfa5", "dark": "#004d40", "glow": "rgba(100, 255, 218, 0.50)", "rgb": (0, 191, 165), "fg": "#121317"},
     "ruby": {"hex": "#c2185b", "primary": "#e91e63", "circle": "#ad1457", "dark": "#560027", "glow": "rgba(233, 30, 99, 0.50)", "rgb": (194, 24, 91), "fg": "#ffffff"},
-    "silver": {"hex": "#cfd8dc", "primary": "#eceff1", "circle": "#b0bec5", "dark": "#37474f", "glow": "rgba(236, 239, 241, 0.50)", "rgb": (207, 216, 220), "fg": "#121317"}
+    "magenta": {"hex": "#e00070", "primary": "#ff007f", "circle": "#d80064", "dark": "#7a0038", "glow": "rgba(255, 0, 127, 0.50)", "rgb": (255, 0, 127), "fg": "#ffffff"}
 }
 
 # 1. REBUILD LOGIN & SCREENSAVER THEMES
