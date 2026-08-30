@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-🐉 KALI DRAGON SUITE - BULLETPROOF ZERO-LOOP WINDOW ANIMATOR
-- Permanently mapped click-through overlay (Zero X11 map events).
-- Strict per-window ID debounce (Every window animates exactly ONCE on open, ONCE on close).
-- 100% Non-intrusive: Never touches window opacity or properties.
+🐉 KALI DRAGON SUITE - MASTER 60 FPS WINDOW ANIMATION DAEMON
+Cinematic Orbital Flight, Tangent Banking, Central Resplandor Shockwave & Window Crystallization.
+Confined Window Boundary Implosion & Dragon Vortex on Close.
 """
 
 import sys, os, time, math, random, json, signal, subprocess, threading, re
@@ -22,6 +21,42 @@ def get_color_config():
         except Exception:
             pass
     return {"primary": "#ffab00", "glow": "rgba(255, 171, 0, 0.45)", "hex": "#ffd700", "rgb": [255, 215, 0]}
+
+def clean_window_opacity(wid):
+    if not wid:
+        return
+    try:
+        subprocess.run(["xprop", "-id", str(wid), "-remove", "_NET_WM_WINDOW_OPACITY"], stderr=subprocess.DEVNULL, timeout=0.15)
+    except Exception:
+        pass
+
+def clean_all_window_opacities():
+    try:
+        out = subprocess.check_output(["xprop", "-root", "_NET_CLIENT_LIST"], stderr=subprocess.DEVNULL, timeout=0.3).decode()
+        match = re.search(r"# (.*)", out)
+        if match:
+            wids = [int(x.strip(), 16) for x in match.group(1).split(",") if x.strip()]
+            for wid in wids:
+                clean_window_opacity(wid)
+    except Exception:
+        pass
+
+def set_window_opacity(wid, alpha):
+    if not wid:
+        return
+    try:
+        if alpha >= 0.98:
+            clean_window_opacity(wid)
+            return
+        opacity_val = int(max(0.0, min(1.0, alpha)) * 0xFFFFFFFF)
+        subprocess.run(
+            ["xprop", "-id", str(wid), "-f", "_NET_WM_WINDOW_OPACITY", "32c", "-set", "_NET_WM_WINDOW_OPACITY", hex(opacity_val)],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=0.15
+        )
+    except Exception:
+        pass
 
 def get_client_list():
     try:
@@ -42,7 +77,7 @@ def get_window_geometry(wid):
             elif line.startswith("Y="): y = int(line.split("=")[1])
             elif line.startswith("WIDTH="): w = int(line.split("=")[1])
             elif line.startswith("HEIGHT="): h = int(line.split("=")[1])
-        if w > 80 and h > 60:
+        if w > 100 and h > 80:
             return (x, y, w, h)
     except Exception:
         pass
@@ -50,7 +85,6 @@ def get_window_geometry(wid):
 
 def is_normal_app_window(wid):
     try:
-        # Ignore our own PID
         pid_out = subprocess.check_output(["xprop", "-id", str(wid), "_NET_WM_PID"], stderr=subprocess.DEVNULL, timeout=0.15).decode()
         m_pid = re.search(r"= (\d+)", pid_out)
         if m_pid and int(m_pid.group(1)) == MY_PID:
@@ -66,41 +100,16 @@ def is_normal_app_window(wid):
     except Exception:
         return False
 
-class AnimationTarget:
-    def __init__(self, mode, x, y, w, h):
-        self.mode = mode
-        self.x = x
-        self.y = y
-        self.w = max(260, w)
-        self.h = max(180, h)
-        self.progress = 0.0
-        self.trail = []
-        self.particles = []
-        
-        cx = x + w / 2.0
-        cy = y + h / 2.0
-        if mode == "CLOSE":
-            for _ in range(25):
-                angle = random.uniform(0, 2 * math.pi)
-                dist = random.uniform(min(w, h) * 0.25, max(w, h) * 0.50)
-                self.particles.append({
-                    "x": cx + math.cos(angle) * dist,
-                    "y": cy + math.sin(angle) * dist,
-                    "target_x": cx,
-                    "target_y": cy,
-                    "size": random.uniform(3.0, 6.0),
-                    "speed": random.uniform(0.12, 0.25),
-                    "alpha": random.uniform(0.7, 1.0)
-                })
-
 class AnimationBridge(QObject):
-    trigger_animation = pyqtSignal(str, int, int, int, int)
+    open_signal = pyqtSignal(int, int, int, int, int)
+    close_signal = pyqtSignal(int, int, int, int)
 
 class DragonOverlay(QWidget):
     def __init__(self, bridge):
         super().__init__()
         self.bridge = bridge
-        self.bridge.trigger_animation.connect(self.add_animation_slot)
+        self.bridge.open_signal.connect(self.start_open_animation)
+        self.bridge.close_signal.connect(self.start_close_animation)
 
         self.setWindowFlags(
             Qt.WindowType.FramelessWindowHint |
@@ -113,160 +122,353 @@ class DragonOverlay(QWidget):
         self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating)
 
         self.reload_assets()
-        self.active_animations = []
 
-        screen = QApplication.primaryScreen().geometry()
-        self.setGeometry(0, 0, screen.width(), screen.height())
+        self.anim_progress = 0.0
+        self.is_animating = False
+        self.anim_mode = "OPEN"
+
+        self.active_wid = None
+        self.tx = 200
+        self.ty = 150
+        self.tw = 800
+        self.th = 500
+
+        self.trail = []
+        self.particles = []
 
         self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_animations)
-        
-        # Show ONCE and stay mapped to avoid X11 window mapping events
-        self.show()
+        self.timer.timeout.connect(self.update_animation)
 
     def reload_assets(self):
         self.color_cfg = get_color_config()
         self.rgb = tuple(self.color_cfg.get("rgb", [255, 215, 0]))
         self.primary_hex = self.color_cfg.get("primary", "#ffab00")
         self.core_hex = self.color_cfg.get("hex", "#ffd700")
-        
+
         sprite_path = os.path.expanduser("~/.local/share/dragon-anim/dragon_sprite.png")
         if not os.path.exists(sprite_path):
             sprite_path = "/home/gr/Escritorio/Kali-Red-Dragon-Suite/variants/gold/desktop/animator/dragon_sprite.png"
         self.dragon_pixmap = QPixmap(sprite_path)
 
-    @pyqtSlot(str, int, int, int, int)
-    def add_animation_slot(self, mode, x, y, w, h):
+    @pyqtSlot(int, int, int, int, int)
+    def start_open_animation(self, wid, x, y, w, h):
         self.reload_assets()
-        target = AnimationTarget(mode, x, y, w, h)
-        self.active_animations.append(target)
+        self.anim_mode = "OPEN"
+        self.active_wid = wid
+        self.tx = x
+        self.ty = y
+        self.tw = max(260, w)
+        self.th = max(180, h)
+        self.anim_progress = 0.0
+        self.is_animating = True
+        self.trail = []
+        self.particles = []
 
+        screen = QApplication.primaryScreen().geometry()
+        self.setGeometry(0, 0, screen.width(), screen.height())
+
+        # Start hidden and guarantee restoration with 650ms watchdog
+        set_window_opacity(wid, 0.0)
+        QTimer.singleShot(650, lambda: clean_window_opacity(wid))
+
+        if not self.isVisible():
+            self.show()
         if not self.timer.isActive():
             self.timer.start(16)
         self.update()
 
-    def update_animations(self):
-        if not self.active_animations:
+    @pyqtSlot(int, int, int, int)
+    def start_close_animation(self, x, y, w, h):
+        self.reload_assets()
+        self.anim_mode = "CLOSE"
+        self.active_wid = None
+        self.tx = x
+        self.ty = y
+        self.tw = max(260, w)
+        self.th = max(180, h)
+        self.anim_progress = 0.0
+        self.is_animating = True
+        self.trail = []
+        self.particles = []
+
+        cx = x + w / 2.0
+        cy = y + h / 2.0
+        # Confined particles strictly within the window boundaries
+        for _ in range(35):
+            angle = random.uniform(0, 2 * math.pi)
+            dist = random.uniform(min(w, h) * 0.25, max(w, h) * 0.48)
+            self.particles.append({
+                "x": cx + math.cos(angle) * dist,
+                "y": cy + math.sin(angle) * dist,
+                "target_x": cx,
+                "target_y": cy,
+                "size": random.uniform(2.5, 6.0),
+                "speed": random.uniform(0.12, 0.24),
+                "alpha": random.uniform(0.7, 1.0)
+            })
+
+        screen = QApplication.primaryScreen().geometry()
+        self.setGeometry(0, 0, screen.width(), screen.height())
+
+        if not self.isVisible():
+            self.show()
+        if not self.timer.isActive():
+            self.timer.start(16)
+        self.update()
+
+    def get_flight_state(self, t, is_reverse=False):
+        cx = self.tx + self.tw / 2.0
+        cy = self.ty + self.th / 2.0
+        radius_x = (self.tw / 2.0) + 60.0
+        radius_y = (self.th / 2.0) + 40.0
+
+        if not is_reverse:
+            prog = t
+            angle = -math.pi * 0.8 + prog * (math.pi * 2.2)
+            cur_rx = radius_x * (1.35 - 0.45 * prog)
+            cur_ry = radius_y * (1.35 - 0.45 * prog)
+            tilt_offset_x = (1.0 - prog) * 220.0
+            tilt_offset_y = (1.0 - prog) * -140.0
+            scale = 0.45 + 0.65 * math.sin(prog * math.pi)
+        else:
+            prog = t
+            angle = math.pi * 0.2 + prog * (math.pi * 2.5)
+            cur_rx = radius_x * (0.3 + 1.2 * prog)
+            cur_ry = radius_y * (0.3 + 1.2 * prog)
+            tilt_offset_x = prog * 240.0
+            tilt_offset_y = prog * -180.0
+            scale = 1.0 - 0.70 * prog
+
+        px = cx + math.cos(angle) * cur_rx + tilt_offset_x
+        py = cy + math.sin(angle) * cur_ry + tilt_offset_y
+
+        dt = 0.015
+        if not is_reverse:
+            angle_next = -math.pi * 0.8 + (prog + dt) * (math.pi * 2.2)
+            p_next_x = cx + math.cos(angle_next) * cur_rx + ((1.0 - (prog + dt)) * 220.0)
+            p_next_y = cy + math.sin(angle_next) * cur_ry + ((1.0 - (prog + dt)) * -140.0)
+        else:
+            angle_next = math.pi * 0.2 + (prog + dt) * (math.pi * 2.5)
+            p_next_x = cx + math.cos(angle_next) * cur_rx + ((prog + dt) * 240.0)
+            p_next_y = cy + math.sin(angle_next) * cur_ry + ((prog + dt) * -180.0)
+
+        vx = p_next_x - px
+        vy = p_next_y - py
+        angle_deg = math.degrees(math.atan2(vy, vx))
+        return px, py, angle_deg, scale
+
+    def update_animation(self):
+        if not self.is_animating:
+            return
+
+        self.anim_progress += 0.026 # 60 FPS smooth pace
+
+        # Smooth window crystallization / fade-in from 0.45 to 0.80
+        if self.anim_mode == "OPEN" and self.active_wid:
+            if self.anim_progress >= 0.45:
+                fade_alpha = min(1.0, (self.anim_progress - 0.45) / 0.35)
+                set_window_opacity(self.active_wid, fade_alpha)
+
+        if self.anim_progress >= 1.0:
+            self.anim_progress = 1.0
+            self.is_animating = False
             self.timer.stop()
+            if self.active_wid:
+                clean_window_opacity(self.active_wid)
+            self.hide()
             self.update()
             return
 
-        surviving = []
-        for anim in self.active_animations:
-            anim.progress += 0.045 # ~400ms crisp animation
-            if anim.progress < 1.0:
-                surviving.append(anim)
-
-        self.active_animations = surviving
         self.update()
 
     def paintEvent(self, event):
-        if not self.active_animations:
+        if not self.is_animating:
             return
 
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
 
+        t = self.anim_progress
+        cx = self.tx + self.tw / 2.0
+        cy = self.ty + self.th / 2.0
         r, g, b = self.rgb
 
-        for anim in self.active_animations:
-            t = anim.progress
-            cx = anim.x + anim.w / 2.0
-            cy = anim.y + anim.h / 2.0
+        if self.anim_mode == "OPEN":
+            # 1. Flying Dragon Orbit (0.0 to 0.70)
+            if t <= 0.70:
+                flight_t = t / 0.70
+                px, py, angle_deg, scale = self.get_flight_state(flight_t)
 
-            if anim.mode == "OPEN":
-                # 1. Orbital Dragon Flight (0.0 to 0.70)
-                if t <= 0.70:
-                    flight_t = t / 0.70
-                    angle = (1.0 - flight_t) * 1.8 * math.pi - (math.pi / 4.0)
-                    rad_x = (anim.w / 2.0) + 55.0 * (1.0 - flight_t)
-                    rad_y = (anim.h / 2.0) + 40.0 * (1.0 - flight_t)
-                    
-                    px = cx + math.cos(angle) * rad_x
-                    py = cy + math.sin(angle) * rad_y
+                self.trail.append((px, py, t))
+                if len(self.trail) > 22:
+                    self.trail.pop(0)
 
-                    anim.trail.append((px, py))
-                    if len(anim.trail) > 14:
-                        anim.trail.pop(0)
+                # Fiery plasma ribbon trail
+                if len(self.trail) > 2:
+                    for i in range(len(self.trail) - 1):
+                        p1 = self.trail[i]
+                        p2 = self.trail[i + 1]
+                        ratio = i / float(len(self.trail))
+                        trail_alpha = int(ratio * (1.0 - flight_t * 0.4) * 230)
+                        trail_width = max(1.5, ratio * 7.0 * scale)
+                        
+                        pen = QPen(QColor(r, g, b, max(0, min(255, trail_alpha))), trail_width)
+                        pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+                        painter.setPen(pen)
+                        painter.drawLine(QPointF(p1[0], p1[1]), QPointF(p2[0], p2[1]))
 
-                    # Plasma trail ribbon
-                    if len(anim.trail) > 2:
-                        for i in range(len(anim.trail) - 1):
-                            p1 = anim.trail[i]
-                            p2 = anim.trail[i + 1]
-                            ratio = i / float(len(anim.trail))
-                            alpha = int(ratio * (1.0 - flight_t * 0.4) * 230)
-                            width = max(2.0, ratio * 6.0)
-                            pen = QPen(QColor(r, g, b, max(0, min(255, alpha))), width)
-                            pen.setCapStyle(Qt.PenCapStyle.RoundCap)
-                            painter.setPen(pen)
-                            painter.drawLine(QPointF(p1[0], p1[1]), QPointF(p2[0], p2[1]))
+                # Flying Dragon Sprite with realistic wobble and banking
+                wobble = math.sin(flight_t * 14.0) * 0.12
+                sw = min(180.0, self.tw * 0.65) * scale * (1.0 + wobble)
+                sh = sw * (1.0 - wobble)
 
-                    # Flying Dragon Sprite
-                    dw = min(140.0, anim.w * 0.35)
-                    dh = dw
-                    painter.save()
-                    painter.translate(px, py)
-                    painter.rotate(math.degrees(angle) + 90)
-                    painter.setOpacity(min(1.0, flight_t * 2.5) * (1.0 - max(0.0, flight_t - 0.7) * 3.3))
-                    painter.drawPixmap(QRectF(-dw/2.0, -dh/2.0, dw, dh), self.dragon_pixmap, QRectF(self.dragon_pixmap.rect()))
-                    painter.restore()
+                painter.save()
+                painter.translate(px, py)
+                painter.rotate(angle_deg)
 
-                # 2. Central Burst & Expanding Frame (0.35 to 1.0)
-                if t >= 0.35:
-                    burst_t = (t - 0.35) / 0.65
-                    burst_alpha = int(max(0, math.sin(burst_t * math.pi) * 210))
-                    
-                    # Expanding Frame Glow
-                    frame_scale = 0.90 + burst_t * 0.10
-                    fw = anim.w * frame_scale
-                    fh = anim.h * frame_scale
-                    fx = cx - fw / 2.0
-                    fy = cy - fh / 2.0
-                    
-                    pen = QPen(QColor(r, g, b, burst_alpha), 2.5)
-                    painter.setPen(pen)
-                    painter.setBrush(Qt.BrushStyle.NoBrush)
-                    painter.drawRoundedRect(QRectF(fx, fy, fw, fh), 8.0, 8.0)
-
-                    # Core Shockwave
-                    rad = min(anim.w, anim.h) * 0.40 * (0.3 + burst_t * 0.7)
-                    radial = QRadialGradient(QPointF(cx, cy), rad)
-                    radial.setColorAt(0.0, QColor(255, 255, 255, int(burst_alpha * 0.85)))
-                    radial.setColorAt(0.5, QColor(r, g, b, int(burst_alpha * 0.50)))
-                    radial.setColorAt(1.0, QColor(0, 0, 0, 0))
-                    painter.setBrush(QBrush(radial))
-                    painter.setPen(Qt.PenStyle.NoPen)
-                    painter.drawEllipse(QPointF(cx, cy), rad, rad)
-
-            elif anim.mode == "CLOSE":
-                # Inward Vortex Collapse
-                collapse_t = t
-                alpha = int(max(0, (1.0 - collapse_t) * 220))
-                
+                glow_rad = 75 * scale
+                glow_radial = QRadialGradient(QPointF(0, 0), glow_rad)
+                glow_radial.setColorAt(0.0, QColor(255, 255, 255, int((1.0 - flight_t * 0.3) * 220)))
+                glow_radial.setColorAt(0.3, QColor(r, g, b, int((1.0 - flight_t * 0.3) * 180)))
+                glow_radial.setColorAt(1.0, QColor(0, 0, 0, 0))
+                painter.setBrush(QBrush(glow_radial))
                 painter.setPen(Qt.PenStyle.NoPen)
-                for p in anim.particles:
-                    p["x"] += (p["target_x"] - p["x"]) * p["speed"] * 2.0
-                    p["y"] += (p["target_y"] - p["y"]) * p["speed"] * 2.0
-                    p_alpha = int(p["alpha"] * alpha)
+                painter.drawEllipse(QPointF(0, 0), glow_rad, glow_rad)
+
+                painter.drawPixmap(QRectF(-sw / 2.0, -sh / 2.0, sw, sh), self.dragon_pixmap, QRectF(self.dragon_pixmap.rect()))
+                painter.restore()
+
+            # 2. Central Impact & Resplandor Shockwave (0.45 to 0.95)
+            if 0.45 <= t <= 0.95:
+                impact_t = (t - 0.45) / 0.50
+                burst_alpha = int(max(0, math.sin(impact_t * math.pi) * 230))
+                burst_radius = 80 + impact_t * 260
+                burst = QRadialGradient(QPointF(cx, cy), burst_radius)
+                burst.setColorAt(0.0, QColor(255, 255, 255, burst_alpha))
+                burst.setColorAt(0.4, QColor(r, g, b, int(burst_alpha * 0.7)))
+                burst.setColorAt(1.0, QColor(0, 0, 0, 0))
+                painter.setBrush(QBrush(burst))
+                painter.setPen(Qt.PenStyle.NoPen)
+                painter.drawEllipse(QPointF(cx, cy), burst_radius, burst_radius)
+
+                # Expanding Neon Frame that matches window boundary
+                frame_scale = 0.88 + impact_t * 0.12
+                bw = self.tw * frame_scale
+                bh = self.th * frame_scale
+                bx = cx - bw / 2.0
+                by = cy - bh / 2.0
+                frame_alpha = int(max(0, math.sin(impact_t * math.pi) * 240))
+
+                glow_thickness = max(2.0, (1.0 - impact_t) * 10.0)
+                outer_pen = QPen(QColor(r, g, b, int(frame_alpha * 0.8)), glow_thickness + 2.0)
+                painter.setPen(outer_pen)
+                painter.setBrush(Qt.BrushStyle.NoBrush)
+                painter.drawRoundedRect(QRectF(bx, by, bw, bh), 8.0, 8.0)
+
+                core_pen = QPen(QColor(255, 255, 255, frame_alpha), 2.5)
+                painter.setPen(core_pen)
+                painter.drawRoundedRect(QRectF(bx, by, bw, bh), 8.0, 8.0)
+
+        elif self.anim_mode == "CLOSE":
+            # 1. Inward Implosion strictly within the window boundaries
+            if t <= 0.65:
+                imp_t = t / 0.65
+                frame_scale = 1.0 - imp_t * 0.25
+                bw = self.tw * frame_scale
+                bh = self.th * frame_scale
+                bx = cx - bw / 2.0
+                by = cy - bh / 2.0
+                frame_alpha = int(max(0, (1.0 - imp_t) * 240))
+
+                glow_thickness = max(1.5, (1.0 - imp_t) * 7.0)
+                outer_pen = QPen(QColor(r, g, b, int(frame_alpha * 0.8)), glow_thickness + 2.0)
+                painter.setPen(outer_pen)
+                painter.setBrush(Qt.BrushStyle.NoBrush)
+                painter.drawRoundedRect(QRectF(bx, by, bw, bh), 6.0, 6.0)
+
+                core_pen = QPen(QColor(255, 255, 255, frame_alpha), 2.5)
+                painter.setPen(core_pen)
+                painter.drawRoundedRect(QRectF(bx, by, bw, bh), 6.0, 6.0)
+
+                painter.setPen(Qt.PenStyle.NoPen)
+                for p in self.particles:
+                    p["x"] += (p["target_x"] - p["x"]) * p["speed"] * 2.5
+                    p["y"] += (p["target_y"] - p["y"]) * p["speed"] * 2.5
+                    p_alpha = int(p["alpha"] * 255 * (1.0 - imp_t * 0.3))
                     painter.setBrush(QColor(r, g, b, max(0, min(255, p_alpha))))
                     painter.drawEllipse(QPointF(p["x"], p["y"]), p["size"], p["size"])
 
-                rad = min(anim.w, anim.h) * 0.35 * (1.0 - collapse_t * 0.75)
-                radial = QRadialGradient(QPointF(cx, cy), rad)
-                radial.setColorAt(0.0, QColor(255, 255, 255, int(alpha * 0.75)))
-                radial.setColorAt(0.6, QColor(r, g, b, int(alpha * 0.45)))
-                radial.setColorAt(1.0, QColor(0, 0, 0, 0))
-                painter.setBrush(QBrush(radial))
-                painter.drawEllipse(QPointF(cx, cy), rad, rad)
+            # 2. Central Dragon Summon & Disintegration (0.35 to 0.70)
+            if 0.35 <= t <= 0.70:
+                summon_t = (t - 0.35) / 0.35
+                burst_alpha = int(max(0, math.sin(summon_t * math.pi) * 230))
+                burst_radius = 50 + summon_t * 220
+                burst = QRadialGradient(QPointF(cx, cy), burst_radius)
+                burst.setColorAt(0.0, QColor(255, 255, 255, burst_alpha))
+                burst.setColorAt(0.5, QColor(r, g, b, int(burst_alpha * 0.7)))
+                burst.setColorAt(1.0, QColor(0, 0, 0, 0))
+                painter.setBrush(QBrush(burst))
+                painter.setPen(Qt.PenStyle.NoPen)
+                painter.drawEllipse(QPointF(cx, cy), burst_radius, burst_radius)
+
+                dragon_scale = min(1.0, summon_t * 1.8) * (min(self.tw, self.th) / 600.0)
+                dw = min(200.0, self.tw * 0.75) * dragon_scale
+                dh = dw
+                painter.setOpacity(min(1.0, summon_t * 2.0))
+                painter.drawPixmap(QRectF(cx - dw / 2.0, cy - dh / 2.0, dw, dh), self.dragon_pixmap, QRectF(self.dragon_pixmap.rect()))
+                painter.setOpacity(1.0)
+
+            # 3. Takeoff & Dispersion Spiral (0.60 to 1.0)
+            if t >= 0.60:
+                takeoff_t = (t - 0.60) / 0.40
+                px, py, angle_deg, scale = self.get_flight_state(takeoff_t, is_reverse=True)
+
+                self.trail.append((px, py, t))
+                if len(self.trail) > 22:
+                    self.trail.pop(0)
+
+                if len(self.trail) > 2:
+                    for i in range(len(self.trail) - 1):
+                        p1 = self.trail[i]
+                        p2 = self.trail[i + 1]
+                        ratio = i / float(len(self.trail))
+                        trail_alpha = int(ratio * (1.0 - takeoff_t) * 220)
+                        trail_width = max(1.5, ratio * 6.0 * scale)
+                        
+                        pen = QPen(QColor(r, g, b, max(0, min(255, trail_alpha))), trail_width)
+                        pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+                        painter.setPen(pen)
+                        painter.drawLine(QPointF(p1[0], p1[1]), QPointF(p2[0], p2[1]))
+
+                wobble = math.sin(takeoff_t * 16.0) * 0.15
+                sw = min(160.0, self.tw * 0.65) * scale * (1.0 + wobble)
+                sh = sw * (1.0 - wobble)
+
+                painter.save()
+                painter.translate(px, py)
+                painter.rotate(angle_deg)
+
+                glow_rad = 75 * scale
+                glow_radial = QRadialGradient(QPointF(0, 0), glow_rad)
+                glow_radial.setColorAt(0.0, QColor(255, 255, 255, int((1.0 - takeoff_t) * 200)))
+                glow_radial.setColorAt(0.4, QColor(r, g, b, int((1.0 - takeoff_t) * 180)))
+                glow_radial.setColorAt(1.0, QColor(0, 0, 0, 0))
+                painter.setBrush(QBrush(glow_radial))
+                painter.setPen(Qt.PenStyle.NoPen)
+                painter.drawEllipse(QPointF(0, 0), glow_rad, glow_rad)
+
+                painter.setOpacity(max(0.0, 1.0 - takeoff_t * 1.1))
+                painter.drawPixmap(QRectF(-sw / 2.0, -sh / 2.0, sw, sh), self.dragon_pixmap, QRectF(self.dragon_pixmap.rect()))
+                painter.restore()
 
 class EventDrivenWindowManager:
     def __init__(self, bridge):
         self.bridge = bridge
         self.known_windows = {}
 
-        # Populate initial existing windows so they don't trigger startup animations
+        clean_all_window_opacities()
+
         for wid in get_client_list():
             if is_normal_app_window(wid):
                 geo = get_window_geometry(wid)
@@ -296,13 +498,14 @@ class EventDrivenWindowManager:
         current_set = set(current_clients)
         known_set = set(self.known_windows.keys())
 
-        # 1. New Windows Opened (Trigger OPEN once)
+        # 1. New Windows Opened
         new_windows = current_set - known_set
         for wid in new_windows:
             if not is_normal_app_window(wid):
                 continue
-            
-            # Immediately add to known_windows so it CANNOT retrigger
+
+            # Instantly hide window to avoid awkward pre-render pop
+            set_window_opacity(wid, 0.0)
             self.known_windows[wid] = (0, 0, 0, 0)
             
             def handle_new_win(w_id):
@@ -314,18 +517,19 @@ class EventDrivenWindowManager:
                         break
                 if geo:
                     self.known_windows[w_id] = geo
-                    self.bridge.trigger_animation.emit("OPEN", geo[0], geo[1], geo[2], geo[3])
+                    self.bridge.open_signal.emit(w_id, geo[0], geo[1], geo[2], geo[3])
                 else:
+                    clean_window_opacity(w_id)
                     self.known_windows.pop(w_id, None)
                     
             threading.Thread(target=handle_new_win, args=(wid,), daemon=True).start()
 
-        # 2. Closed Windows (Trigger CLOSE once)
+        # 2. Closed Windows
         closed_windows = known_set - current_set
         for wid in closed_windows:
             last_geo = self.known_windows.pop(wid, None)
             if last_geo and last_geo[2] > 80:
-                self.bridge.trigger_animation.emit("CLOSE", last_geo[0], last_geo[1], last_geo[2], last_geo[3])
+                self.bridge.close_signal.emit(last_geo[0], last_geo[1], last_geo[2], last_geo[3])
 
         # 3. Update active window geometries
         for wid in current_set.intersection(set(self.known_windows.keys())):
@@ -334,9 +538,17 @@ class EventDrivenWindowManager:
                 if geo:
                     self.known_windows[wid] = geo
 
+def cleanup_and_exit(signum, frame):
+    clean_all_window_opacities()
+    sys.exit(0)
+
 def main():
     global MY_PID
     MY_PID = os.getpid()
+
+    signal.signal(signal.SIGTERM, cleanup_and_exit)
+    signal.signal(signal.SIGINT, cleanup_and_exit)
+
     pid_file = "/tmp/dragon-animator.pid"
     if os.path.exists(pid_file):
         try:
@@ -350,12 +562,16 @@ def main():
     with open(pid_file, "w") as f:
         f.write(str(MY_PID))
 
+    clean_all_window_opacities()
+
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
 
     bridge = AnimationBridge()
     overlay = DragonOverlay(bridge)
     manager = EventDrivenWindowManager(bridge)
+
+    clean_all_window_opacities()
 
     sys.exit(app.exec())
 
