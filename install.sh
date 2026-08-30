@@ -121,13 +121,13 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Default to all stable core components if no modular flag passed
+# Default to all components if no modular flag passed
 if [ "$MODULAR_FLAG_PASSED" = false ]; then
     INSTALL_GRUB=true
     INSTALL_PLYMOUTH=true
     INSTALL_LOGIN=true
     INSTALL_BORDERS=true
-    INSTALL_ANIMATOR=false
+    INSTALL_ANIMATOR=true
     INSTALL_WALLPAPER=true
     INSTALL_ICONS=true
     INSTALL_TERMINAL=true
@@ -142,7 +142,7 @@ if [ -z "$SELECTED_COLOR" ]; then
     echo "========================================================================"
     echo -e "${NC}"
     echo -e "${BOLD}Elige la edición de color que deseas instalar:${NC}\n"
-    echo -e "  ${RED}[1] 🔴 Crimson Red      (Rojo Neón Carmesí - Favorito)${NC}"
+    echo -e "  ${RED}[1] 🔴 Crimson Red      (Rojo Neón Carmesí)${NC}"
     echo -e "  ${BLUE}[2] 🔵 Plasma Blue      (Azul Eléctrico Cyberpunk)${NC}"
     echo -e "  ${GREEN}[3] 🟢 Toxic Green      (Verde Hacker Neón)${NC}"
     echo -e "  ${YELLOW}[4] 🟡 Cyber Yellow     (Amarillo Neón Intenso)${NC}"
@@ -181,7 +181,7 @@ if [ -z "$SELECTED_COLOR" ]; then
     esac
 
     echo -e "\n${BOLD}¿Qué componentes deseas instalar?${NC}"
-    echo -e "  [1] 🌟 Todo completo (GRUB + Plymouth + Login + Bloqueo/Logout + Escritorio)"
+    echo -e "  [1] 🌟 Todo completo (GRUB + Plymouth + Login + Bloqueo/Logout + Escritorio + Animador)"
     echo -e "  [2] 🎛️  Todo el Arranque (Menú GRUB + Animación Plymouth de carga)"
     echo -e "  [3] 🛡️  Pantallas de Login, Bloqueo (Suspend) y Cerrar Sesión"
     echo -e "  [4] 🐉  Solo Animador del Dragón (Vuelo al abrir/cerrar ventanas)"
@@ -236,7 +236,7 @@ esac
 
 echo -e "\n${GREEN}${BOLD}=== Instalando Kali Dragon Suite - Edición ${CAP_COLOR} ===${NC}"
 
-# Detect active graphical session
+# Detect active graphical session and DBus
 USER_PID=$(pgrep -u "$TARGET_USER" xfce4-session | head -n 1 || true)
 if [ -n "$USER_PID" ]; then
     DBUS_ADDR=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$USER_PID/environ 2>/dev/null | cut -d= -f2- | tr -d '\0' || true)
@@ -244,6 +244,13 @@ if [ -n "$USER_PID" ]; then
 else
     USER_DISP=":0"
     DBUS_ADDR=""
+fi
+
+if [ -z "$DBUS_ADDR" ]; then
+    TARGET_UID=$(id -u "$TARGET_USER" 2>/dev/null || echo "1000")
+    if [ -S "/run/user/$TARGET_UID/bus" ]; then
+        DBUS_ADDR="unix:path=/run/user/$TARGET_UID/bus"
+    fi
 fi
 
 # 1. GRUB Boot Menu
@@ -257,6 +264,16 @@ if [ "$INSTALL_GRUB" = true ]; then
     cp -f "$VARIANT_PATH/boot/grub/theme.txt" /boot/grub/themes/kali/
     cp -rf "$VARIANT_PATH/boot/grub/icons/"* /boot/grub/themes/kali/icons/
     chmod -R 755 /boot/grub/themes/kali
+
+    if [ -f /etc/default/grub ]; then
+        if grep -q '^GRUB_THEME=' /etc/default/grub; then
+            sed -i 's|^GRUB_THEME=.*|GRUB_THEME="/boot/grub/themes/kali/theme.txt"|g' /etc/default/grub
+        elif grep -q '^#GRUB_THEME=' /etc/default/grub; then
+            sed -i 's|^#GRUB_THEME=.*|GRUB_THEME="/boot/grub/themes/kali/theme.txt"|g' /etc/default/grub
+        else
+            echo 'GRUB_THEME="/boot/grub/themes/kali/theme.txt"' >> /etc/default/grub
+        fi
+    fi
 fi
 
 # 2. Plymouth & Boot Handoff
@@ -289,7 +306,7 @@ if [ "$INSTALL_LOGIN" = true ]; then
     cp -f "$VARIANT_PATH/boot/transition/login-background.png" /usr/share/desktop-base/kali-theme/login/
     cp -f "$VARIANT_PATH/boot/transition/login-blurred.png" /usr/share/desktop-base/kali-theme/login/
     
-    # 3.2 Lockscreen (xfce4-screensaver / Suspend Wake-up) Wallpaper, XML & Avatar
+    # 3.2 Lockscreen Wallpaper, XML & Avatar
     cp -f "$VARIANT_PATH/lockscreen/lockscreen.png" /usr/share/desktop-base/kali-theme/lockscreen/
     cp -f "$VARIANT_PATH/lockscreen/gnome-background.xml" /usr/share/desktop-base/kali-theme/lockscreen/
     cp -f "$VARIANT_PATH/lockscreen/dragon-avatar.png" /usr/share/desktop-base/kali-theme/lockscreen/
@@ -300,7 +317,7 @@ if [ "$INSTALL_LOGIN" = true ]; then
     cp -f "$VARIANT_PATH/lockscreen/gnome-background.xml" /usr/share/backgrounds/kali/kali-cubes2.xml 2>/dev/null || true
     cp -f "$VARIANT_PATH/boot/transition/login-blurred.png" /usr/share/backgrounds/kali/login-blurred 2>/dev/null || true
     
-    # User Profile Avatar in target color (for lockscreen and accounts service)
+    # User Profile Avatar in target color
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" "$TARGET_HOME/.face" 2>/dev/null || true
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" "$TARGET_HOME/.face.icon" 2>/dev/null || true
     cp -f "$VARIANT_PATH/login/dragon-avatar.png" "/var/lib/AccountsService/icons/$TARGET_USER" 2>/dev/null || true
@@ -318,7 +335,7 @@ fi
 
 # 4. Window Borders (XFWM4 & GTK3/4 CSD)
 if [ "$INSTALL_BORDERS" = true ]; then
-    echo -e "${CYAN}[+] Instalando Bordes de Ventana de 2px (XFWM4 & GTK)...${NC}"
+    echo -e "${CYAN}[+] Instalando Bordes de Ventana de 2px (XFWM4 & GTK 100% Sólidos)...${NC}"
     mkdir -p "$TARGET_HOME/.themes/$THEME_NAME"
     mkdir -p "$TARGET_HOME/.local/share/themes/$THEME_NAME"
     mkdir -p "/usr/share/themes/$THEME_NAME"
@@ -331,15 +348,23 @@ if [ "$INSTALL_BORDERS" = true ]; then
     cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-3.0.css" "$TARGET_HOME/.config/gtk-3.0/gtk.css"
     cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-4.0.css" "$TARGET_HOME/.config/gtk-4.0/gtk.css"
     
+    # Flush Thunar in-memory stylesheet cache
+    su - "$TARGET_USER" -c 'thunar -q 2>/dev/null || true; pkill -f thunar 2>/dev/null || true' || true
+
     if [ -n "$DBUS_ADDR" ]; then
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s Kali-Dark 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfwm4 -p /general/theme -s Kali-Dark 2>/dev/null || true
+        sleep 0.15
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfwm4 -p /general/theme -s "$THEME_NAME" 2>/dev/null || true
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s "$THEME_NAME" 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfsettingsd --replace &
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfwm4 --replace &
     fi
 fi
 
 # 5. Dragon Window Animator Daemon
 if [ "$INSTALL_ANIMATOR" = true ]; then
-    echo -e "${CYAN}[+] Configurando Animador del Dragón Volador...${NC}"
+    echo -e "${CYAN}[+] Configurando Animador del Dragón Volador (60 FPS)...${NC}"
     mkdir -p "$TARGET_HOME/.local/share/dragon-anim" "$TARGET_HOME/.local/bin" "$TARGET_HOME/.config/autostart"
     cp -f "$SCRIPT_DIR/desktop/animator/dragon-window-animator.py" "$TARGET_HOME/.local/bin/"
     cp -f "$VARIANT_PATH/desktop/animator/dragon_sprite.png" "$TARGET_HOME/.local/share/dragon-anim/"
@@ -347,11 +372,13 @@ if [ "$INSTALL_ANIMATOR" = true ]; then
     cp -f "$SCRIPT_DIR/desktop/animator/dragon-animator.desktop" "$TARGET_HOME/.config/autostart/"
     chmod +x "$TARGET_HOME/.local/bin/dragon-window-animator.py"
 
-    pkill -f dragon-window-animator.py 2>/dev/null || true
-    # Safety cleanup of any lingering window opacities
+    pkill -9 -f dragon-window-animator.py 2>/dev/null || true
+    rm -f /tmp/dragon-animator.pid
+
+    # Clean window opacities cleanly
     su - "$TARGET_USER" -c 'python3 -c "import subprocess, re; out=subprocess.check_output([\"xprop\", \"-root\", \"_NET_CLIENT_LIST\"], stderr=subprocess.DEVNULL).decode(); m=re.search(r\"# (.*)\", out); [subprocess.run([\"xprop\", \"-id\", str(int(x.strip(), 16)), \"-remove\", \"_NET_WM_WINDOW_OPACITY\"], stderr=subprocess.DEVNULL) for x in m.group(1).split(\",\") if x.strip()] if m else None" 2>/dev/null' || true
     sleep 0.2
-    su - "$TARGET_USER" -c "DISPLAY=$USER_DISP nohup $TARGET_HOME/.local/bin/dragon-window-animator.py --no-fork >/dev/null 2>&1 &" 2>/dev/null || true
+    su - "$TARGET_USER" -c "DISPLAY=$USER_DISP setsid $TARGET_HOME/.local/bin/dragon-window-animator.py >/dev/null 2>&1 &" 2>/dev/null || true
 fi
 
 # 6. Desktop Wallpaper
@@ -375,6 +402,7 @@ if [ "$INSTALL_ICONS" = true ]; then
     cp -rf "$VARIANT_PATH/icons/apps/scalable/"* "$TARGET_HOME/.local/share/icons/$ICON_THEME/apps/scalable/" 2>/dev/null || true
     
     gtk-update-icon-cache -f -t "/usr/share/icons/$ICON_THEME" 2>/dev/null || true
+    gtk-update-icon-cache -f -t "$TARGET_HOME/.local/share/icons/$ICON_THEME" 2>/dev/null || true
     
     if [ -n "$DBUS_ADDR" ]; then
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON_THEME" 2>/dev/null || true
@@ -431,10 +459,11 @@ if [ "$INSTALL_TERMINAL" = true ]; then
             *) CURSOR_HEX="#ff1744" ;;
         esac
         sed -i -E "s/ColorCursor=.*/ColorCursor=$CURSOR_HEX/g" "$QTERM_CFG" 2>/dev/null || true
+        sed -i -E "s/TerminalTransparency=.*/TerminalTransparency=0/g" "$QTERM_CFG" 2>/dev/null || true
     fi
 fi
 
-chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.themes" "$TARGET_HOME/.local" "$TARGET_HOME/.config" 2>/dev/null || true
+chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.themes" "$TARGET_HOME/.local" "$TARGET_HOME/.config" "$TARGET_HOME/.face" "$TARGET_HOME/.face.icon" 2>/dev/null || true
 
 # Rebuild Bootloader if needed
 if [ "$INSTALL_GRUB" = true ] || [ "$INSTALL_PLYMOUTH" = true ]; then
@@ -443,7 +472,7 @@ if [ "$INSTALL_GRUB" = true ] || [ "$INSTALL_PLYMOUTH" = true ]; then
         update-grub
     fi
     if [ "$INSTALL_PLYMOUTH" = true ]; then
-        update-initramfs -u
+        plymouth-set-default-theme -R kali 2>/dev/null || update-initramfs -u
     fi
 fi
 
