@@ -358,10 +358,8 @@ if [ "$INSTALL_BORDERS" = true ]; then
     cp -rf "$VARIANT_PATH/desktop/theme/$THEME_NAME/"* "$TARGET_HOME/.local/share/themes/$THEME_NAME/"
     cp -rf "$VARIANT_PATH/desktop/theme/$THEME_NAME/"* "/usr/share/themes/$THEME_NAME/"
     
-    echo -e "    -> Configurando hojas de estilo GTK3 y GTK4 100% sólidas (#23252e)..."
-    mkdir -p "$TARGET_HOME/.config/gtk-3.0" "$TARGET_HOME/.config/gtk-4.0"
-    cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-3.0.css" "$TARGET_HOME/.config/gtk-3.0/gtk.css"
-    cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-4.0.css" "$TARGET_HOME/.config/gtk-4.0/gtk.css"
+    echo -e "    -> Limpiando configuraciones residuales y desplegando tema GTK completo..."
+    rm -f "$TARGET_HOME/.config/gtk-3.0/gtk.css" "$TARGET_HOME/.config/gtk-4.0/gtk.css"
     
     echo -e "    -> Purgando caché de Thunar y xfdesktop..."
     su - "$TARGET_USER" -c 'thunar -q 2>/dev/null || true; pkill -f thunar 2>/dev/null || true; pkill -9 -f xfdesktop 2>/dev/null || true' || true
