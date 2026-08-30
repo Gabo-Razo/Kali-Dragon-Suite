@@ -1,97 +1,177 @@
-# 🐉 Kali Dragon Suite (15 Ediciones de Color)
+<div align="center">
 
-> **Suite Integral y Modular de Personalización para Kali Linux (XFCE)**  
-> Transforma por completo el arranque (GRUB), la pantalla de carga (Plymouth), la pantalla de inicio de sesión (LightDM), la pantalla de bloqueo (Screensaver), el cuadro de apagado/cierre de sesión, los bordes de ventana de 2px, el animador cinemático del dragón (60 FPS), los iconos del sistema y el prompt de la terminal.
+# 🐉 KALI DRAGON SUITE
+### *The Ultimate Cyberpunk & Neon Transformation for Kali Linux (XFCE)*
+
+[![OS: Kali Linux](https://img.shields.io/badge/OS-Kali%20Linux%20%2F%20Debian-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)](https://www.kali.org/)
+[![Desktop: XFCE4](https://img.shields.io/badge/Desktop-XFCE4-00A4E4?style=for-the-badge&logo=xfce&logoColor=white)](https://www.xfce.org/)
+[![Editions: 15 Colors](https://img.shields.io/badge/Editions-15%20Neon%20Colors-FF1744?style=for-the-badge&logo=palette&logoColor=white)](#-15-ediciones-de-color-disponibles)
+[![Performance: 60 FPS](https://img.shields.io/badge/Performance-60%20FPS%20Native-00E676?style=for-the-badge&logo=speedtest&logoColor=white)](#-características-técnicas-y-rendimiento)
+[![License: MIT](https://img.shields.io/badge/License-MIT-FAD02C?style=for-the-badge)](LICENSE)
+
+<br/>
+
+> **Una suite completa, modular y ultra optimizada que transforma cada rincón de tu sistema:**  
+> Menú GRUB 1080p, pantalla de carga Plymouth, inicio de sesión LightDM, pantalla de bloqueo glassmorphism, bordes neón de 2px, animador cinemático del dragón (60 FPS), temas GTK3/4 de alto contraste, iconos Flat-Remix y prompt para la terminal.
+
+</div>
+
+---
+
+## 💬 Nota del Creador
+
+> *"Este es mi primer proyecto que desarrollo para Linux y quise compartirlo con la comunidad. La idea nació para darle a Kali Linux una estética neón / cyberpunk visualmente épica, pero manteniéndolo ligero y sin que devore los recursos de tu máquina.*  
+> *Varias de las texturas y artes base se generaron con ayuda de Gemini. Si llegan a encontrar algún detalle, bug visual o tienen alguna idea de mejora, con toda confianza abran un [Issue](https://github.com/Gabo-Razo/Kali-Dragon-Suite/issues) y trataré de responder y solucionarlo lo antes posible. ¡Ojalá les sea de gran utilidad y lo disfruten!"*  
+> — **Gabo Razo** ([@Gabo-Razo](https://github.com/Gabo-Razo))
 
 ---
 
 ## 📸 Galería Visual y Vistas Previas
 
-| Componente | Captura de Pantalla Real |
-| :--- | :--- |
-| **🖥️ Menú de Arranque GRUB** | ![GRUB Boot Menu](assets/previews/1_grub_boot_menu.png) |
-| **⏳ Pantalla de Carga Plymouth** | ![Plymouth Animation](assets/previews/3_plymouth_animation.png) |
-| **🔒 Pantalla de Bloqueo / Suspensión** | ![Lockscreen Dialog](assets/previews/2_lockscreen_dialog.png) |
-| **🪟 Bordes de Ventana 2px & GTK** | ![Desktop Window Borders](assets/previews/4_desktop_window_borders.png) |
-| **🐉 Animador del Dragón (60 FPS)** | ![Dragon Window Animation](assets/previews/5_dragon_window_animation.gif) |
+<div align="center">
+
+### 🐉 1. Animador Cinemático del Dragón (Vuelo en Ventanas a 60 FPS)
+*El dragón recorre el contorno de la ventana con estela de plasma y resplandor al abrir aplicaciones.*
+
+![Dragon Window Animation](assets/previews/5_dragon_window_animation.gif)
+
+<br/>
+
+### 🖥️ 2. Menú de Arranque GRUB (1080p Crystal Glass)
+*Fondo oscuro con aura neón, marco cibernético y más de 70 iconos de sistemas operativos recoloreados.*
+
+![GRUB Boot Menu](assets/previews/1_grub_boot_menu.png)
+
+<br/>
+
+### ⏳ 3. Pantalla de Carga Plymouth (Neon Splash)
+*Animación de arranque limpia y fluida sobre fondo negro puro.*
+
+![Plymouth Animation](assets/previews/3_plymouth_animation.png)
+
+<br/>
+
+### 🔒 4. Pantalla de Bloqueo / Suspensión (`xfce4-screensaver`)
+*Tarjeta glassmorphic con avatar circular iluminado, campo de contraseña y botones de acción.*
+
+![Lockscreen Dialog](assets/previews/2_lockscreen_dialog.png)
+
+<br/>
+
+### 🪟 5. Bordes Finos de 2px y Tema de Escritorio (GTK3 & GTK4)
+*Ventanas con contorno neón de 2px, botones circulares estilo arcade y colores 100% sólidos sin transparencias molestas.*
+
+![Desktop Window Borders](assets/previews/4_desktop_window_borders.png)
+
+</div>
 
 ---
 
 ## 🎨 15 Ediciones de Color Disponibles
 
-| Edición | Color Primario | Nombre Clave |
-| :--- | :--- | :--- |
-| **Crimson Red** | `#ff1744` / `#ec0101` | `red` |
-| **Plasma Blue** | `#00b0ff` / `#2979ff` | `blue` |
-| **Toxic Green** | `#00e676` / `#00c853` | `green` |
-| **Cyber Yellow** | `#ffd600` / `#ffc107` | `yellow` |
-| **Neon Purple** | `#d500f9` / `#aa00ff` | `purple` |
-| **Neon Orange** | `#ff6d00` / `#ff5722` | `orange` |
-| **Electric Lime** | `#76ff03` / `#64dd17` | `lime` |
-| **Cyber Pink** | `#ff4081` / `#f50057` | `pink` |
-| **Neon Cyan** | `#18ffff` / `#00e5ff` | `cyan` |
-| **Neon Teal** | `#00f2fe` / `#00b4d8` | `teal` |
-| **Cyber Gold** | `#ffab00` / `#ffd700` | `gold` |
-| **Royal Indigo** | `#536dfe` / `#3d5afe` | `indigo` |
-| **Quantum Mint** | `#64ffda` / `#00bfa5` | `mint` |
-| **Blood Ruby** | `#e91e63` / `#c2185b` | `ruby` |
-| **Cyber Magenta** | `#ff007f` / `#e00070` | `magenta` |
+Todos los colores están calibrados para ofrecer la máxima saturación neón sobre fondos oscuros profundos, garantizando legibilidad y alto contraste:
+
+| # | Edición | Flag CLI | Color Primario | Vibe / Estilo |
+| :-: | :--- | :--- | :--- | :--- |
+| 1 | **🔴 Crimson Red** | `red` | `#ff1744` / `#ec0101` | Rojo Neón Carmesí (Edición Original) |
+| 2 | **🔵 Plasma Blue** | `blue` | `#00b0ff` / `#2979ff` | Azul Eléctrico Cyberpunk |
+| 3 | **🟢 Toxic Green** | `green` | `#00e676` / `#00c853` | Verde Hacker Matrix |
+| 4 | **🟡 Cyber Yellow** | `yellow` | `#ffd600` / `#ffc107` | Amarillo Neón Intenso |
+| 5 | **🟣 Neon Purple** | `purple` | `#d500f9` / `#aa00ff` | Morado Synthwave / Retro City |
+| 6 | **🟠 Neon Orange** | `orange` | `#ff6d00` / `#ff5722` | Naranja Incandescente / Lava |
+| 7 | **🍈 Electric Lime** | `lime` | `#76ff03` / `#64dd17` | Verde Lima Ácido |
+| 8 | **🌸 Cyber Pink** | `pink` | `#ff4081` / `#f50057` | Rosa Neón Arcade |
+| 9 | **💎 Neon Cyan** | `cyan` | `#18ffff` / `#00e5ff` | Azul Hielo / Arctic Ice |
+| 10 | **🌊 Neon Teal** | `teal` | `#00f2fe` / `#00b4d8` | Turquesa Neón / Cyber Aqua |
+| 11 | **🪙 Cyber Gold** | `gold` | `#ffab00` / `#ffd700` | Oro Metálico / Night City Amber |
+| 12 | **🌌 Royal Indigo** | `indigo` | `#536dfe` / `#3d5afe` | Azul Índigo / Zafiro Profundo |
+| 13 | **🧪 Quantum Mint** | `mint` | `#64ffda` / `#00bfa5` | Verde Menta Cuántico |
+| 14 | **🩸 Blood Ruby** | `ruby` | `#e91e63` / `#c2185b` | Rojo Rubí / Dark Wine |
+| 15 | **🔮 Cyber Magenta** | `magenta` | `#ff007f` / `#e00070` | Magenta Neón / Retrowave 80s |
 
 ---
 
-## 📦 Módulos Independientes y Granulares
+## 📦 Arquitectura Modular e Independiente
 
-Puedes instalar la suite completa o **únicamente el módulo que necesites**:
+No estás obligado a cambiar todo tu sistema; puedes instalar **la suite completa** o **únicamente el módulo que quieras**:
 
-| Módulo | Flag CLI | Descripción |
+| Módulo | Flag CLI | ¿Qué hace? |
 | :--- | :--- | :--- |
-| **🌟 Suite Completa** | `--all` | Instala todos los componentes visuales y el animador. |
-| **🎛️ Arranque Completo** | `--boot-only` | Menú de arranque GRUB + Pantalla de carga Plymouth. |
-| **🖥️ Solo GRUB** | `--grub-only` | Menú de arranque estilo cristal oscuro con 70+ iconos de SOs. |
-| **⏳ Solo Plymouth** | `--plymouth-only` | Animación de carga del dragón con resplandor neón. |
-| **🛡️ Solo Login & Bloqueo** | `--login-only` | LightDM Greeter, pantalla de bloqueo (Screensaver) y cuadro de apagar/cerrar sesión. |
-| **🪟 Solo Bordes de Ventana** | `--borders-only` | Bordes finos de 2px (XFWM4 y GTK) con fondos 100% sólidos y opacos. |
-| **🐉 Solo Animador** | `--animator-only` | Vuelo orbital, resplandor y materialización cinemática a 60 FPS al abrir y cerrar ventanas. |
-| **🖼️ Solo Fondo** | `--wallpaper-only` | Fondo de pantalla 1080p del Dragón en el color elegido. |
-| **🎨 Solo Iconos** | `--icons-only` | Iconos del panel, menú de aplicaciones y botones de bloqueo/apagado sincronizados. |
-| **💻 Solo Terminal** | `--terminal-only` | Prompt de dos líneas de ZSH y cursor a juego sin transparencias. |
-| **🎛️ Solo Escritorio** | `--desktop-only` | Bordes, animador, wallpaper, iconos y terminal. |
+| **🌟 Suite Completa** | `--all` | Instala los 8 componentes al mismo tiempo. |
+| **🎛️ Todo el Arranque** | `--boot-only` | Configura el menú GRUB y la pantalla Plymouth. |
+| **🖥️ Solo GRUB** | `--grub-only` | Instala el tema GRUB 1080p con 70+ iconos de sistemas. |
+| **⏳ Solo Plymouth** | `--plymouth-only` | Despliega la animación de carga del dragón. |
+| **🛡️ Solo Login & Bloqueo** | `--login-only` | LightDM Greeter, pantalla de bloqueo y cuadro de apagado. |
+| **🪟 Solo Bordes de Ventana** | `--borders-only` | Bordes finos de 2px (XFWM4 & GTK) sin transparencias fallidas. |
+| **🐉 Solo Animador** | `--animator-only` | Daemon a 60 FPS que lanza el vuelo del dragón en ventanas. |
+| **🖼️ Solo Fondo de Pantalla** | `--wallpaper-only` | Wallpaper 1080p del Dragón en la edición elegida. |
+| **🎨 Solo Iconos** | `--icons-only` | Iconos del panel, menú de aplicaciones y botones del sistema. |
+| **💻 Solo Terminal** | `--terminal-only` | Prompt ZSH de dos líneas y colores de cursor sin lag. |
+| **🎛️ Solo Escritorio** | `--desktop-only` | Bordes, animador, fondo, iconos y terminal. |
 
 ---
 
-## 🚀 Instalación Rápida
+## 🚀 Instalación
 
-### 1. Menú Interactivo (Te pregunta qué color y qué módulos instalar)
+### Requisitos Previos
+* **Sistema Operativo:** Kali Linux (o cualquier distribución basada en Debian con XFCE).
+* **Entorno:** XFCE4.
+* **Dependencias:** Python 3, PyQt6 (`python3-pyqt6`), `xprop`, `xdotool` (el instalador las revisa automáticamente).
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/Gabo-Razo/Kali-Dragon-Suite.git
+cd Kali-Dragon-Suite
+
+# 2. Dar permisos de ejecución al instalador
+chmod +x install.sh
+```
+
+### Opción A: Menú Interactivo (Recomendado)
+Ejecuta el script y selecciona tu color y componentes desde el menú con números:
 ```bash
 sudo ./install.sh
 ```
 
-### 2. Instalación Directa por Línea de Comandos
+### Opción B: Instalación Rápida por Línea de Comandos
 ```bash
+# Instalar todo en Crimson Red:
+sudo ./install.sh --color red --all
+
 # Instalar todo en Cyber Gold:
 sudo ./install.sh --color gold --all
 
-# Instalar solo los bordes de ventana en Toxic Green:
+# Instalar solo los bordes de 2px en Toxic Green:
 sudo ./install.sh --color green --borders-only
 
-# Instalar solo el arranque (GRUB + Plymouth) en Crimson Red:
-sudo ./install.sh --color red --boot-only
+# Instalar solo el arranque (GRUB + Plymouth) en Plasma Blue:
+sudo ./install.sh --color blue --boot-only
 
-# Instalar solo el Login y Bloqueo en Neon Purple:
-sudo ./install.sh --color purple --login-only
-
-# Instalar solo el Animador del Dragón en Plasma Blue:
-sudo ./install.sh --color blue --animator-only
+# Instalar solo el Animador del Dragón en Neon Cyan:
+sudo ./install.sh --color cyan --animator-only
 ```
 
 ---
 
-## 🛡️ Estabilidad y Características Técnicas
+## ⚙️ Características Técnicas y Rendimiento
 
-* **Fondos 100% Sólidos y Opacos (`#23252e`):** Cero problemas de transparencia o elementos invisibles en Thunar, terminales y cuadros de diálogo.
-* **Proporciones 1:1 Preservadas:** El dragón vuela con su relación de aspecto natural exacta sin aplanarse ni deformarse.
-* **Trayectoria Confinada:** El dragón se desplaza estrictamente dentro del marco de la ventana sin invadir el resto de la pantalla.
-* **Cero Bucles Infinitos:** El daemon del animador utiliza `X11BypassWindowManagerHint` e ignorado de PID propio para un consumo de 0.0% de CPU en reposo.
-* **100% Portátil:** Funciona en cualquier equipo con Kali Linux / XFCE sin rutas fijas.
+* 🚀 **Consumo Ultrabajo (0.0% CPU en reposo):** El animador corre como daemon nativo con `systemd --user`, despertándose únicamente cuando se crea o cierra una ventana mediante eventos X11.
+* 🛡️ **Fondos 100% Sólidos y Opacos (`#23252e`):** Se eliminaron transparencias problemáticas para asegurar que Thunar, navegadores y terminales sean perfectamente legibles.
+* 📐 **Relación de Aspecto 1:1 Preservada:** El sprite del dragón vuela con sus proporciones matemáticas reales, sin deformarse ni aplanarse.
+* 🔄 **Tolerante a Reinicios y Suspensión:** Los servicios se restauran automáticamente tras suspender o reiniciar el equipo sin requerir reconfiguraciones manuales.
 
 ---
+
+## 🤝 Soporte y Contribuciones
+
+¿Encontraste un error o tienes alguna sugerencia de color o animación?
+* Abre un **[Issue](https://github.com/Gabo-Razo/Kali-Dragon-Suite/issues)** detallando tu caso.
+* Si te gustó el proyecto, ¡no olvides dejar una **⭐ Star** en el repositorio para apoyarlo!
+
+---
+
+<div align="center">
+
+Desarrollado con ❤️ por **[Gabo Razo](https://github.com/Gabo-Razo)** para la comunidad de **Kali Linux & Open Source**.
+
+</div>
