@@ -7177,16 +7177,16 @@ flowboxchild:selected image {
 
 
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - Silver SELECTION & SOLID OPAQUE STYLES
+   🐉 KALI DRAGON SUITE - Silver CLEAN SELECTION & SOLID OPAQUE STYLES
    ========================================================================== */
 
 @define-color theme_selected_bg_color #eceff1;
-@define-color theme_selected_fg_color #ffffff;
+@define-color theme_selected_fg_color #121317;
 @define-color selection_color #eceff1;
 @define-color selected_bg_color #eceff1;
-@define-color selected_fg_color #ffffff;
+@define-color selected_fg_color #121317;
 
-/* 1. MOUSE DRAG RUBBERBAND SELECTION BOX (DESKTOP & FILE MANAGER) */
+/* 1. MOUSE DRAG RUBBERBAND SELECTION BOX */
 .rubberband,
 rubberband,
 flowbox rubberband,
@@ -7195,21 +7195,23 @@ treeview.rubberband,
 .content-view rubberband,
 XfdesktopIconView.rubberband,
 #XfdesktopIconView.rubberband {
-    background-color: rgba(207, 216, 220, 0.25);
+    background-color: rgba(207, 216, 220, 0.28);
     border: 1.5px solid #eceff1;
     border-radius: 2px;
 }
 
-/* 2. SELECTED ITEMS, TEXT & LIST ROWS */
-:selected,
-*:selected,
-selection,
+/* 2. PROPER HIGH-CONTRAST SELECTED TEXT & LIST ROWS */
+entry:selected,
+entry selection,
+textview text selection,
 .view:selected,
-treeview:selected,
+treeview.view:selected,
 row:selected,
-flowboxchild:selected {
+flowboxchild:selected,
+list row:selected,
+#XfdesktopIconView:selected {
     background-color: #eceff1;
-    color: #ffffff;
+    color: #121317;
 }
 
 /* 3. GUARANTEED 100% SOLID OPAQUE WINDOWS & FILE MANAGER (THUNAR) */
@@ -7291,7 +7293,7 @@ menu menuitem,
 menu menuitem:hover,
 .menu menuitem:hover {
     background-color: #eceff1;
-    color: #ffffff;
+    color: #121317;
     border-radius: 4px;
 }
 

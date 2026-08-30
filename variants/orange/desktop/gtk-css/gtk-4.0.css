@@ -1,6 +1,6 @@
 
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - Orange SELECTION & SOLID OPAQUE STYLES
+   🐉 KALI DRAGON SUITE - Orange CLEAN SELECTION & SOLID OPAQUE STYLES
    ========================================================================== */
 
 @define-color theme_selected_bg_color #ff6d00;
@@ -9,7 +9,7 @@
 @define-color selected_bg_color #ff6d00;
 @define-color selected_fg_color #ffffff;
 
-/* 1. MOUSE DRAG RUBBERBAND SELECTION BOX (DESKTOP & FILE MANAGER) */
+/* 1. MOUSE DRAG RUBBERBAND SELECTION BOX */
 .rubberband,
 rubberband,
 flowbox rubberband,
@@ -18,19 +18,21 @@ treeview.rubberband,
 .content-view rubberband,
 XfdesktopIconView.rubberband,
 #XfdesktopIconView.rubberband {
-    background-color: rgba(255, 109, 0, 0.25);
+    background-color: rgba(255, 109, 0, 0.28);
     border: 1.5px solid #ff6d00;
     border-radius: 2px;
 }
 
-/* 2. SELECTED ITEMS, TEXT & LIST ROWS */
-:selected,
-*:selected,
-selection,
+/* 2. PROPER HIGH-CONTRAST SELECTED TEXT & LIST ROWS */
+entry:selected,
+entry selection,
+textview text selection,
 .view:selected,
-treeview:selected,
+treeview.view:selected,
 row:selected,
-flowboxchild:selected {
+flowboxchild:selected,
+list row:selected,
+#XfdesktopIconView:selected {
     background-color: #ff6d00;
     color: #ffffff;
 }

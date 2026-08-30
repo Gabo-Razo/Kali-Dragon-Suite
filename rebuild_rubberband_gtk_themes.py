@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
-import os, shutil
+import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 VARIANTS_DIR = os.path.join(BASE_DIR, "variants")
 
 ALL_COLORS = {
-    "red": {"hex": "#ec0101", "primary": "#ff1744", "circle": "#d50000", "dark": "#8a0000", "glow": "rgba(255, 23, 68, 0.45)", "rgb": (255, 23, 68)},
-    "purple": {"hex": "#aa00ff", "primary": "#d500f9", "circle": "#aa00ff", "dark": "#6a0080", "glow": "rgba(213, 0, 249, 0.45)", "rgb": (213, 0, 249)},
-    "green": {"hex": "#00c853", "primary": "#00e676", "circle": "#00c853", "dark": "#006020", "glow": "rgba(0, 230, 118, 0.45)", "rgb": (0, 230, 118)},
-    "blue": {"hex": "#2979ff", "primary": "#00b0ff", "circle": "#2979ff", "dark": "#003c99", "glow": "rgba(0, 176, 255, 0.45)", "rgb": (0, 176, 255)},
-    "yellow": {"hex": "#ffc107", "primary": "#ffd600", "circle": "#ffd600", "dark": "#806000", "glow": "rgba(255, 214, 0, 0.45)", "rgb": (255, 214, 0)},
-    "orange": {"hex": "#ff5722", "primary": "#ff6d00", "circle": "#ff6d00", "dark": "#802b00", "glow": "rgba(255, 109, 0, 0.45)", "rgb": (255, 109, 0)},
-    "lime": {"hex": "#64dd17", "primary": "#76ff03", "circle": "#76ff03", "dark": "#33691e", "glow": "rgba(118, 255, 3, 0.45)", "rgb": (118, 255, 3)},
-    "pink": {"hex": "#f50057", "primary": "#ff4081", "circle": "#ff4081", "dark": "#880e4f", "glow": "rgba(255, 64, 129, 0.45)", "rgb": (255, 64, 129)},
-    "cyan": {"hex": "#00e5ff", "primary": "#18ffff", "circle": "#00e5ff", "dark": "#006080", "glow": "rgba(24, 255, 255, 0.45)", "rgb": (0, 229, 255)},
-    "white": {"hex": "#f5f5f5", "primary": "#ffffff", "circle": "#e0e0e0", "dark": "#424242", "glow": "rgba(255, 255, 255, 0.50)", "rgb": (245, 245, 245)},
-    "gold": {"hex": "#ffd700", "primary": "#ffab00", "circle": "#ffd700", "dark": "#7f5500", "glow": "rgba(255, 171, 0, 0.45)", "rgb": (255, 215, 0)},
-    "indigo": {"hex": "#3d5afe", "primary": "#536dfe", "circle": "#3d5afe", "dark": "#1a237e", "glow": "rgba(83, 109, 254, 0.45)", "rgb": (61, 90, 254)},
-    "mint": {"hex": "#00bfa5", "primary": "#64ffda", "circle": "#00bfa5", "dark": "#004d40", "glow": "rgba(100, 255, 218, 0.45)", "rgb": (0, 191, 165)},
-    "ruby": {"hex": "#c2185b", "primary": "#e91e63", "circle": "#ad1457", "dark": "#560027", "glow": "rgba(233, 30, 99, 0.45)", "rgb": (194, 24, 91)},
-    "silver": {"hex": "#cfd8dc", "primary": "#eceff1", "circle": "#b0bec5", "dark": "#37474f", "glow": "rgba(236, 239, 241, 0.45)", "rgb": (207, 216, 220)}
+    "red": {"hex": "#ec0101", "primary": "#ff1744", "circle": "#d50000", "dark": "#8a0000", "glow": "rgba(255, 23, 68, 0.45)", "rgb": (255, 23, 68), "fg": "#ffffff"},
+    "purple": {"hex": "#aa00ff", "primary": "#d500f9", "circle": "#aa00ff", "dark": "#6a0080", "glow": "rgba(213, 0, 249, 0.45)", "rgb": (213, 0, 249), "fg": "#ffffff"},
+    "green": {"hex": "#00c853", "primary": "#00e676", "circle": "#00c853", "dark": "#006020", "glow": "rgba(0, 230, 118, 0.45)", "rgb": (0, 230, 118), "fg": "#121317"},
+    "blue": {"hex": "#2979ff", "primary": "#00b0ff", "circle": "#2979ff", "dark": "#003c99", "glow": "rgba(0, 176, 255, 0.45)", "rgb": (0, 176, 255), "fg": "#ffffff"},
+    "yellow": {"hex": "#ffc107", "primary": "#ffd600", "circle": "#ffd600", "dark": "#806000", "glow": "rgba(255, 214, 0, 0.45)", "rgb": (255, 214, 0), "fg": "#121317"},
+    "orange": {"hex": "#ff5722", "primary": "#ff6d00", "circle": "#ff6d00", "dark": "#802b00", "glow": "rgba(255, 109, 0, 0.45)", "rgb": (255, 109, 0), "fg": "#ffffff"},
+    "lime": {"hex": "#64dd17", "primary": "#76ff03", "circle": "#76ff03", "dark": "#33691e", "glow": "rgba(118, 255, 3, 0.45)", "rgb": (118, 255, 3), "fg": "#121317"},
+    "pink": {"hex": "#f50057", "primary": "#ff4081", "circle": "#ff4081", "dark": "#880e4f", "glow": "rgba(255, 64, 129, 0.45)", "rgb": (255, 64, 129), "fg": "#ffffff"},
+    "cyan": {"hex": "#00e5ff", "primary": "#18ffff", "circle": "#00e5ff", "dark": "#006080", "glow": "rgba(24, 255, 255, 0.45)", "rgb": (0, 229, 255), "fg": "#121317"},
+    "white": {"hex": "#f5f5f5", "primary": "#ffffff", "circle": "#e0e0e0", "dark": "#424242", "glow": "rgba(255, 255, 255, 0.50)", "rgb": (245, 245, 245), "fg": "#121317"},
+    "gold": {"hex": "#ffd700", "primary": "#ffab00", "circle": "#ffd700", "dark": "#7f5500", "glow": "rgba(255, 171, 0, 0.45)", "rgb": (255, 215, 0), "fg": "#121317"},
+    "indigo": {"hex": "#3d5afe", "primary": "#536dfe", "circle": "#3d5afe", "dark": "#1a237e", "glow": "rgba(83, 109, 254, 0.45)", "rgb": (61, 90, 254), "fg": "#ffffff"},
+    "mint": {"hex": "#00bfa5", "primary": "#64ffda", "circle": "#00bfa5", "dark": "#004d40", "glow": "rgba(100, 255, 218, 0.45)", "rgb": (0, 191, 165), "fg": "#121317"},
+    "ruby": {"hex": "#c2185b", "primary": "#e91e63", "circle": "#ad1457", "dark": "#560027", "glow": "rgba(233, 30, 99, 0.45)", "rgb": (194, 24, 91), "fg": "#ffffff"},
+    "silver": {"hex": "#cfd8dc", "primary": "#eceff1", "circle": "#b0bec5", "dark": "#37474f", "glow": "rgba(236, 239, 241, 0.45)", "rgb": (207, 216, 220), "fg": "#121317"}
 }
 
 with open("/usr/share/themes/Kali-Dark/gtk-3.0/gtk.css", "r") as f:
@@ -30,16 +30,16 @@ with open("/usr/share/themes/Kali-Dark/gtk-4.0/gtk.css", "r") as f:
 
 addon_template = """
 /* ==========================================================================
-   🐉 KALI DRAGON SUITE - {cap_color} SELECTION & SOLID OPAQUE STYLES
+   🐉 KALI DRAGON SUITE - {cap_color} CLEAN SELECTION & SOLID OPAQUE STYLES
    ========================================================================== */
 
 @define-color theme_selected_bg_color {primary};
-@define-color theme_selected_fg_color #ffffff;
+@define-color theme_selected_fg_color {fg};
 @define-color selection_color {primary};
 @define-color selected_bg_color {primary};
-@define-color selected_fg_color #ffffff;
+@define-color selected_fg_color {fg};
 
-/* 1. MOUSE DRAG RUBBERBAND SELECTION BOX (DESKTOP & FILE MANAGER) */
+/* 1. MOUSE DRAG RUBBERBAND SELECTION BOX */
 .rubberband,
 rubberband,
 flowbox rubberband,
@@ -48,21 +48,23 @@ treeview.rubberband,
 .content-view rubberband,
 XfdesktopIconView.rubberband,
 #XfdesktopIconView.rubberband {{
-    background-color: rgba({r}, {g}, {b}, 0.25);
+    background-color: rgba({r}, {g}, {b}, 0.28);
     border: 1.5px solid {primary};
     border-radius: 2px;
 }}
 
-/* 2. SELECTED ITEMS, TEXT & LIST ROWS */
-:selected,
-*:selected,
-selection,
+/* 2. PROPER HIGH-CONTRAST SELECTED TEXT & LIST ROWS */
+entry:selected,
+entry selection,
+textview text selection,
 .view:selected,
-treeview:selected,
+treeview.view:selected,
 row:selected,
-flowboxchild:selected {{
+flowboxchild:selected,
+list row:selected,
+#XfdesktopIconView:selected {{
     background-color: {primary};
-    color: #ffffff;
+    color: {fg};
 }}
 
 /* 3. GUARANTEED 100% SOLID OPAQUE WINDOWS & FILE MANAGER (THUNAR) */
@@ -144,7 +146,7 @@ menu menuitem,
 menu menuitem:hover,
 .menu menuitem:hover {{
     background-color: {primary};
-    color: #ffffff;
+    color: {fg};
     border-radius: 4px;
 }}
 
@@ -198,7 +200,6 @@ for c_key, c_info in ALL_COLORS.items():
     os.makedirs(gtk3_dir, exist_ok=True)
     os.makedirs(gtk4_dir, exist_ok=True)
     
-    # Replace default blue colors (#2777ff, #06a284, #1b6acb, #2979ff) with target color
     themed_gtk3 = base_gtk3.replace("#2777ff", c_info["hex"]).replace("#06a284", c_info["hex"]).replace("#1b6acb", c_info["hex"])
     themed_gtk4 = base_gtk4.replace("#2777ff", c_info["hex"]).replace("#06a284", c_info["hex"]).replace("#1b6acb", c_info["hex"])
     
@@ -208,7 +209,8 @@ for c_key, c_info in ALL_COLORS.items():
         hex=c_info["hex"],
         primary=c_info["primary"],
         glow=c_info["glow"],
-        r=r, g=g, b=b
+        r=r, g=g, b=b,
+        fg=c_info["fg"]
     )
     
     full_3 = themed_gtk3 + "\n" + addon
@@ -224,11 +226,10 @@ for c_key, c_info in ALL_COLORS.items():
     with open(os.path.join(gtk4_dir, "gtk-dark.css"), "w") as f:
         f.write(full_4)
         
-    # Save standalone addon for user config
     os.makedirs(os.path.join(v_dir, "desktop", "gtk-css"), exist_ok=True)
     with open(os.path.join(v_dir, "desktop", "gtk-css", "gtk-3.0.css"), "w") as f:
         f.write(addon)
     with open(os.path.join(v_dir, "desktop", "gtk-css", "gtk-4.0.css"), "w") as f:
         f.write(addon)
 
-print("SUCCESS: Rebuilt all 15 GTK themes with matching rubberband mouse selection and text highlight!")
+print("SUCCESS: Clean high-contrast selection colors generated for all 15 themes!")

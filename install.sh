@@ -372,8 +372,8 @@ if [ "$INSTALL_BORDERS" = true ]; then
         sleep 0.15
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfwm4 -p /general/theme -s "$THEME_NAME" 2>/dev/null || true
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s "$THEME_NAME" 2>/dev/null || true
-        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfsettingsd --replace &
-        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfwm4 --replace &
+        # Xfconf DBus signals reload themes automatically without disturbing keyboard shortcut daemons
+        sleep 0.1
     fi
     echo -e "    ${GREEN}✔ Bordes de ventana de 2px aplicados en vivo.${NC}\n"
 fi
