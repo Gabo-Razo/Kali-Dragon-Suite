@@ -352,7 +352,7 @@ class DragonOverlay(QWidget):
                     trail_alpha = int(ratio * 220)
                     trail_width = max(1.5, ratio * 6.0 * scale)
                     
-                    pen = QPen(QColor(255, 30, 70, trail_alpha), trail_width)
+                    pen = QPen(QColor(GLOW_RGB[0], GLOW_RGB[1], GLOW_RGB[2], trail_alpha), trail_width)
                     pen.setCapStyle(Qt.PenCapStyle.RoundCap)
                     painter.setPen(pen)
                     painter.drawLine(QPointF(p1[0], p1[1]), QPointF(p2[0], p2[1]))
@@ -368,7 +368,7 @@ class DragonOverlay(QWidget):
             glow_rad = 65 * scale
             glow_radial = QRadialGradient(QPointF(0, 0), glow_rad)
             glow_radial.setColorAt(0.0, QColor(255, 40, 80, 180))
-            glow_radial.setColorAt(0.6, QColor(236, 1, 1, 90))
+            glow_radial.setColorAt(0.6, QColor(CORE_RGB[0], CORE_RGB[1], CORE_RGB[2], 90))
             glow_radial.setColorAt(1.0, QColor(20, 0, 0, 0))
             painter.setBrush(QBrush(glow_radial))
             painter.setPen(Qt.PenStyle.NoPen)
@@ -394,8 +394,8 @@ class DragonOverlay(QWidget):
             burst_alpha = int(max(0, math.sin(impact_t * math.pi) * 210))
             burst_radius = 120 + impact_t * 320
             burst = QRadialGradient(QPointF(cx, cy), burst_radius)
-            burst.setColorAt(0.0, QColor(255, 23, 68, burst_alpha))
-            burst.setColorAt(0.5, QColor(236, 1, 1, int(burst_alpha * 0.6)))
+            burst.setColorAt(0.0, QColor(GLOW_RGB[0], GLOW_RGB[1], GLOW_RGB[2], burst_alpha))
+            burst.setColorAt(0.5, QColor(CORE_RGB[0], CORE_RGB[1], CORE_RGB[2], int(burst_alpha * 0.6)))
             burst.setColorAt(1.0, QColor(20, 0, 0, 0))
             painter.setBrush(QBrush(burst))
             painter.setPen(Qt.PenStyle.NoPen)
@@ -426,12 +426,12 @@ class DragonOverlay(QWidget):
             frame_alpha = int(min(255, ease * 255))
             glow_thickness = max(2.0, (1.0 - ease) * 10.0)
 
-            outer_pen = QPen(QColor(255, 23, 68, int(frame_alpha * 0.7)), glow_thickness + 2.0)
+            outer_pen = QPen(QColor(GLOW_RGB[0], GLOW_RGB[1], GLOW_RGB[2], int(frame_alpha * 0.7)), glow_thickness + 2.0)
             painter.setPen(outer_pen)
             painter.setBrush(Qt.BrushStyle.NoBrush)
             painter.drawRoundedRect(QRectF(bx, by, bw, bh), 6.0, 6.0)
 
-            core_pen = QPen(QColor(236, 1, 1, frame_alpha), 2.0)
+            core_pen = QPen(QColor(CORE_RGB[0], CORE_RGB[1], CORE_RGB[2], frame_alpha), 2.0)
             painter.setPen(core_pen)
             painter.drawRoundedRect(QRectF(bx, by, bw, bh), 6.0, 6.0)
 
@@ -462,7 +462,7 @@ class DragonOverlay(QWidget):
             frame_alpha = int((1.0 - imp_t * 0.5) * 255)
             glow_thickness = max(2.0, imp_t * 8.0)
 
-            outer_pen = QPen(QColor(255, 23, 68, int(frame_alpha * 0.8)), glow_thickness + 2.0)
+            outer_pen = QPen(QColor(GLOW_RGB[0], GLOW_RGB[1], GLOW_RGB[2], int(frame_alpha * 0.8)), glow_thickness + 2.0)
             painter.setPen(outer_pen)
             painter.setBrush(Qt.BrushStyle.NoBrush)
             painter.drawRoundedRect(QRectF(bx, by, bw, bh), 6.0, 6.0)
@@ -485,7 +485,7 @@ class DragonOverlay(QWidget):
             burst_radius = 60 + summon_t * 260
             burst = QRadialGradient(QPointF(cx, cy), burst_radius)
             burst.setColorAt(0.0, QColor(255, 40, 80, burst_alpha))
-            burst.setColorAt(0.5, QColor(236, 1, 1, int(burst_alpha * 0.7)))
+            burst.setColorAt(0.5, QColor(CORE_RGB[0], CORE_RGB[1], CORE_RGB[2], int(burst_alpha * 0.7)))
             burst.setColorAt(1.0, QColor(20, 0, 0, 0))
             painter.setBrush(QBrush(burst))
             painter.setPen(Qt.PenStyle.NoPen)
@@ -515,7 +515,7 @@ class DragonOverlay(QWidget):
                     trail_alpha = int(ratio * (1.0 - takeoff_t) * 220)
                     trail_width = max(1.5, ratio * 6.0 * scale)
                     
-                    pen = QPen(QColor(255, 30, 70, max(0, min(255, trail_alpha))), trail_width)
+                    pen = QPen(QColor(GLOW_RGB[0], GLOW_RGB[1], GLOW_RGB[2], max(0, min(255, trail_alpha))), trail_width)
                     pen.setCapStyle(Qt.PenCapStyle.RoundCap)
                     painter.setPen(pen)
                     painter.drawLine(QPointF(p1[0], p1[1]), QPointF(p2[0], p2[1]))

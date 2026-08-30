@@ -92,11 +92,12 @@ if [ ! -f "/etc/lightdm/lightdm-gtk-greeter.conf.pristine_backup" ] && [ -f "/et
 fi
 
 # 2. GRUB
-echo -e "${CYAN}[2/6] Instalando Menú de Arranque GRUB (${CAP_COLOR} Frosted Glass)...${NC}"
+echo -e "${CYAN}[2/6] Instalando Menú de Arranque GRUB (${CAP_COLOR} Frosted Glass + Selectores + Iconos)...${NC}"
 mkdir -p /boot/grub/themes/kali/icons
 cp -f "$VARIANT_PATH/boot/grub/grub-16x9.png" /boot/grub/themes/kali/
 cp -f "$VARIANT_PATH/boot/grub/grub-4x3.png" /boot/grub/themes/kali/
 cp -f "$VARIANT_PATH/boot/grub/select_"*.png /boot/grub/themes/kali/
+cp -f "$VARIANT_PATH/boot/grub/slider_"*.png /boot/grub/themes/kali/ 2>/dev/null || true
 cp -f "$VARIANT_PATH/boot/grub/theme.txt" /boot/grub/themes/kali/
 cp -rf "$VARIANT_PATH/boot/grub/icons/"* /boot/grub/themes/kali/icons/
 chmod -R 755 /boot/grub/themes/kali
@@ -104,11 +105,12 @@ chmod -R 755 /boot/grub/themes/kali
 # 3. Plymouth & Transitions
 echo -e "${CYAN}[3/6] Instalando Pantalla de Carga Plymouth y fondos de traspaso...${NC}"
 cp -f "$VARIANT_PATH/boot/plymouth/"* /usr/share/plymouth/themes/kali/
-mkdir -p /usr/share/desktop-base/kali-theme/{grub,login}
+mkdir -p /usr/share/desktop-base/kali-theme/{grub,login,wallpaper/contents/images}
 cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/desktop-base/kali-theme/grub/grub-16x9.png
 cp -f "$VARIANT_PATH/boot/transition/desktop-grub.png" /usr/share/images/desktop-base/desktop-grub.png 2>/dev/null || true
 cp -f "$VARIANT_PATH/boot/transition/login-background.png" /usr/share/desktop-base/kali-theme/login/
 cp -f "$VARIANT_PATH/boot/transition/login-blurred.png" /usr/share/desktop-base/kali-theme/login/
+cp -f "$VARIANT_PATH/assets/wallpaper_${SELECTED_COLOR}.png" /usr/share/desktop-base/kali-theme/wallpaper/contents/images/1920x1080.png 2>/dev/null || true
 
 # 4. Login (LightDM)
 echo -e "${CYAN}[4/6] Instalando Pantalla de Login (LightDM ${CAP_COLOR} Theme & Avatar)...${NC}"
@@ -139,8 +141,14 @@ cp -f "$VARIANT_PATH/desktop/gtk-css/gtk-4.0.css" "$TARGET_HOME/.config/gtk-4.0/
 
 cp -f "$SCRIPT_DIR/desktop/animator/dragon-window-animator.py" "$TARGET_HOME/.local/bin/"
 cp -f "$VARIANT_PATH/desktop/animator/dragon_sprite.png" "$TARGET_HOME/.local/share/dragon-anim/"
+cp -f "$VARIANT_PATH/desktop/animator/color_config.json" "$TARGET_HOME/.local/share/dragon-anim/" 2>/dev/null || true
 cp -f "$SCRIPT_DIR/desktop/animator/dragon-animator.desktop" "$TARGET_HOME/.config/autostart/"
 chmod +x "$TARGET_HOME/.local/bin/dragon-window-animator.py"
+
+# Apply XFWM4 theme immediately if running in X11
+if [ -n "$DISPLAY" ] && [ -n "$TARGET_USER" ]; then
+    su - "$TARGET_USER" -c "xfconf-query -c xfwm4 -p /general/theme -s Kali-${CAP_COLOR}-Dark-Borders" 2>/dev/null || true
+fi
 
 chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.themes" "$TARGET_HOME/.local" "$TARGET_HOME/.config"
 
