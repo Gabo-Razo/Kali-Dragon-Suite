@@ -50,7 +50,7 @@ while [[ $# -gt 0 ]]; do
             INSTALL_BORDERS=true
             INSTALL_ANIMATOR=true
             INSTALL_WALLPAPER=true
-            INSTALL_ICONS=false
+            INSTALL_ICONS=true
             INSTALL_TERMINAL=true
             MODULAR_FLAG_PASSED=true
             shift
@@ -105,7 +105,7 @@ while [[ $# -gt 0 ]]; do
             INSTALL_BORDERS=true
             INSTALL_ANIMATOR=true
             INSTALL_WALLPAPER=true
-            INSTALL_ICONS=false
+            INSTALL_ICONS=true
             INSTALL_TERMINAL=true
             MODULAR_FLAG_PASSED=true
             shift
@@ -128,7 +128,7 @@ if [ "$MODULAR_FLAG_PASSED" = false ]; then
     INSTALL_BORDERS=true
     INSTALL_ANIMATOR=true
     INSTALL_WALLPAPER=true
-    INSTALL_ICONS=false
+    INSTALL_ICONS=true
     INSTALL_TERMINAL=true
 fi
 
@@ -184,7 +184,7 @@ if [ -z "$SELECTED_COLOR" ]; then
         6) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=true; INSTALL_ICONS=false; INSTALL_TERMINAL=false ;;
         7) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=false; INSTALL_ICONS=true; INSTALL_TERMINAL=false ;;
         8) INSTALL_GRUB=false; INSTALL_PLYMOUTH=false; INSTALL_LOGIN=false; INSTALL_BORDERS=false; INSTALL_ANIMATOR=false; INSTALL_WALLPAPER=false; INSTALL_ICONS=false; INSTALL_TERMINAL=true ;;
-        *) INSTALL_GRUB=true; INSTALL_PLYMOUTH=true; INSTALL_LOGIN=true; INSTALL_BORDERS=true; INSTALL_ANIMATOR=true; INSTALL_WALLPAPER=true; INSTALL_ICONS=false; INSTALL_TERMINAL=true ;;
+        *) INSTALL_GRUB=true; INSTALL_PLYMOUTH=true; INSTALL_LOGIN=true; INSTALL_BORDERS=true; INSTALL_ANIMATOR=true; INSTALL_WALLPAPER=true; INSTALL_ICONS=true; INSTALL_TERMINAL=true ;;
     esac
 fi
 
@@ -334,11 +334,21 @@ if [ "$INSTALL_WALLPAPER" = true ]; then
     fi
 fi
 
-# 7. System & Panel Icons (Optional explicitly via --icons-only)
+# 7. System & Panel Icons (Matching Lock, Logout, Shutdown & Menu Dragon)
 if [ "$INSTALL_ICONS" = true ]; then
-    echo -e "${CYAN}[+] Actualizando Iconos de Sistema y Menú del Panel (${ICON_THEME})...${NC}"
+    echo -e "${CYAN}[+] Actualizando Iconos de Sistema, Menú y Botones del Panel (${ICON_THEME})...${NC}"
+    mkdir -p "/usr/share/icons/$ICON_THEME/apps/scalable"
+    mkdir -p "$TARGET_HOME/.local/share/icons/$ICON_THEME/apps/scalable"
+    
+    cp -rf "$VARIANT_PATH/icons/apps/scalable/"* "/usr/share/icons/$ICON_THEME/apps/scalable/" 2>/dev/null || true
+    cp -rf "$VARIANT_PATH/icons/apps/scalable/"* "$TARGET_HOME/.local/share/icons/$ICON_THEME/apps/scalable/" 2>/dev/null || true
+    
+    # Also update active icons in user directory
+    gtk-update-icon-cache -f -t "/usr/share/icons/$ICON_THEME" 2>/dev/null || true
+    
     if [ -n "$DBUS_ADDR" ]; then
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON_THEME" 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfce4-panel -r 2>/dev/null || true
     fi
 fi
 
