@@ -603,7 +603,11 @@ hide-user-image = false
                 with open(os.path.join(xfwm_dst, xf_f), "w") as f:
                     f.write(tm)
             else:
-                safe_copy(os.path.join(xfwm_src, xf_f), os.path.join(xfwm_dst, xf_f))
+                if xf_f.endswith(".png"):
+                    recolored_xf = recolor_image(os.path.join(xfwm_src, xf_f), c_info)
+                    recolored_xf.save(os.path.join(xfwm_dst, xf_f), "PNG")
+                else:
+                    safe_copy(os.path.join(xfwm_src, xf_f), os.path.join(xfwm_dst, xf_f))
                 
     # Index.theme
     with open(os.path.join(v_dir, "desktop", "theme", t_desktop_name, "index.theme"), "w") as f:

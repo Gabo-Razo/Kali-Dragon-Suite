@@ -1,3 +1,10 @@
 [Desktop Entry]
 Type=X-GNOME-Metatheme
 Name=Kali-Green-Dragon-Login
+Comment=Kali Dragon Glassmorphism Login Greeter Theme
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Kali-Green-Dragon-Login
+MetacityTheme=Kali-Green-Dragon-Login
+IconTheme=Flat-Remix-Blue-Dark
