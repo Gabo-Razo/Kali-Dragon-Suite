@@ -1,30 +1,24 @@
 /* ==========================================================================
-   🐉 KALI DRAGON GLASSMORPHISM LOGIN & LOCK SUITE - Silver EDITION
+   🐉 KALI DRAGON ULTRA-EPIC GLASSMORPHISM LOGIN & LOCK SUITE - Silver
    ========================================================================== */
 
-@define-color theme_selected_bg_color #eceff1;
-@define-color theme_selected_fg_color #121317;
-@define-color selection_color #eceff1;
-@define-color selected_bg_color #eceff1;
-@define-color selected_fg_color #121317;
-
-/* 1. LIGHTDM LOGIN GREETER WINDOW (Card + Border) */
+/* 1. LIGHTDM LOGIN GREETER WINDOW (Glowing Glassmorphic Card) */
 #login_window,
 #panel_window,
 window#login_window,
 window#panel_window {
-    background-color: rgba(18, 20, 26, 0.94);
+    background-color: rgba(12, 14, 20, 0.92);
     border: 2px solid #eceff1;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(236, 239, 241, 0.55), 0 0 4px #cfd8dc;
+    box-shadow: 0 0 35px rgba(236, 239, 241, 0.50), 0 0 6px #cfd8dc;
 }
 
 #user_image,
 image#user_image {
-    border: 2px solid #eceff1;
+    border: 2.5px solid #eceff1;
     border-radius: 50%;
-    box-shadow: 0 0 18px rgba(236, 239, 241, 0.55);
-    background-color: #12141a;
+    box-shadow: 0 0 20px rgba(236, 239, 241, 0.50);
+    background-color: #0c0004;
 }
 
 #prompt_label,
@@ -33,9 +27,9 @@ image#user_image {
 label#prompt_label,
 label#message_label,
 label#user_label {
-    color: #ffffff;
+    color: #eceff1;
     font-weight: bold;
-    text-shadow: 0 0 8px rgba(236, 239, 241, 0.55);
+    text-shadow: 0 0 10px rgba(236, 239, 241, 0.50);
 }
 
 #entry,
@@ -54,28 +48,28 @@ entry#entry,
 entry#entry:focus,
 #login_window entry:focus {
     border: 2px solid #eceff1;
-    box-shadow: 0 0 16px rgba(236, 239, 241, 0.55);
+    box-shadow: 0 0 18px rgba(236, 239, 241, 0.50);
 }
 
-/* 2. UNIVERSAL PRIMARY LOGIN / CONFIRM / SUBMIT BUTTON (Vivid Theme Color + High Contrast Text) */
+/* 2. UNIVERSAL EPIC SUBMIT / LOGIN BUTTON (Neon Gradient + Outer Glow + High Contrast Text) */
 #login_button,
 button#login_button,
 button.suggested-action,
 .suggested-action,
 button:default,
 button.default,
+#panel_window button.suggested-action,
 #login_window button.suggested-action,
 #login_window button.image-button,
 #login_window button:default,
 #login_window button:last-child {
-    background-color: #eceff1;
-    background-image: none;
+    background-image: linear-gradient(135deg, #eceff1 0%, #b0bec5 50%, #37474f 100%);
     border: 1.5px solid #eceff1;
     border-radius: 6px;
     color: #121317 !important;
     font-weight: bold;
     padding: 7px 20px;
-    box-shadow: 0 0 16px rgba(236, 239, 241, 0.55);
+    box-shadow: 0 0 16px rgba(236, 239, 241, 0.50);
 }
 
 #login_button *,
@@ -99,10 +93,8 @@ button.default:hover,
 #login_window button:default:hover,
 #login_window button.image-button:hover,
 #login_window button:last-child:hover {
-    background-color: #ffffff;
-    background-image: none;
-    border: 1.5px solid #eceff1;
-    box-shadow: 0 0 24px rgba(236, 239, 241, 0.55);
+    background-image: linear-gradient(135deg, #ffffff 0%, #eceff1 40%, #b0bec5 100%);
+    box-shadow: 0 0 28px rgba(236, 239, 241, 0.50);
     color: #121317 !important;
 }
 
@@ -137,18 +129,18 @@ dialog.screensaver-dialog,
 .lock-dialog,
 .screensaver-dialog > box,
 dialog.screensaver-dialog > box {
-    background-color: rgba(18, 20, 26, 0.95);
+    background-color: rgba(12, 14, 20, 0.94);
     border: 2px solid #eceff1;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(236, 239, 241, 0.55), 0 0 4px #cfd8dc;
+    box-shadow: 0 0 35px rgba(236, 239, 241, 0.50), 0 0 6px #cfd8dc;
     padding: 20px;
 }
 
 #auth-face-image {
-    border: 2px solid #eceff1;
+    border: 2.5px solid #eceff1;
     border-radius: 50%;
-    box-shadow: 0 0 18px rgba(236, 239, 241, 0.55);
-    background-color: #12141a;
+    box-shadow: 0 0 22px rgba(236, 239, 241, 0.50);
+    background-color: #0c0004;
 }
 
 #auth-prompt-label,
@@ -156,7 +148,7 @@ label#auth-prompt-label {
     color: #ffffff;
     font-weight: bold;
     font-size: 11pt;
-    text-shadow: 0 0 6px rgba(236, 239, 241, 0.55);
+    text-shadow: 0 0 6px rgba(236, 239, 241, 0.50);
 }
 
 #auth-status-label,
@@ -164,7 +156,7 @@ label#auth-status-label {
     color: #eceff1;
     font-weight: bold;
     font-size: 11pt;
-    text-shadow: 0 0 10px rgba(236, 239, 241, 0.55);
+    text-shadow: 0 0 12px rgba(236, 239, 241, 0.50);
 }
 
 #auth-capslock-label,
@@ -178,7 +170,7 @@ label#auth-capslock-label {
 #auth-date-time-label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 8px rgba(236, 239, 241, 0.55);
+    text-shadow: 0 0 8px rgba(236, 239, 241, 0.50);
 }
 
 #auth-prompt-entry,
@@ -194,20 +186,19 @@ entry#auth-prompt-entry {
 #auth-prompt-entry:focus,
 entry#auth-prompt-entry:focus {
     border: 2px solid #eceff1;
-    box-shadow: 0 0 16px rgba(236, 239, 241, 0.55);
+    box-shadow: 0 0 18px rgba(236, 239, 241, 0.50);
 }
 
 #auth-unlock-button,
 #auth-action-area button.suggested-action,
 #auth-action-area button.primary {
-    background-color: #eceff1;
-    background-image: none;
+    background-image: linear-gradient(135deg, #eceff1 0%, #b0bec5 50%, #37474f 100%);
     border: 1.5px solid #eceff1;
     border-radius: 6px;
     color: #121317 !important;
     font-weight: bold;
-    padding: 7px 18px;
-    box-shadow: 0 0 16px rgba(236, 239, 241, 0.55);
+    padding: 7px 20px;
+    box-shadow: 0 0 16px rgba(236, 239, 241, 0.50);
 }
 
 #auth-unlock-button *,
@@ -217,10 +208,8 @@ entry#auth-prompt-entry:focus {
 
 #auth-unlock-button:hover,
 #auth-action-area button.suggested-action:hover {
-    background-color: #ffffff;
-    background-image: none;
-    border: 1.5px solid #eceff1;
-    box-shadow: 0 0 24px rgba(236, 239, 241, 0.55);
+    background-image: linear-gradient(135deg, #ffffff 0%, #eceff1 40%, #b0bec5 100%);
+    box-shadow: 0 0 28px rgba(236, 239, 241, 0.50);
     color: #121317 !important;
 }
 
@@ -237,9 +226,9 @@ entry#auth-prompt-entry:focus {
 #auth-cancel-button:hover,
 #auth-logout-button:hover,
 #auth-switch-button:hover {
-    background-color: rgba(207, 216, 220, 0.30);
+    background-color: rgba(207, 216, 220, 0.35);
     border: 2px solid #eceff1;
-    box-shadow: 0 0 14px rgba(236, 239, 241, 0.55);
+    box-shadow: 0 0 16px rgba(236, 239, 241, 0.50);
     color: #ffffff;
 }
 
@@ -248,10 +237,10 @@ window#logout-dialog,
 dialog#logout-dialog,
 .xfce4-session-logout,
 window.xfce4-session-logout {
-    background-color: #1a1c23;
+    background-color: rgba(12, 14, 20, 0.95);
     border: 2px solid #eceff1;
     border-radius: 14px;
-    box-shadow: 0 0 30px rgba(236, 239, 241, 0.55), 0 0 4px #cfd8dc;
+    box-shadow: 0 0 35px rgba(236, 239, 241, 0.50), 0 0 6px #cfd8dc;
     padding: 16px;
 }
 
@@ -259,7 +248,7 @@ window#logout-dialog label,
 .xfce4-session-logout label {
     color: #ffffff;
     font-weight: bold;
-    text-shadow: 0 0 6px rgba(236, 239, 241, 0.55);
+    text-shadow: 0 0 8px rgba(236, 239, 241, 0.50);
 }
 
 window#logout-dialog button,
@@ -275,9 +264,9 @@ window#logout-dialog button,
 
 window#logout-dialog button:hover,
 .xfce4-session-logout button:hover {
-    background-color: #eceff1;
+    background-color: rgba(207, 216, 220, 0.35);
     border: 2px solid #eceff1;
-    box-shadow: 0 0 18px rgba(236, 239, 241, 0.55);
+    box-shadow: 0 0 20px rgba(236, 239, 241, 0.50);
     color: #121317 !important;
 }
 
