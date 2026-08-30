@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==============================================================================
 #  🐉 KALI DRAGON SUITE - MULTI-COLOR MODULAR MASTER INSTALLER
-#  Full Granular Modular Component Support & 8 Color Editions
+#  Safe, Rock-Solid, Freeze-Free & Zero Ghost Windows
 # ==============================================================================
 
 set -e
@@ -120,7 +120,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# If no modular flag was passed via CLI, default to full install
+# Default to all if no modular flag passed
 if [ "$MODULAR_FLAG_PASSED" = false ]; then
     INSTALL_GRUB=true
     INSTALL_PLYMOUTH=true
@@ -132,7 +132,7 @@ if [ "$MODULAR_FLAG_PASSED" = false ]; then
     INSTALL_TERMINAL=true
 fi
 
-# Interactive Color Selection if not provided
+# Interactive Color Selection if needed
 if [ -z "$SELECTED_COLOR" ]; then
     echo -e "${CYAN}${BOLD}"
     echo "========================================================================"
@@ -206,17 +206,6 @@ fi
 
 echo -e "\n${GREEN}${BOLD}=== Instalando Kali Dragon Suite - Edición ${CAP_COLOR} ===${NC}"
 
-# Backups
-if [ ! -d "/boot/grub/themes/kali.pristine_backup" ] && [ -d "/boot/grub/themes/kali" ]; then
-    cp -r /boot/grub/themes/kali /boot/grub/themes/kali.pristine_backup
-fi
-if [ ! -d "/usr/share/plymouth/themes/kali.pristine_backup" ] && [ -d "/usr/share/plymouth/themes/kali" ]; then
-    cp -r /usr/share/plymouth/themes/kali /usr/share/plymouth/themes/kali.pristine_backup
-fi
-if [ ! -f "/etc/lightdm/lightdm-gtk-greeter.conf.pristine_backup" ] && [ -f "/etc/lightdm/lightdm-gtk-greeter.conf" ]; then
-    cp /etc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf.pristine_backup
-fi
-
 # Detect active graphical session
 USER_PID=$(pgrep -u "$TARGET_USER" xfce4-session | head -n 1 || true)
 if [ -n "$USER_PID" ]; then
@@ -286,7 +275,6 @@ if [ "$INSTALL_BORDERS" = true ]; then
     if [ -n "$DBUS_ADDR" ]; then
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xfwm4 -p /general/theme -s "$THEME_NAME" 2>/dev/null || true
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/ThemeName -s "$THEME_NAME" 2>/dev/null || true
-        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfwm4 --replace >/dev/null 2>&1 &
     fi
 fi
 
@@ -321,7 +309,6 @@ if [ "$INSTALL_ICONS" = true ]; then
     echo -e "${CYAN}[+] Actualizando Iconos de Sistema y Menú del Panel (${ICON_THEME})...${NC}"
     if [ -n "$DBUS_ADDR" ]; then
         sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON_THEME" 2>/dev/null || true
-        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfce4-panel -r >/dev/null 2>&1 &
     fi
 fi
 

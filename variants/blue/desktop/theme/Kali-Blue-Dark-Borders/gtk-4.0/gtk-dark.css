@@ -5263,15 +5263,15 @@ window.ssd decoration,
 window.csd decoration,
 window.csd,
 decoration {
-    border: 2px solid #2979ff !important;
-    border-radius: 6px 6px 0px 0px !important;
-    box-shadow: 0 0 10px #00b0ff40, 0 0 2px #2979ff !important;
+    border: 2px solid #2979ff;
+    border-radius: 6px 6px 0px 0px;
+    box-shadow: 0 0 10px #00b0ff40, 0 0 2px #2979ff;
 }
 
 /* Headerbar border matching */
 headerbar,
 .titlebar {
-    border-top: 2px solid #2979ff !important;
-    border-left: 2px solid #2979ff !important;
-    border-right: 2px solid #2979ff !important;
+    border-top: 2px solid #2979ff;
+    border-left: 2px solid #2979ff;
+    border-right: 2px solid #2979ff;
 }
