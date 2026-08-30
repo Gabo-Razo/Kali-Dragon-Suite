@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """
 🐉 KALI DRAGON SUITE - ULTRA-RESILIENT WINDOW ANIMATION DAEMON
-Vibrant 60 FPS Dragon Flight & Impact Plasma Shockwave on Window Open/Close.
-100% Non-intrusive: Never touches window opacity or properties.
+60 FPS Orbital Dragon Flight & Impact Plasma Shockwave on Window Open/Close.
+100% Real-time unbuffered X11 event stream & non-intrusive overlay.
 """
 
 import sys, os, time, math, random, json, signal, subprocess, threading, re
-from PyQt6.QtCore import Qt, QTimer, QRectF, QPointF, QObject, pyqtSignal
+from PyQt6.QtCore import Qt, QTimer, QRectF, QPointF, QObject, pyqtSignal, pyqtSlot
 from PyQt6.QtGui import QPainter, QColor, QRadialGradient, QBrush, QPen, QPixmap
 from PyQt6.QtWidgets import QApplication, QWidget
+
+MY_PID = os.getpid()
 
 def get_color_config():
     cfg_path = os.path.expanduser("~/.local/share/dragon-anim/color_config.json")
@@ -39,7 +41,7 @@ def get_window_geometry(wid):
             elif line.startswith("Y="): y = int(line.split("=")[1])
             elif line.startswith("WIDTH="): w = int(line.split("=")[1])
             elif line.startswith("HEIGHT="): h = int(line.split("=")[1])
-        if w > 100 and h > 80:
+        if w > 80 and h > 60:
             return (x, y, w, h)
     except Exception:
         pass
@@ -47,11 +49,16 @@ def get_window_geometry(wid):
 
 def is_normal_app_window(wid):
     try:
-        out = subprocess.check_output(["xprop", "-id", str(wid), "_NET_WM_WINDOW_TYPE", "WM_CLASS", "_NET_WM_STATE"], stderr=subprocess.DEVNULL, timeout=0.2).decode()
-        out_lower = out.lower()
-        if any(skip in out_lower for skip in ["_dock", "_desktop", "_notification", "_tooltip", "_menu", "_splash", "_hidden"]):
+        pid_out = subprocess.check_output(["xprop", "-id", str(wid), "_NET_WM_PID"], stderr=subprocess.DEVNULL, timeout=0.15).decode()
+        m_pid = re.search(r"= (\d+)", pid_out)
+        if m_pid and int(m_pid.group(1)) == MY_PID:
             return False
-        if any(skip in out_lower for skip in ["xfce4-panel", "plank", "conky", "desktop", "wrapper"]):
+
+        out = subprocess.check_output(["xprop", "-id", str(wid), "_NET_WM_WINDOW_TYPE", "WM_CLASS", "_NET_WM_STATE"], stderr=subprocess.DEVNULL, timeout=0.15).decode()
+        out_lower = out.lower()
+        if any(skip in out_lower for skip in ["_dock", "_desktop", "_notification", "_tooltip", "_menu", "_splash", "_hidden", "combobox"]):
+            return False
+        if any(skip in out_lower for skip in ["xfce4-panel", "plank", "conky", "desktop", "wrapper", "dragon"]):
             return False
         return True
     except Exception:
@@ -62,8 +69,8 @@ class AnimationTarget:
         self.mode = mode
         self.x = x
         self.y = y
-        self.w = max(250, w)
-        self.h = max(180, h)
+        self.w = max(280, w)
+        self.h = max(200, h)
         self.progress = 0.0
         self.trail = []
         self.particles = []
@@ -73,25 +80,32 @@ class AnimationTarget:
         if mode == "CLOSE":
             for _ in range(35):
                 angle = random.uniform(0, 2 * math.pi)
-                dist = random.uniform(min(w, h) * 0.3, max(w, h) * 0.6)
+                dist = random.uniform(min(w, h) * 0.25, max(w, h) * 0.50)
                 self.particles.append({
                     "x": cx + math.cos(angle) * dist,
                     "y": cy + math.sin(angle) * dist,
                     "target_x": cx,
                     "target_y": cy,
-                    "size": random.uniform(3.0, 7.0),
-                    "speed": random.uniform(0.10, 0.25),
+                    "size": random.uniform(3.0, 6.5),
+                    "speed": random.uniform(0.12, 0.26),
                     "alpha": random.uniform(0.7, 1.0)
                 })
 
+class AnimationBridge(QObject):
+    trigger_animation = pyqtSignal(str, int, int, int, int)
+
 class DragonOverlay(QWidget):
-    def __init__(self):
+    def __init__(self, bridge):
         super().__init__()
+        self.bridge = bridge
+        self.bridge.trigger_animation.connect(self.add_animation_slot)
+
         self.setWindowFlags(
             Qt.WindowType.FramelessWindowHint |
             Qt.WindowType.WindowStaysOnTopHint |
             Qt.WindowType.Tool |
-            Qt.WindowType.WindowTransparentForInput
+            Qt.WindowType.WindowTransparentForInput |
+            Qt.WindowType.X11BypassWindowManagerHint
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating)
@@ -113,7 +127,8 @@ class DragonOverlay(QWidget):
             sprite_path = "/home/gr/Escritorio/Kali-Red-Dragon-Suite/variants/gold/desktop/animator/dragon_sprite.png"
         self.dragon_pixmap = QPixmap(sprite_path)
 
-    def add_animation(self, mode, x, y, w, h):
+    @pyqtSlot(str, int, int, int, int)
+    def add_animation_slot(self, mode, x, y, w, h):
         self.reload_assets()
         target = AnimationTarget(mode, x, y, w, h)
         self.active_animations.append(target)
@@ -135,7 +150,7 @@ class DragonOverlay(QWidget):
 
         surviving = []
         for anim in self.active_animations:
-            anim.progress += 0.035 # ~500ms smooth animation
+            anim.progress += 0.040 # ~450ms snappy animation
             if anim.progress < 1.0:
                 surviving.append(anim)
 
@@ -162,14 +177,14 @@ class DragonOverlay(QWidget):
                 if t <= 0.70:
                     flight_t = t / 0.70
                     angle = (1.0 - flight_t) * 1.8 * math.pi - (math.pi / 4.0)
-                    rad_x = (anim.w / 2.0) + 70.0 * (1.0 - flight_t)
-                    rad_y = (anim.h / 2.0) + 50.0 * (1.0 - flight_t)
+                    rad_x = (anim.w / 2.0) + 60.0 * (1.0 - flight_t)
+                    rad_y = (anim.h / 2.0) + 45.0 * (1.0 - flight_t)
                     
                     px = cx + math.cos(angle) * rad_x
                     py = cy + math.sin(angle) * rad_y
 
                     anim.trail.append((px, py))
-                    if len(anim.trail) > 20:
+                    if len(anim.trail) > 16:
                         anim.trail.pop(0)
 
                     # Plasma trail ribbon
@@ -186,7 +201,7 @@ class DragonOverlay(QWidget):
                             painter.drawLine(QPointF(p1[0], p1[1]), QPointF(p2[0], p2[1]))
 
                     # Flying Dragon Sprite
-                    dw = min(160.0, anim.w * 0.40)
+                    dw = min(150.0, anim.w * 0.38)
                     dh = dw
                     painter.save()
                     painter.translate(px, py)
@@ -195,7 +210,7 @@ class DragonOverlay(QWidget):
                     painter.drawPixmap(QRectF(-dw/2.0, -dh/2.0, dw, dh), self.dragon_pixmap, QRectF(self.dragon_pixmap.rect()))
                     painter.restore()
 
-                # 2. Central Burst & Expanding Shockwave (0.35 to 1.0)
+                # 2. Central Burst & Expanding Frame (0.35 to 1.0)
                 if t >= 0.35:
                     burst_t = (t - 0.35) / 0.65
                     burst_alpha = int(max(0, math.sin(burst_t * math.pi) * 220))
@@ -207,13 +222,13 @@ class DragonOverlay(QWidget):
                     fx = cx - fw / 2.0
                     fy = cy - fh / 2.0
                     
-                    pen = QPen(QColor(r, g, b, burst_alpha), 3.0)
+                    pen = QPen(QColor(r, g, b, burst_alpha), 2.5)
                     painter.setPen(pen)
                     painter.setBrush(Qt.BrushStyle.NoBrush)
                     painter.drawRoundedRect(QRectF(fx, fy, fw, fh), 8.0, 8.0)
 
                     # Core Shockwave
-                    rad = min(anim.w, anim.h) * 0.50 * (0.3 + burst_t * 0.7)
+                    rad = min(anim.w, anim.h) * 0.45 * (0.3 + burst_t * 0.7)
                     radial = QRadialGradient(QPointF(cx, cy), rad)
                     radial.setColorAt(0.0, QColor(255, 255, 255, int(burst_alpha * 0.85)))
                     radial.setColorAt(0.5, QColor(r, g, b, int(burst_alpha * 0.55)))
@@ -243,14 +258,9 @@ class DragonOverlay(QWidget):
                 painter.setBrush(QBrush(radial))
                 painter.drawEllipse(QPointF(cx, cy), rad, rad)
 
-class ClientEventBridge(QObject):
-    clients_changed = pyqtSignal(list)
-
 class EventDrivenWindowManager:
-    def __init__(self, overlay):
-        self.overlay = overlay
-        self.bridge = ClientEventBridge()
-        self.bridge.clients_changed.connect(self.on_clients_changed)
+    def __init__(self, bridge):
+        self.bridge = bridge
         self.known_windows = {}
 
         for wid in get_client_list():
@@ -267,15 +277,14 @@ class EventDrivenWindowManager:
             proc = subprocess.Popen(
                 ["xprop", "-root", "-spy", "_NET_CLIENT_LIST"],
                 stdout=subprocess.PIPE,
-                text=True,
-                bufsize=1
+                text=True
             )
-            for line in proc.stdout:
+            for line in iter(proc.stdout.readline, ''):
                 if "_NET_CLIENT_LIST" in line:
                     match = re.search(r"# (.*)", line)
                     if match:
                         client_list = [int(x.strip(), 16) for x in match.group(1).split(",") if x.strip()]
-                        self.bridge.clients_changed.emit(client_list)
+                        self.on_clients_changed(client_list)
         except Exception:
             pass
 
@@ -290,11 +299,15 @@ class EventDrivenWindowManager:
                 continue
             
             def handle_new_win(w_id):
-                time.sleep(0.06) # Let window manager map and position window
-                geo = get_window_geometry(w_id)
+                geo = None
+                for _ in range(6):
+                    time.sleep(0.04)
+                    geo = get_window_geometry(w_id)
+                    if geo:
+                        break
                 if geo:
                     self.known_windows[w_id] = geo
-                    self.overlay.add_animation("OPEN", geo[0], geo[1], geo[2], geo[3])
+                    self.bridge.trigger_animation.emit("OPEN", geo[0], geo[1], geo[2], geo[3])
                     
             threading.Thread(target=handle_new_win, args=(wid,), daemon=True).start()
 
@@ -303,7 +316,7 @@ class EventDrivenWindowManager:
         for wid in closed_windows:
             last_geo = self.known_windows.pop(wid, None)
             if last_geo:
-                self.overlay.add_animation("CLOSE", last_geo[0], last_geo[1], last_geo[2], last_geo[3])
+                self.bridge.trigger_animation.emit("CLOSE", last_geo[0], last_geo[1], last_geo[2], last_geo[3])
 
         # 3. Update active window geometries
         for wid in current_set.intersection(set(self.known_windows.keys())):
@@ -313,23 +326,27 @@ class EventDrivenWindowManager:
                     self.known_windows[wid] = geo
 
 def main():
+    global MY_PID
+    MY_PID = os.getpid()
     pid_file = "/tmp/dragon-animator.pid"
     if os.path.exists(pid_file):
         try:
             with open(pid_file, "r") as f:
                 old_pid = int(f.read().strip())
-            os.kill(old_pid, signal.SIGTERM)
-            time.sleep(0.15)
+            if old_pid != MY_PID:
+                os.kill(old_pid, signal.SIGTERM)
+                time.sleep(0.15)
         except Exception:
             pass
     with open(pid_file, "w") as f:
-        f.write(str(os.getpid()))
+        f.write(str(MY_PID))
 
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
 
-    overlay = DragonOverlay()
-    manager = EventDrivenWindowManager(overlay)
+    bridge = AnimationBridge()
+    overlay = DragonOverlay(bridge)
+    manager = EventDrivenWindowManager(bridge)
 
     sys.exit(app.exec())
 

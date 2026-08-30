@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=Dragon Window Animator
-Comment=Dragon spawn animation and auto-sizer for Kali Linux
-Exec=sh -c "$HOME/.local/bin/dragon-window-animator.py --no-fork"
-Terminal=false
-StartupNotify=false
+Exec=/bin/bash -c "DISPLAY=:0 python3 %h/.local/bin/dragon-window-animator.py"
+Hidden=false
+NoDisplay=false
 X-GNOME-Autostart-enabled=true
+Name=Dragon Window Animator
+Comment=Kali Dragon Window Animator Daemon
