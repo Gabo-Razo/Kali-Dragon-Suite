@@ -165,8 +165,22 @@ sudo ./install.sh --color cyan --animator-only
 ## 🤝 Support & Contributions
 
 Encountered an issue or have an idea for a new animation/palette?
-* Open an **[Issue](https://github.com/Gabo-Razo/Kali-Dragon-Suite/issues)** describing your suggestion or bug.
-* If you enjoyed the project, consider giving it a **⭐ Star** on GitHub!
+* Open an **[Issue](https://github.com/Gabo-Razo/Kali-Dragon-Suite/issues)** describing your suggestion or open a Pull Request.
+* If you enjoyed the project and found it useful, consider giving it a **⭐ Star** on GitHub to support it!
+
+---
+
+## 💖 Support & Donations
+
+If you enjoy this project and wish to support its ongoing development, new themes, and animation enhancements:
+
+<div align="center">
+
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/Gabo-Razo)
+
+*Any sponsorship or support is deeply appreciated and fuels future open-source Linux projects! ☕🐉*
+
+</div>
 
 ---
 
