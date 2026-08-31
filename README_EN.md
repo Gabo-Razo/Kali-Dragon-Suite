@@ -1,7 +1,7 @@
 <div align="center">
 
 # KALI DRAGON SUITE
-### *The Ultimate Cyberpunk & Neon Transformation for Kali Linux (XFCE)*
+### *Modular Cyberpunk & Neon Customization Suite for Kali Linux (XFCE)*
 
 [![OS: Kali Linux](https://img.shields.io/badge/OS-Kali%20Linux%20%2F%20Debian-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)](https://www.kali.org/)
 [![Desktop: XFCE4](https://img.shields.io/badge/Desktop-XFCE4-00A4E4?style=for-the-badge&logo=xfce&logoColor=white)](https://www.xfce.org/)
@@ -11,7 +11,7 @@
 
 <br/>
 
-> **A comprehensive, modular, and optimized customization suite for Kali Linux:**  
+> **A comprehensive, modular, and lightweight customization suite designed for Kali Linux:**  
 > 1080p GRUB bootloader menu, Plymouth boot splash, LightDM login greeter, glassmorphism lock screen, 2px neon borders, 60 FPS cinematic dragon window animator, high-contrast GTK3/4 themes, Flat-Remix icons, and custom ZSH terminal prompt.
 
 </div>
@@ -23,6 +23,31 @@
 > *"This is my first project built for Linux and I wanted to share it with the community. The goal was to give Kali Linux a visually epic cyberpunk/neon aesthetic while keeping it extremely lightweight and resource-friendly.*  
 > *Several base textures and wallpapers were generated with the help of Gemini. If you run into any visual bug or have suggestions for improvements, feel free to open an [Issue](https://github.com/Gabo-Razo/Kali-Dragon-Suite/issues) and I'll do my best to address it promptly. Hope you find it useful and enjoy it!"*  
 > — **Gabo Razo** ([@Gabo-Razo](https://github.com/Gabo-Razo))
+
+---
+
+## Quick Start (1-Step Installation)
+
+If you are new to Kali Linux and just want to get started immediately, copy and paste this command into your terminal:
+
+```bash
+git clone https://github.com/Gabo-Razo/Kali-Dragon-Suite.git && cd Kali-Dragon-Suite && sudo ./install.sh
+```
+*The installer will launch an interactive numbered menu guiding you to select your preferred color and components.*
+
+---
+
+## What does this project do? (Beginner-Friendly Guide)
+
+Kali Dragon Suite safely and modularly customizes key visual parts of your operating system. If you are new to Linux terminology, here is what each component represents:
+
+* **Bootloader Menu (GRUB):** The screen shown on your monitor when turning on the PC to choose your operating system.
+* **Boot Splash (Plymouth):** The dragon loading animation displayed while the operating system boots before reaching the login screen.
+* **Login Screen (LightDM):** The greeter screen where you select your user profile and enter your password.
+* **Lock Screen (Screensaver):** The password prompt card displayed when waking from suspend or locking your screen.
+* **Window Borders (XFWM4 & GTK):** 2px thin neon borders surrounding windows (Thunar file manager, terminal emulators, applications) with solid, high-contrast dark backgrounds.
+* **Dragon Window Animator (60 FPS):** An orbital dragon animation that traces window perimeters with plasma trails whenever an application is opened, followed by instantaneous window materialization.
+* **Terminal Prompt (ZSH):** A matching 2-line command prompt with glowing neon cursor and zero transparency lag.
 
 ---
 
@@ -111,12 +136,12 @@ You can install the entire suite or choose specific standalone components:
 
 ---
 
-## Installation
+## Advanced Installation Options
 
 ### Prerequisites
 * **Operating System:** Kali Linux (or any Debian-based distribution with XFCE).
 * **Desktop Environment:** XFCE4.
-* **Dependencies:** Python 3, PyQt6 (`python3-pyqt6`), `xprop`, `xdotool` (installer checks automatically).
+* **Dependencies:** Python 3, PyQt6 (`python3-pyqt6`), `xprop`, `xdotool` (installer checks and installs automatically).
 
 ```bash
 # 1. Clone repository
@@ -127,12 +152,7 @@ cd Kali-Dragon-Suite
 chmod +x install.sh
 ```
 
-### Option A: Interactive Menu (Recommended)
-```bash
-sudo ./install.sh
-```
-
-### Option B: Command-Line Flags
+### Direct CLI Command Examples
 ```bash
 # Install everything in Crimson Red:
 sudo ./install.sh --color red --all
@@ -148,6 +168,23 @@ sudo ./install.sh --color blue --boot-only
 
 # Install only the Dragon Animator in Neon Cyan:
 sudo ./install.sh --color cyan --animator-only
+```
+
+---
+
+## Restoration & Uninstallation (Zero Risk)
+
+The installer never overwrites core system files and allows restoring default Kali Linux settings at any time:
+
+### 1. From XFCE Settings Manager
+1. Open **Settings -> Appearance** and select `Kali-Dark`.
+2. Open **Settings -> Window Manager** and select `Kali-Dark`.
+3. Open **Settings -> Icons** and select `Flat-Remix-Blue-Dark` or your default theme.
+
+### 2. To stop or disable the Dragon Window Animator
+```bash
+systemctl --user stop dragon-animator.service
+systemctl --user disable dragon-animator.service
 ```
 
 ---

@@ -1,7 +1,7 @@
 <div align="center">
 
 # KALI DRAGON SUITE
-### *The Ultimate Cyberpunk & Neon Transformation for Kali Linux (XFCE)*
+### *Transformación Cyberpunk y Neón Modular para Kali Linux (XFCE)*
 
 [![OS: Kali Linux](https://img.shields.io/badge/OS-Kali%20Linux%20%2F%20Debian-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)](https://www.kali.org/)
 [![Desktop: XFCE4](https://img.shields.io/badge/Desktop-XFCE4-00A4E4?style=for-the-badge&logo=xfce&logoColor=white)](https://www.xfce.org/)
@@ -11,8 +11,8 @@
 
 <br/>
 
-> **Suite integral, modular y optimizada de personalización para Kali Linux:**  
-> Menú GRUB 1080p, pantalla de carga Plymouth, inicio de sesión LightDM, bloqueo de pantalla glassmorphic, bordes neón de 2px, animador cinemático del dragón (60 FPS), temas GTK3/4 de alto contraste, iconos Flat-Remix y prompt para la terminal ZSH.
+> **Una suite completa, modular y ligera diseñada para transformar la apariencia visual de Kali Linux:**  
+> Menú de arranque GRUB 1080p, pantalla de carga Plymouth, inicio de sesión LightDM, bloqueo de pantalla glassmorphic, bordes neón de 2px, animador cinemático del dragón (60 FPS), temas GTK3/4 de alto contraste, iconos Flat-Remix y prompt para la terminal ZSH.
 
 </div>
 
@@ -23,6 +23,31 @@
 > *"Este es mi primer proyecto que desarrollo para Linux y quise compartirlo con la comunidad. La idea nació para darle a Kali Linux una estética neón / cyberpunk visualmente épica, pero manteniéndolo ligero y sin que devore los recursos de tu máquina.*  
 > *Varias de las texturas y artes base se generaron con ayuda de Gemini. Si llegan a encontrar algún detalle, bug visual o tienen alguna idea de mejora, con toda confianza abran un [Issue](https://github.com/Gabo-Razo/Kali-Dragon-Suite/issues) y trataré de responder y solucionarlo lo antes posible. ¡Ojalá les sea de gran utilidad y lo disfruten!"*  
 > — **Gabo Razo** ([@Gabo-Razo](https://github.com/Gabo-Razo))
+
+---
+
+## Inicio Rápido (Instalación en 1 Paso)
+
+Si eres nuevo en Kali Linux y solo quieres probarlo de inmediato, copia y pega este comando en tu terminal:
+
+```bash
+git clone https://github.com/Gabo-Razo/Kali-Dragon-Suite.git && cd Kali-Dragon-Suite && sudo ./install.sh
+```
+*El instalador te mostrará un menú interactivo numerado para elegir tu color favorito y qué componentes deseas instalar.*
+
+---
+
+## ¿Qué hace este proyecto? (Explicación para principiantes)
+
+Kali Dragon Suite modifica de manera segura y modular diferentes partes del sistema operativo. Si no estás familiarizado con la terminología de Linux, aquí tienes qué significa cada componente:
+
+* **Menú de Arranque (GRUB):** La pantalla que aparece en tu monitor al encender la computadora para seleccionar tu sistema operativo.
+* **Pantalla de Carga (Plymouth):** La animación del dragón que aparece mientras el sistema se inicia antes de llegar al login.
+* **Pantalla de Login (LightDM):** La pantalla donde seleccionas tu usuario e introduces tu contraseña al prender la PC.
+* **Pantalla de Bloqueo (Screensaver):** La tarjeta que te pide contraseña cuando suspendes o bloqueas la sesión.
+* **Bordes de Ventana (XFWM4 y GTK):** Los marcos de 2px con resplandor neón alrededor de ventanas como Thunar (gestor de archivos), terminales y aplicaciones, con fondos 100% oscuros y legibles.
+* **Animador del Dragón (60 FPS):** Un dragón orbital que vuela por el contorno de la ventana al abrir cualquier aplicación y luego se materializa de forma instantánea.
+* **Prompt de Terminal (ZSH):** El diseño de dos líneas de la consola con colores a juego y cursor neón sin transparencia.
 
 ---
 
@@ -69,7 +94,7 @@
 
 ## Ediciones de Color
 
-Todos los colores están calibrados para ofrecer la máxima saturación neón sobre fondos oscuros profundos, garantizando legibilidad y alto contraste:
+Cada color ha sido calibrado para ofrecer la máxima saturación neón sobre fondos oscuros profundos, garantizando legibilidad y alto contraste:
 
 | # | Edición | Flag CLI | Color Primario | Estilo / Vibe |
 | :-: | :--- | :--- | :--- | :--- |
@@ -111,28 +136,23 @@ Puedes instalar la suite completa o únicamente los módulos específicos que re
 
 ---
 
-## Instalación
+## Guía de Instalación Avanzada
 
 ### Requisitos Previos
 * **Sistema Operativo:** Kali Linux (o cualquier distribución basada en Debian con XFCE).
 * **Entorno:** XFCE4.
-* **Dependencias:** Python 3, PyQt6 (`python3-pyqt6`), `xprop`, `xdotool` (el instalador las revisa automáticamente).
+* **Dependencias:** Python 3, PyQt6 (`python3-pyqt6`), `xprop`, `xdotool` (el instalador las verifica e instala automáticamente).
 
 ```bash
 # 1. Clonar el repositorio
 git clone https://github.com/Gabo-Razo/Kali-Dragon-Suite.git
 cd Kali-Dragon-Suite
 
-# 2. Dar permisos de ejecución al instalador
+# 2. Dar permisos de ejecución
 chmod +x install.sh
 ```
 
-### Opción A: Menú Interactivo (Recomendado)
-```bash
-sudo ./install.sh
-```
-
-### Opción B: Instalación por Línea de Comandos
+### Ejemplos de Instalación por Comandos
 ```bash
 # Instalar todo en Crimson Red:
 sudo ./install.sh --color red --all
@@ -140,7 +160,7 @@ sudo ./install.sh --color red --all
 # Instalar todo en Cyber Gold:
 sudo ./install.sh --color gold --all
 
-# Instalar solo los bordes de 2px en Toxic Green:
+# Instalar solo los bordes de ventana en Toxic Green:
 sudo ./install.sh --color green --borders-only
 
 # Instalar solo el arranque (GRUB + Plymouth) en Plasma Blue:
@@ -148,6 +168,23 @@ sudo ./install.sh --color blue --boot-only
 
 # Instalar solo el Animador del Dragón en Neon Cyan:
 sudo ./install.sh --color cyan --animator-only
+```
+
+---
+
+## Restauración y Desinstalación (Cero Riesgos)
+
+El instalador no sobreescribe archivos vitales del sistema y permite restaurar el aspecto original de Kali Linux en cualquier momento:
+
+### 1. Desde el entorno gráfico de XFCE
+1. Ve a **Menú de Aplicaciones -> Configuración -> Apariencia** y selecciona `Kali-Dark`.
+2. Ve a **Configuración -> Gestor de Ventanas** y selecciona el estilo `Kali-Dark`.
+3. Ve a **Configuración -> Iconos** y selecciona `Flat-Remix-Blue-Dark` o los iconos por defecto.
+
+### 2. Para detener o deshabilitar el Animador del Dragón
+```bash
+systemctl --user stop dragon-animator.service
+systemctl --user disable dragon-animator.service
 ```
 
 ---
