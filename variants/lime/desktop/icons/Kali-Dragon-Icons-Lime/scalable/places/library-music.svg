@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <filter id="folder-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.2" result="blur1"/>
+      <feGaussianBlur stdDeviation="4.5" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path d="M 9,36 L 91,36 Q 93,36 92,39 L 88,81 Q 87,85 83,85 L 17,85 Q 13,85 12,81 L 8,39 Q 7,36 9,36 Z" 
+        fill="none" stroke="#76ff03" stroke-width="4.5" opacity="0.3" filter="url(#folder-glow)"/>
+  <path d="M 12,24 L 38,24 L 46,32 L 88,32 Q 91,32 91,35 L 91,80 Q 91,84 87,84 L 13,84 Q 9,84 9,80 L 9,28 Q 9,24 12,24 Z" 
+        fill="#16191f" stroke="#76ff03" stroke-width="1.8" stroke-linejoin="round"/>
+  <path d="M 12,24 L 38,24 L 46,32 L 88,32" fill="none" stroke="#64dd17" stroke-width="1.2"/>
+  <path d="M 9,36 L 91,36 Q 93,36 92,39 L 88,81 Q 87,85 83,85 L 17,85 Q 13,85 12,81 L 8,39 Q 7,36 9,36 Z" 
+        fill="#14171e" stroke="#76ff03" stroke-width="2.2" stroke-linejoin="round"/>
+  <g filter="url(#folder-glow)" opacity="0.45">
+    <g transform="translate(50, 60) scale(0.95)">
+  <path d="M -6,-10 L 8,-13 L 8,4 A 4,3.5 0 1 1 4,0.5 L 4,-8 L -6,-5.5 L -6,7 A 4,3.5 0 1 1 -10,3.5 L -10,-9 Q -10,-10 -6,-10 Z" fill="none" stroke="#76ff03" stroke-width="1.8"/>
+</g>
+
+  </g>
+  <g>
+    <g transform="translate(50, 60) scale(0.95)">
+  <path d="M -6,-10 L 8,-13 L 8,4 A 4,3.5 0 1 1 4,0.5 L 4,-8 L -6,-5.5 L -6,7 A 4,3.5 0 1 1 -10,3.5 L -10,-9 Q -10,-10 -6,-10 Z" fill="none" stroke="#76ff03" stroke-width="1.8"/>
+</g>
+
+  </g>
+</svg>

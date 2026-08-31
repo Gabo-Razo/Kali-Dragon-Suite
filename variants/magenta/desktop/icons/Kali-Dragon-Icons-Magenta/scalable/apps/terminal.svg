@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="termGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#222a3b"/>
+      <stop offset="100%" stop-color="#0f121a"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="5" y="7" width="54" height="50" rx="6" fill="url(#termGrad)" stroke="#ff007f" stroke-width="2"/>
+  <line x1="5" y1="18" x2="59" y2="18" stroke="#ff007f" stroke-width="1.2" opacity="0.5"/>
+  <circle cx="13" cy="12.5" r="2.2" fill="#ff1744"/>
+  <circle cx="19.5" cy="12.5" r="2.2" fill="#ffd600"/>
+  <circle cx="26" cy="12.5" r="2.2" fill="#00e676"/>
+
+  <!-- Prompt '>_' in solid neon vector -->
+  <polygon points="14,27 18,27 26,34 18,41 14,41 22,34" fill="#ff007f"/>
+  <rect x="28" y="38" width="13" height="3" rx="1" fill="#ff66b2"/>
+</svg>

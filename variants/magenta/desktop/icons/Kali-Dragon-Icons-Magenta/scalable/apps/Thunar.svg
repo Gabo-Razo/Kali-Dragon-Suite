@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="backGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#232938"/>
+      <stop offset="100%" stop-color="#121620"/>
+    </linearGradient>
+    <linearGradient id="frontGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2c3547"/>
+      <stop offset="100%" stop-color="#161c28"/>
+    </linearGradient>
+    <linearGradient id="tabGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff007f"/>
+      <stop offset="100%" stop-color="#770038"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Back plate with tab -->
+  <path d="M 6,13 L 23,13 L 27,17 L 57,17 Q 59,17 59,19 L 59,51 Q 59,53 57,53 L 7,53 Q 5,53 5,51 L 5,15 Q 5,13 6,13 Z" 
+        fill="url(#backGrad)" stroke="#37435e" stroke-width="1.2"/>
+
+  <!-- Top accent tab in glowing neon -->
+  <path d="M 6,13 L 22.5,13 L 26,17 L 6,17 Z" fill="url(#tabGrad)"/>
+
+  <!-- Front flap body with neon border -->
+  <path d="M 5,21 L 59,21 Q 60,21 59.5,23 L 57,52 Q 56.5,54.5 54,54.5 L 10,54.5 Q 7.5,54.5 7,52 L 4.5,23 Q 4,21 5,21 Z" 
+        fill="url(#frontGrad)" stroke="#ff007f" stroke-width="2"/>
+
+  <!-- Cyber Circuit Node Lines -->
+  <path d="M 8,26 L 22,26 L 26,29.5 L 55,29.5" fill="none" stroke="#ff007f" stroke-width="1.2" opacity="0.6"/>
+  <circle cx="22" cy="26" r="1.8" fill="#ff66b2"/>
+  <circle cx="55" cy="29.5" r="1.8" fill="#ff66b2"/>
+
+  <line x1="10" y1="50.5" x2="54" y2="50.5" stroke="#ff007f" stroke-width="1" opacity="0.4"/>
+
+  <!-- Central Glyph -->
+  <g transform="translate(32, 40) scale(0.68)">
+  <path d="M 0,-15 C 6,-15 12,-10 12,-3 C 12,4 6,8 2,11 C -2,13 -4,15 -3,18 C -2,20 0,20 2,19 C -2,22 -7,20 -7,16 C -7,11 -2,8 2,5 C 6,3 7,0 7,-3 C 7,-7 3,-11 0,-11 C -3,-11 -7,-7 -7,-3 L -10,-3 C -10,-10 -5,-15 0,-15 Z" 
+        fill="#ff007f"/>
+  <path d="M 0,-5 C 8,-11 18,-13 23,-12 C 19,-8 13,-5 7,-3 C 14,-4 21,-3 25,0 C 19,2 13,3 7,3 C 13,6 18,9 21,13 C 15,10 9,8 3,5 Z" 
+        fill="#ff007f"/>
+  <path d="M -1,-13 C -3,-17 -7,-19 -10,-21 C -8,-17 -6,-14 -4,-12 Z" fill="#ff66b2"/>
+  <circle cx="0" cy="1" r="14" fill="none" stroke="#ff007f" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.6"/>
+</g>
+
+</svg>

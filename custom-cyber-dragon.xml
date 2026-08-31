@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+
+  <!-- ==================== 1. GR FAMILY ==================== -->
+  <mime-type type="text/x-gr">
+    <comment>GR Source</comment>
+    <glob pattern="*.gr" weight="100"/>
+    <glob pattern="*.grav" weight="100"/>
+    <icon name="text-x-gr"/>
+  </mime-type>
+  <mime-type type="text/x-gry">
+    <comment>GR Script</comment>
+    <glob pattern="*.gry" weight="100"/>
+    <icon name="text-x-gry"/>
+  </mime-type>
+
+  <!-- ==================== 2. RUBY FAMILY ==================== -->
+  <mime-type type="text/x-ruby">
+    <comment>Ruby Source</comment>
+    <glob pattern="*.rb" weight="100"/>
+    <glob pattern="*.gemspec" weight="100"/>
+    <glob pattern=".irbrc" weight="100"/>
+    <glob pattern="Gemfile" weight="100"/>
+    <glob pattern="Gemfile.lock" weight="100"/>
+    <glob pattern="Capfile" weight="100"/>
+    <glob pattern="Guardfile" weight="100"/>
+    <glob pattern="Vagrantfile" weight="100"/>
+    <icon name="text-x-ruby"/>
+  </mime-type>
+  <mime-type type="text/x-erb">
+    <comment>Ruby ERB Template</comment>
+    <glob pattern="*.erb" weight="100"/>
+    <glob pattern="*.rhtml" weight="100"/>
+    <icon name="text-x-erb"/>
+  </mime-type>
+  <mime-type type="text/x-rake">
+    <comment>Ruby Rakefile</comment>
+    <glob pattern="*.rake" weight="100"/>
+    <glob pattern="Rakefile" weight="100"/>
+    <icon name="text-x-rake"/>
+  </mime-type>
+
+  <!-- ==================== 3. PYTHON FAMILY ==================== -->
+  <mime-type type="text/x-python">
+    <comment>Python Source</comment>
+    <glob pattern="*.py" weight="100"/>
+    <icon name="text-x-python"/>
+  </mime-type>
+  <mime-type type="text/x-python-gui">
+    <comment>Python GUI Script</comment>
+    <glob pattern="*.pyw" weight="100"/>
+    <icon name="text-x-python-gui"/>
+  </mime-type>
+  <mime-type type="text/x-cython">
+    <comment>Cython Source</comment>
+    <glob pattern="*.pyx" weight="100"/>
+    <glob pattern="*.pxd" weight="100"/>
+    <icon name="text-x-cython"/>
+  </mime-type>
+  <mime-type type="text/x-python-stub">
+    <comment>Python Type Stub</comment>
+    <glob pattern="*.pyi" weight="100"/>
+    <icon name="text-x-python-stub"/>
+  </mime-type>
+
+  <!-- ==================== 4. C & C++ FAMILY ==================== -->
+  <mime-type type="text/x-csrc">
+    <comment>C Source</comment>
+    <glob pattern="*.c" weight="100"/>
+    <icon name="text-x-csrc"/>
+  </mime-type>
+  <mime-type type="text/x-chdr">
+    <comment>C Header</comment>
+    <glob pattern="*.h" weight="100"/>
+    <icon name="text-x-chdr"/>
+  </mime-type>
+  <mime-type type="text/x-c++src">
+    <comment>C++ Source</comment>
+    <glob pattern="*.cpp" weight="100"/>
+    <glob pattern="*.cc" weight="100"/>
+    <glob pattern="*.cxx" weight="100"/>
+    <glob pattern="*.c++" weight="100"/>
+    <icon name="text-x-c++src"/>
+  </mime-type>
+  <mime-type type="text/x-c++hdr">
+    <comment>C++ Header</comment>
+    <glob pattern="*.hpp" weight="100"/>
+    <glob pattern="*.hh" weight="100"/>
+    <glob pattern="*.hxx" weight="100"/>
+    <glob pattern="*.h++" weight="100"/>
+    <glob pattern="*.inl" weight="100"/>
+    <glob pattern="*.tpp" weight="100"/>
+    <icon name="text-x-c++hdr"/>
+  </mime-type>
+
+  <!-- ==================== 5. C# & .NET FAMILY ==================== -->
+  <mime-type type="text/x-csharp">
+    <comment>C# Source</comment>
+    <glob pattern="*.cs" weight="100"/>
+    <glob pattern="*.csx" weight="100"/>
+    <icon name="text-x-csharp"/>
+  </mime-type>
+  <mime-type type="text/x-vb">
+    <comment>Visual Basic Source</comment>
+    <glob pattern="*.vb" weight="100"/>
+    <glob pattern="*.vbs" weight="100"/>
+    <icon name="text-x-vb"/>
+  </mime-type>
+  <mime-type type="text/x-fsharp">
+    <comment>F# Source</comment>
+    <glob pattern="*.fs" weight="100"/>
+    <glob pattern="*.fsx" weight="100"/>
+    <icon name="text-x-fsharp"/>
+  </mime-type>
+
+  <!-- ==================== 6. JAVASCRIPT & TYPESCRIPT FAMILY ==================== -->
+  <mime-type type="text/javascript">
+    <comment>JavaScript Source</comment>
+    <glob pattern="*.js" weight="100"/>
+    <glob pattern="*.mjs" weight="100"/>
+    <glob pattern="*.cjs" weight="100"/>
+    <icon name="text-javascript"/>
+  </mime-type>
+  <mime-type type="text/x-jsx">
+    <comment>JavaScript JSX</comment>
+    <glob pattern="*.jsx" weight="100"/>
+    <icon name="text-x-jsx"/>
+  </mime-type>
+  <mime-type type="text/x-typescript">
+    <comment>TypeScript Source</comment>
+    <glob pattern="*.ts" weight="100"/>
+    <glob pattern="*.mts" weight="100"/>
+    <glob pattern="*.cts" weight="100"/>
+    <glob pattern="*.d.ts" weight="100"/>
+    <glob pattern="tsconfig.json" weight="100"/>
+    <icon name="text-x-typescript"/>
+  </mime-type>
+  <mime-type type="text/x-tsx">
+    <comment>TypeScript TSX</comment>
+    <glob pattern="*.tsx" weight="100"/>
+    <icon name="text-x-tsx"/>
+  </mime-type>
+
+  <!-- ==================== 7. CSS & PREPROCESSORS FAMILY ==================== -->
+  <mime-type type="text/css">
+    <comment>CSS Stylesheet</comment>
+    <glob pattern="*.css" weight="100"/>
+    <icon name="text-css"/>
+  </mime-type>
+  <mime-type type="text/x-scss">
+    <comment>SCSS Stylesheet</comment>
+    <glob pattern="*.scss" weight="100"/>
+    <icon name="text-x-scss"/>
+  </mime-type>
+  <mime-type type="text/x-sass">
+    <comment>Sass Stylesheet</comment>
+    <glob pattern="*.sass" weight="100"/>
+    <icon name="text-x-sass"/>
+  </mime-type>
+  <mime-type type="text/x-less">
+    <comment>LESS Stylesheet</comment>
+    <glob pattern="*.less" weight="100"/>
+    <icon name="text-x-less"/>
+  </mime-type>
+  <mime-type type="text/x-stylus">
+    <comment>Stylus Stylesheet</comment>
+    <glob pattern="*.styl" weight="100"/>
+    <icon name="text-x-stylus"/>
+  </mime-type>
+
+  <!-- ==================== 8. SYSTEMD FAMILY ==================== -->
+  <mime-type type="text/x-systemd-unit">
+    <comment>Systemd Unit / Service</comment>
+    <glob pattern="*.service" weight="100"/>
+    <glob pattern="*.timer" weight="100"/>
+    <glob pattern="*.socket" weight="100"/>
+    <glob pattern="*.target" weight="100"/>
+    <glob pattern="*.mount" weight="100"/>
+    <glob pattern="*.automount" weight="100"/>
+    <glob pattern="*.swap" weight="100"/>
+    <glob pattern="*.slice" weight="100"/>
+    <glob pattern="*.scope" weight="100"/>
+    <glob pattern="*.path" weight="100"/>
+    <icon name="text-x-systemd-unit"/>
+  </mime-type>
+
+  <!-- ==================== 9. GAME DEV FAMILY ==================== -->
+  <mime-type type="text/x-gdscript">
+    <comment>Godot GDScript</comment>
+    <glob pattern="*.gd" weight="100"/>
+    <icon name="text-x-gdscript"/>
+  </mime-type>
+  <mime-type type="application/x-godot-scene">
+    <comment>Godot Scene</comment>
+    <glob pattern="*.tscn" weight="100"/>
+    <glob pattern="*.escn" weight="100"/>
+    <icon name="application-x-godot-scene"/>
+  </mime-type>
+  <mime-type type="text/x-godot-resource">
+    <comment>Godot Resource</comment>
+    <glob pattern="*.tres" weight="100"/>
+    <icon name="text-x-godot-resource"/>
+  </mime-type>
+  <mime-type type="application/x-godot-project">
+    <comment>Godot Project</comment>
+    <glob pattern="*.godot" weight="100"/>
+    <icon name="application-x-godot-project"/>
+  </mime-type>
+  <mime-type type="text/x-unity">
+    <comment>Unity Scene / Asset</comment>
+    <glob pattern="*.unity" weight="100"/>
+    <glob pattern="*.prefab" weight="100"/>
+    <glob pattern="*.asset" weight="100"/>
+    <icon name="text-x-unity"/>
+  </mime-type>
+
+  <!-- ==================== 10. DATABASE FAMILY ==================== -->
+  <mime-type type="application/x-sql">
+    <comment>SQL Script</comment>
+    <glob pattern="*.sql" weight="100"/>
+    <glob pattern="*.psql" weight="100"/>
+    <glob pattern="*.mysql" weight="100"/>
+    <icon name="application-x-sql"/>
+  </mime-type>
+  <mime-type type="application/x-sqlite3">
+    <comment>SQLite Database</comment>
+    <glob pattern="*.sqlite" weight="100"/>
+    <glob pattern="*.sqlite3" weight="100"/>
+    <glob pattern="*.db" weight="100"/>
+    <glob pattern="*.s3db" weight="100"/>
+    <icon name="application-x-sqlite3"/>
+  </mime-type>
+
+  <!-- ==================== 11. DEVOPS & INFRASTRUCTURE FAMILY ==================== -->
+  <mime-type type="text/x-dockerfile">
+    <comment>Dockerfile</comment>
+    <glob pattern="Dockerfile" weight="100"/>
+    <glob pattern="Dockerfile.*" weight="100"/>
+    <glob pattern="*.dockerfile" weight="100"/>
+    <glob pattern="Containerfile" weight="100"/>
+    <glob pattern="docker-compose.yml" weight="100"/>
+    <glob pattern="docker-compose.yaml" weight="100"/>
+    <glob pattern=".dockerignore" weight="100"/>
+    <icon name="text-x-dockerfile"/>
+  </mime-type>
+  <mime-type type="text/x-kubernetes">
+    <comment>Kubernetes Manifest</comment>
+    <glob pattern="k8s.yaml" weight="100"/>
+    <glob pattern="k8s.yml" weight="100"/>
+    <glob pattern="Chart.yaml" weight="100"/>
+    <glob pattern="values.yaml" weight="100"/>
+    <glob pattern="kustomization.yaml" weight="100"/>
+    <icon name="text-x-kubernetes"/>
+  </mime-type>
+  <mime-type type="text/x-terraform">
+    <comment>Terraform Configuration</comment>
+    <glob pattern="*.tf" weight="100"/>
+    <glob pattern="*.tfvars" weight="100"/>
+    <glob pattern="*.hcl" weight="100"/>
+    <icon name="text-x-terraform"/>
+  </mime-type>
+  <mime-type type="text/x-makefile">
+    <comment>Makefile</comment>
+    <glob pattern="Makefile" weight="100"/>
+    <glob pattern="makefile" weight="100"/>
+    <glob pattern="GNUMakefile" weight="100"/>
+    <glob pattern="*.mk" weight="100"/>
+    <glob pattern="Kbuild" weight="100"/>
+    <icon name="text-x-makefile"/>
+  </mime-type>
+  <mime-type type="text/x-cmake">
+    <comment>CMake File</comment>
+    <glob pattern="CMakeLists.txt" weight="100"/>
+    <glob pattern="*.cmake" weight="100"/>
+    <icon name="text-x-cmake"/>
+  </mime-type>
+  <mime-type type="text/x-ci">
+    <comment>CI Pipeline Configuration</comment>
+    <glob pattern="Jenkinsfile" weight="100"/>
+    <glob pattern=".gitlab-ci.yml" weight="100"/>
+    <glob pattern=".travis.yml" weight="100"/>
+    <glob pattern="bitbucket-pipelines.yml" weight="100"/>
+    <glob pattern="azure-pipelines.yml" weight="100"/>
+    <icon name="text-x-ci"/>
+  </mime-type>
+
+  <!-- ==================== 12. GIT FAMILY ==================== -->
+  <mime-type type="text/x-git">
+    <comment>Git Configuration / Ignore</comment>
+    <glob pattern=".gitignore" weight="100"/>
+    <glob pattern=".gitmodules" weight="100"/>
+    <glob pattern=".gitattributes" weight="100"/>
+    <glob pattern=".gitconfig" weight="100"/>
+    <glob pattern=".gitkeep" weight="100"/>
+    <icon name="text-x-git"/>
+  </mime-type>
+  <mime-type type="text/x-patch">
+    <comment>Patch / Diff File</comment>
+    <glob pattern="*.patch" weight="100"/>
+    <glob pattern="*.diff" weight="100"/>
+    <icon name="text-x-patch"/>
+  </mime-type>
+
+  <!-- ==================== 13. CYBERSECURITY & FORENSICS FAMILY ==================== -->
+  <mime-type type="application/vnd.tcpdump.pcap">
+    <comment>Wireshark Packet Capture</comment>
+    <glob pattern="*.pcap" weight="100"/>
+    <glob pattern="*.pcapng" weight="100"/>
+    <glob pattern="*.cap" weight="100"/>
+    <icon name="application-vnd.tcpdump.pcap"/>
+  </mime-type>
+  <mime-type type="application/x-yara">
+    <comment>YARA Rule</comment>
+    <glob pattern="*.yar" weight="100"/>
+    <glob pattern="*.yara" weight="100"/>
+    <icon name="application-x-yara"/>
+  </mime-type>
+  <mime-type type="application/x-openvpn-profile">
+    <comment>VPN Profile</comment>
+    <glob pattern="*.ovpn" weight="100"/>
+    <glob pattern="*.wireguard" weight="100"/>
+    <icon name="application-x-openvpn-profile"/>
+  </mime-type>
+  <mime-type type="application/x-kdbx">
+    <comment>KeePass Password Database</comment>
+    <glob pattern="*.kdbx" weight="100"/>
+    <glob pattern="*.kdb" weight="100"/>
+    <icon name="application-x-kdbx"/>
+  </mime-type>
+  <mime-type type="application/x-key">
+    <comment>Cryptographic Key</comment>
+    <glob pattern="*.key" weight="100"/>
+    <glob pattern="*.pem" weight="100"/>
+    <glob pattern="*.crt" weight="100"/>
+    <glob pattern="*.cer" weight="100"/>
+    <glob pattern="*.pub" weight="100"/>
+    <glob pattern="*.p12" weight="100"/>
+    <glob pattern="*.pfx" weight="100"/>
+    <glob pattern="*.gpg" weight="100"/>
+    <glob pattern="*.asc" weight="100"/>
+    <glob pattern="*.sig" weight="100"/>
+    <icon name="application-x-key"/>
+  </mime-type>
+
+  <!-- ==================== 14. HARDWARE & MICROCONTROLLERS FAMILY ==================== -->
+  <mime-type type="text/x-arduino">
+    <comment>Arduino Sketch</comment>
+    <glob pattern="*.ino" weight="100"/>
+    <icon name="text-x-arduino"/>
+  </mime-type>
+  <mime-type type="application/x-hex">
+    <comment>Microcontroller Firmware</comment>
+    <glob pattern="*.hex" weight="100"/>
+    <glob pattern="*.elf" weight="100"/>
+    <glob pattern="*.rom" weight="100"/>
+    <glob pattern="*.bin" weight="100"/>
+    <icon name="application-x-hex"/>
+  </mime-type>
+  <mime-type type="text/x-vhdl">
+    <comment>VHDL Source</comment>
+    <glob pattern="*.vhd" weight="100"/>
+    <glob pattern="*.vhdl" weight="100"/>
+    <icon name="text-x-vhdl"/>
+  </mime-type>
+  <mime-type type="text/x-verilog">
+    <comment>Verilog Source</comment>
+    <glob pattern="*.v" weight="100"/>
+    <glob pattern="*.sv" weight="100"/>
+    <icon name="text-x-verilog"/>
+  </mime-type>
+
+  <!-- ==================== 15. LANGUAGES SPECTRUM ==================== -->
+  <mime-type type="text/x-swift">
+    <comment>Swift Source</comment>
+    <glob pattern="*.swift" weight="100"/>
+    <icon name="text-x-swift"/>
+  </mime-type>
+  <mime-type type="text/x-vue">
+    <comment>Vue Component</comment>
+    <glob pattern="*.vue" weight="100"/>
+    <icon name="text-x-vue"/>
+  </mime-type>
+  <mime-type type="text/x-svelte">
+    <comment>Svelte Component</comment>
+    <glob pattern="*.svelte" weight="100"/>
+    <glob pattern="*.astro" weight="100"/>
+    <icon name="text-x-svelte"/>
+  </mime-type>
+  <mime-type type="text/x-zig">
+    <comment>Zig Source</comment>
+    <glob pattern="*.zig" weight="100"/>
+    <icon name="text-x-zig"/>
+  </mime-type>
+  <mime-type type="text/x-solidity">
+    <comment>Solidity Contract</comment>
+    <glob pattern="*.sol" weight="100"/>
+    <icon name="text-x-solidity"/>
+  </mime-type>
+  <mime-type type="text/x-r">
+    <comment>R Source</comment>
+    <glob pattern="*.r" weight="100"/>
+    <glob pattern="*.R" weight="100"/>
+    <glob pattern="*.Rmd" weight="100"/>
+    <icon name="text-x-r"/>
+  </mime-type>
+  <mime-type type="text/x-matlab">
+    <comment>MATLAB / Octave Script</comment>
+    <glob pattern="*.m" weight="100"/>
+    <glob pattern="*.mat" weight="100"/>
+    <icon name="text-x-matlab"/>
+  </mime-type>
+  <mime-type type="application/x-hdf5">
+    <comment>HDF5 Data</comment>
+    <glob pattern="*.h5" weight="100"/>
+    <glob pattern="*.hdf5" weight="100"/>
+    <icon name="application-x-hdf5"/>
+  </mime-type>
+
+  <!-- ==================== 16. EBOOKS & COMICS ==================== -->
+  <mime-type type="application/vnd.comicbook-rar">
+    <comment>CBR Comic</comment>
+    <glob pattern="*.cbr" weight="100"/>
+    <icon name="application-vnd.comicbook-rar"/>
+  </mime-type>
+  <mime-type type="application/vnd.comicbook+zip">
+    <comment>CBZ Comic</comment>
+    <glob pattern="*.cbz" weight="100"/>
+    <icon name="application-vnd.comicbook+zip"/>
+  </mime-type>
+
+  <!-- ==================== 17. 3D & ROMS ==================== -->
+  <mime-type type="application/x-nintendo-3ds-rom">
+    <comment>Nintendo 3DS / 3D Model</comment>
+    <glob pattern="*.3ds" weight="100"/>
+    <icon name="application-x-nintendo-3ds-rom"/>
+  </mime-type>
+  <mime-type type="model/step">
+    <comment>STEP 3D Model</comment>
+    <glob pattern="*.step" weight="100"/>
+    <glob pattern="*.stp" weight="100"/>
+    <icon name="model-step"/>
+  </mime-type>
+
+  <!-- ==================== 18. APPS & PACKAGES ==================== -->
+  <mime-type type="application/vnd.appimage">
+    <comment>AppImage Executable</comment>
+    <glob pattern="*.appimage" weight="100"/>
+    <glob pattern="*.AppImage" weight="100"/>
+    <icon name="application-vnd.appimage"/>
+  </mime-type>
+  <mime-type type="text/x-batch">
+    <comment>Batch Script</comment>
+    <glob pattern="*.bat" weight="100"/>
+    <glob pattern="*.cmd" weight="100"/>
+    <icon name="text-x-batch"/>
+  </mime-type>
+  <mime-type type="text/x-powershell">
+    <comment>PowerShell Script</comment>
+    <glob pattern="*.ps1" weight="100"/>
+    <glob pattern="*.psm1" weight="100"/>
+    <icon name="text-x-powershell"/>
+  </mime-type>
+</mime-info>

@@ -214,25 +214,7 @@ fi
 CAP_COLOR="$(tr '[:lower:]' '[:upper:]' <<< ${SELECTED_COLOR:0:1})${SELECTED_COLOR:1}"
 THEME_NAME="Kali-${CAP_COLOR}-Dark-Borders"
 LOGIN_THEME_NAME="Kali-${CAP_COLOR}-Dragon-Login"
-
-case "$SELECTED_COLOR" in
-    red) ICON_THEME="Flat-Remix-Red-Dark" ;;
-    blue) ICON_THEME="Flat-Remix-Blue-Dark" ;;
-    green) ICON_THEME="Flat-Remix-Green-Dark" ;;
-    yellow) ICON_THEME="Flat-Remix-Yellow-Dark" ;;
-    purple) ICON_THEME="Flat-Remix-Purple-Dark" ;;
-    orange) ICON_THEME="Flat-Remix-Orange-Dark" ;;
-    lime) ICON_THEME="Flat-Remix-Green-Dark" ;;
-    pink) ICON_THEME="Flat-Remix-Pink-Dark" ;;
-    cyan) ICON_THEME="Flat-Remix-Teal-Dark" ;;
-    teal) ICON_THEME="Flat-Remix-Teal-Dark" ;;
-    gold) ICON_THEME="Flat-Remix-Yellow-Dark" ;;
-    indigo) ICON_THEME="Flat-Remix-Blue-Dark" ;;
-    mint) ICON_THEME="Flat-Remix-Teal-Dark" ;;
-    ruby) ICON_THEME="Flat-Remix-Red-Dark" ;;
-    magenta) ICON_THEME="Flat-Remix-Pink-Dark" ;;
-    *) ICON_THEME="Flat-Remix-Blue-Dark" ;;
-esac
+ICON_THEME="Kali-Dragon-Icons-${CAP_COLOR}"
 
 echo -e "\n${GREEN}${BOLD}========================================================================${NC}"
 echo -e "${GREEN}${BOLD}       🐉  INSTALANDO KALI DRAGON SUITE - EDICIÓN ${CAP_COLOR^^}       ${NC}"
@@ -420,26 +402,50 @@ if [ "$INSTALL_WALLPAPER" = true ]; then
     echo -e "    ${GREEN}✔ Fondo de pantalla aplicado en todos los monitores.${NC}\n"
 fi
 
-# 7. System & Panel Icons (Matching Lock, Logout, Shutdown & Menu Dragon)
+# 7. System & Desktop Icons (Cyberpunk Wireframe Neon Suite)
 if [ "$INSTALL_ICONS" = true ]; then
-    echo -e "${CYAN}${BOLD}[+] [7/8] Actualizando Iconos de Sistema y Panel (${ICON_THEME})...${NC}"
-    mkdir -p "/usr/share/icons/$ICON_THEME/apps/scalable"
-    mkdir -p "$TARGET_HOME/.local/share/icons/$ICON_THEME/apps/scalable"
+    echo -e "${CYAN}${BOLD}[+] [7/8] Instalando Suite de Iconos Wireframe Neón (${ICON_THEME})...${NC}"
     
-    echo -e "    -> Copiando iconos del menú del dragón y botones de apagado/bloqueo..."
-    cp -rf "$VARIANT_PATH/icons/apps/scalable/"* "/usr/share/icons/$ICON_THEME/apps/scalable/" 2>/dev/null || true
-    cp -rf "$VARIANT_PATH/icons/apps/scalable/"* "$TARGET_HOME/.local/share/icons/$ICON_THEME/apps/scalable/" 2>/dev/null || true
-    
-    echo -e "    -> Actualizando caché de iconos GTK..."
-    gtk-update-icon-cache -f -t "/usr/share/icons/$ICON_THEME" 2>/dev/null || true
-    gtk-update-icon-cache -f -t "$TARGET_HOME/.local/share/icons/$ICON_THEME" 2>/dev/null || true
-    
-    if [ -n "$DBUS_ADDR" ]; then
-        echo -e "    -> Recargando panel de XFCE para refrescar iconos en vivo..."
-        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON_THEME" 2>/dev/null || true
-        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfce4-panel -r 2>/dev/null || true
+    SRC_THEME="$VARIANT_PATH/desktop/icons/$ICON_THEME"
+    if [ ! -d "$SRC_THEME" ] && [ -d "$TARGET_HOME/.local/share/icons/$ICON_THEME" ]; then
+        SRC_THEME="$TARGET_HOME/.local/share/icons/$ICON_THEME"
     fi
-    echo -e "    ${GREEN}✔ Iconos de sistema sincronizados y panel recargado.${NC}\n"
+    if [ ! -d "$SRC_THEME" ]; then
+        echo -e "    -> Generando suite de iconos..."
+        ruby "$SCRIPT_DIR/generate_dragon_icons.rb"
+        SRC_THEME="$VARIANT_PATH/desktop/icons/$ICON_THEME"
+    fi
+
+    echo -e "    -> Desplegando tema de iconos en /usr/share/icons y ~/.local/share/icons..."
+    mkdir -p "/usr/share/icons/$ICON_THEME"
+    mkdir -p "$TARGET_HOME/.local/share/icons/$ICON_THEME"
+    cp -rf "$SRC_THEME/"* "/usr/share/icons/$ICON_THEME/" 2>/dev/null || true
+    cp -rf "$SRC_THEME/"* "$TARGET_HOME/.local/share/icons/$ICON_THEME/" 2>/dev/null || true
+    
+    # Sincronizar definiciones MIME personalizadas
+    MIME_DIR="$TARGET_HOME/.local/share/mime"
+    mkdir -p "$MIME_DIR/packages"
+    if [ -f "$SCRIPT_DIR/custom-cyber-dragon.xml" ] && [ "$SCRIPT_DIR/custom-cyber-dragon.xml" != "$MIME_DIR/packages/custom-cyber-dragon.xml" ]; then
+        cp -f "$SCRIPT_DIR/custom-cyber-dragon.xml" "$MIME_DIR/packages/" 2>/dev/null || true
+    fi
+    update-mime-database "$MIME_DIR" 2>/dev/null || true
+
+    echo -e "    -> Actualizando caché de iconos GTK..."
+    gtk-update-icon-cache -f -q "/usr/share/icons/$ICON_THEME" 2>/dev/null || true
+    gtk-update-icon-cache -f -q "$TARGET_HOME/.local/share/icons/$ICON_THEME" 2>/dev/null || true
+    
+    echo -e "    -> Purgando caché de miniaturas..."
+    rm -rf "$TARGET_HOME/.cache/thumbnails/normal/"* "$TARGET_HOME/.cache/thumbnails/large/"* "$TARGET_HOME/.cache/thumbnails/fail/"* 2>/dev/null || true
+
+    if [ -n "$DBUS_ADDR" ]; then
+        echo -e "    -> Aplicando $ICON_THEME en vivo..."
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfconf-query -c xsettings -p /Net/IconThemeName -s "$ICON_THEME" 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfdesktop --reload 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" xfce4-panel -r 2>/dev/null || true
+        sudo -u "$TARGET_USER" DISPLAY="$USER_DISP" DBUS_SESSION_BUS_ADDRESS="$DBUS_ADDR" gsettings set org.gnome.desktop.interface icon-theme "$ICON_THEME" 2>/dev/null || true
+    fi
+    thunar -q 2>/dev/null || true
+    echo -e "    ${GREEN}✔ Suite de iconos sincronizada y activada en caliente.${NC}\n"
 fi
 
 # 8. Terminal Prompt & Colors
